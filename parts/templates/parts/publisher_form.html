@@ -1,0 +1,20 @@
+{% extends "design/header.html" %}
+{% block content %}
+  <h3>Edit {{object.full_name}}</h1>
+  <form method="POST">{% csrf_token %}
+    <div class="row input-row">{{form.first_name}}</div>
+    <div class="row input-row">{{form.last_name}}</div>
+    <div class="row input-row">{{form.gender}}</div>
+    <div class="row input-row">{{form.counsel_point}}</div>
+    <div class="row input-row">{{form.categories}}</div>
+    <input type="submit" value="Save" class="btn">
+
+    {% if object.pk %}
+      <a class="btn" href="{% url "show_publisher" object.pk %}">Cancel</a>
+      <a class="btn btn-danger" href="{% url "delete_publisher" object.pk %}">Delete</a>
+    {% else %}
+      <a class="btn" href="{% url "list_publishers"%}">Cancel</a>
+    {% endif %}
+
+  </form>
+{% endblock content %}

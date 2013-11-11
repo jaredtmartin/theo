@@ -1,0 +1,118 @@
+{% extends "design/header.html" %}
+{% block content %}
+  <form method="POST">
+    {% csrf_token %}
+    <div class="row input-row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="theme">{{object.part.category.name}}</div>
+      </div>
+    </div>
+    <div class="row input-row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="theme">{{object.publisher.full_name}}{% if object.assistant %} & {{object.assistant.full_name}}{% endif %}</div>
+      </div>
+    </div>
+    <div class="row input-row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="theme">{{object.part.theme}}</div>
+      </div>
+    </div>
+    <div class="row input-row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="theme">{{object.part.material}}</div>
+      </div>
+    </div>
+    <div class="row input-row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="theme">{% if object.counsel_point %}{{object.counsel_point.name}}{% else %}{{object.publisher.counsel_point.name}}{% endif %}</div>
+      </div>
+    </div>
+    <div class="row input-row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="btn-group select btn-block">
+          <i class="dropdown-arrow"></i>
+          <button data-toggle="dropdown" class="btn dropdown-toggle clearfix btn-block">
+            <span id="setting-{{object.pk}}-label" class="filter-option pull-left">{{object.setting.name|default:"Choose a setting"}}</span>&nbsp;<span class="caret"></span>
+          </button>
+          <ul role="menu" class="dropdown-menu">
+            {% for setting in my_setting_list %}
+              <li rel="{{setting.pk}}" {% if setting = object.setting %}class="selected"{% endif %}>
+                <a class="opt " href="#" onclick="set_setting('{% url "set_setting" object.pk %}', {{setting.pk}}, 'setting-{{object.pk}}-label')" tabindex="-1">
+                  <span class="pull-left">{{setting.name}}</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row input-row">
+      <div class="col-md-3 col-md-offset-3">
+        <div class="theme">{{form.timing}}{{setting_list}}</div>
+      </div>
+      <div class="col-md-3">
+        <label class="checkbox theme" for="id_exercises_done">
+          <input type="checkbox" name="exercises_done" id="id_exercises_done" class="form-control" data-toggle="checkbox">
+          Exercises Done
+        </label>
+      </div>
+    </div>
+    <div class="row input-row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="btn-group select btn-block">
+          <i class="dropdown-arrow"></i>
+          <button data-toggle="dropdown" class="btn dropdown-toggle clearfix btn-block">
+            <span id="next-counsel-{{object.pk}}-label" class="filter-option pull-left">{{object.next_counsel_point.name|default:"Next counsel point"}}</span>&nbsp;<span class="caret"></span>
+          </button>
+          <ul role="menu" class="dropdown-menu">
+            {% for point in counsel_point_list %}
+              <li rel="{{point.pk}}" {% if point = object.next_counsel_point %}class="selected"{% endif %}>
+                <a class="opt " href="#" onclick="set_next_counsel_point('{% url "set_next_counsel_point" object.pk %}', {{point.pk}}, 'next-counsel-{{object.pk}}-label')" tabindex="-1">
+                  <span class="pull-left">{{point.name}}</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row input-row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="theme">{{form.counsel}}</div>
+      </div>
+    </div>
+    <div class="row input-row">
+      <div class="col-md-3 col-md-offset-3">
+        <input type="submit" value="Save" class="btn btn-primary btn-block" href="{% url "create_publisher" %}">
+      </div>
+      <div class="col-md-3">
+        <a class="btn btn-block" href="{% url "edit_publisher" object.pk %}">Cancel</a>
+      </div>
+    </div>
+  </form>
+{% endblock content %}
+{% block js %}
+  <script type="text/javascript">
+    function set_next_counsel_point(url, point_id, label){
+      window.label_to_update = label;
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: "next_counsel_point="+point_id+"&csrfmiddlewaretoken="+$('input[name="csrfmiddlewaretoken"]').val(),
+        success: updateLabel,
+      });
+    }
+    function set_setting(url, setting_id, label){
+      window.label_to_update = label;
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: "setting="+setting_id+"&csrfmiddlewaretoken="+$('input[name="csrfmiddlewaretoken"]').val(),
+        success: updateLabel,
+      });
+    }
+    function updateLabel(data){
+      $('#'+window.label_to_update).html(data);
+    }
+  </script>
+{% endblock js %}

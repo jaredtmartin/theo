@@ -1,0 +1,32 @@
+{% extends "design/base.html" %}
+{% block header %}
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="navbar navbar-thin">
+        <div class="navbar-inner">
+          <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
+            <div class="nav-collapse collapse in" id="nav-collapse-01">
+              <ul class="nav">
+                <li><a href="{% url "overview" %}">Overview</a></li>
+                <li><a href="{% url "list_publishers" %}">Publishers</a></li>
+                {% if user.is_authenticated %}
+                  <li>
+                    <a href="#">Welcome, {{user.full_name}}</a>
+                    <ul>
+                      <li><a href="{% url "change_password" %}">Change Password</a></li>
+                      <li><a href="{% url "user_profile" %}">Profile</a></li>
+                      <li><a href="{% url "logout" %}">Logout</a></li>
+                    </ul>
+                  </li>
+                {% else %}
+                  <li><a href="{% url "login" %}">Login / Signup</a></li>
+                {% endif %}
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
+        </div>
+      </div> <!-- /navbar -->
+    </div>
+  </div>
+{% endblock header %}

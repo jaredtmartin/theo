@@ -1,0 +1,20 @@
+{% extends "authentication/base.html" %}
+{% block content %}
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <h1 class="page-title">Logged out</h1>
+    </div>
+  </div>
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+		<p class="lead">You have been logged out successfully.</p>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-2 col-md-offset-5">
+		<a href="{% url "login" %}" class="btn btn-block btn-primary">
+		  Log back in
+		</a>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "design/header.html" %}
+{% block content %}
+  <h3>{{object.full_name}}</h3>
+  <div class="theme">Counsel Point: {{object.counsel_point.name}}</div>
+  <div class="theme">Gender: {{object.get_gender_display}}</div>
+  <h5>Privileges:</h5>
+  <ul class="list-group">
+    {% for object in object.categories.all %}
+      <li class="list-group-item">{{object.name}}</li>
+    {% endfor %}
+  </ul>
+  <a class="btn btn-primary" href="{% url "create_publisher" %}">Create</a>
+  <a class="btn" href="{% url "edit_publisher" object.pk %}">Edit</a>
+  <a class="btn btn-danger" href="{% url "delete_publisher" object.pk %}">Delete</a>
+{% endblock content %}

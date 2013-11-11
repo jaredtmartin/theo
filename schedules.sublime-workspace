@@ -1,0 +1,868 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"auto_",
+				"auto_login"
+			],
+			[
+				"asser",
+				"assert_see_on_page"
+			],
+			[
+				"new",
+				"new_article_link"
+			],
+			[
+				"find",
+				"find_element_by_css_selector"
+			],
+			[
+				"object",
+				"object_name"
+			],
+			[
+				"display",
+				"display_attr"
+			],
+			[
+				"STATUS",
+				"STATUS_PUBLISHED"
+			],
+			[
+				"publishing",
+				"publishing_outlets"
+			],
+			[
+				"Publishing",
+				"PublishingOutlet"
+			],
+			[
+				"STAT",
+				"STATUS_RELEASED"
+			],
+			[
+				"STATUs",
+				"STATUS_ASSIGNED"
+			],
+			[
+				"STTU",
+				"STATUS_RELEASED"
+			],
+			[
+				"STATU",
+				"STATUS_SUBMITTED"
+			],
+			[
+				"STATUS_",
+				"STATUS_NEW"
+			],
+			[
+				"ST",
+				"STATUS_RELEASED"
+			],
+			[
+				"submitted",
+				"submitted__isnull"
+			],
+			[
+				"padding",
+				"padding-right"
+			],
+			[
+				"btn",
+				"btn_size"
+			],
+			[
+				"Arti",
+				"ArticleCategory"
+			],
+			[
+				"P",
+				"PRIORITIES"
+			],
+			[
+				"get_",
+				"get_action_string"
+			],
+			[
+				"user",
+				"user_group"
+			],
+			[
+				"propert",
+				"property_name"
+			],
+			[
+				"border",
+				"border-collapse"
+			],
+			[
+				"accor",
+				"accordion-toggle"
+			],
+			[
+				"margin",
+				"margin-left"
+			],
+			[
+				"spellche",
+				"spellcheck"
+			],
+			[
+				"min",
+				"minimum"
+			],
+			[
+				"STA",
+				"STATUS_APPROVED"
+			],
+			[
+				"ACT",
+				"ACT_APPROVE"
+			],
+			[
+				"Appr",
+				"Approved"
+			],
+			[
+				"ACT_R",
+				"ACT_REMOVE_WRITER"
+			],
+			[
+				"ACt",
+				"ACT_TAG"
+			],
+			[
+				"subm",
+				"submitted"
+			],
+			[
+				"appro",
+				"approved"
+			],
+			[
+				"rele",
+				"released"
+			],
+			[
+				"action",
+				"action_type"
+			],
+			[
+				"Artil",
+				"ArticleList"
+			],
+			[
+				"ACTRE",
+				"ACT_RELEASE"
+			],
+			[
+				"try",
+				"try	Try/Except"
+			],
+			[
+				"filter_by_owner_or_",
+				"filter_by_owner_or_reviewer(qs, user)	(attribute, function)"
+			],
+			[
+				"mart",
+				"margin-right"
+			],
+			[
+				"Text",
+				"TextInput"
+			],
+			[
+				"requr",
+				"required"
+			],
+			[
+				"model",
+				"ModelForm"
+			],
+			[
+				"Model",
+				"ModelForm	ModelForm"
+			],
+			[
+				"submit",
+				"submit_button	(local, instance)"
+			],
+			[
+				"article",
+				"article_list"
+			],
+			[
+				"oj",
+				"object_list"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"pk",
+				"pk__in"
+			],
+			[
+				"select",
+				"select-across"
+			],
+			[
+				"check",
+				"checkMaster"
+			],
+			[
+				"Article",
+				"ArticleAction	(imported, instance)"
+			],
+			[
+				"Artilc",
+				"ArticleAction	(global, class)"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "schedules/settings.py",
+			"settings":
+			{
+				"buffer_size": 5634,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "parts/models.py",
+			"settings":
+			{
+				"buffer_size": 1381,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "schedules/urls.py",
+			"settings":
+			{
+				"buffer_size": 592,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "parts/views.py",
+			"settings":
+			{
+				"buffer_size": 360,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "parts/urls.py",
+			"settings":
+			{
+				"buffer_size": 393,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 47.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"pack",
+				"Package Control: List Packages"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Disable Package"
+			],
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 59.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/jaredmartin/Programs/YesTags/YesTags/urls.py",
+		"/Users/jaredmartin/Programs/YesTags/design/static/less/fonts.less",
+		"/Users/jaredmartin/Programs/YesTags/YesTags/settings.py",
+		"/Users/jaredmartin/Programs/YesTags/tags/admin.py",
+		"/Users/jaredmartin/Programs/YesTags/design/templates/design/footer.html",
+		"/Users/jaredmartin/Designs/Flat UI PSD & HTML 1.2.1/HTML/UI/Flat-UI-Pro-1.2.1/components.html",
+		"/Users/jaredmartin/Programs/YesTags/design/templates/design/base.html",
+		"/Users/jaredmartin/Programs/YesTags/design/static/less/yestags.less",
+		"/Users/jaredmartin/Programs/YesTags/design/templates/design/header.html",
+		"/Users/jaredmartin/Programs/YesTags/design/static/less/variables.less",
+		"/Users/jaredmartin/Programs/YesTags/design/static/less/modules/navbar.less",
+		"/Users/jaredmartin/Programs/YesTags/design/static/less/modules/bottom.less",
+		"/Users/jaredmartin/Programs/YesTags/design/static/less/flat-ui.less",
+		"/Users/jaredmartin/Programs/YesTags/YesTags/templates/base.html",
+		"/Users/jaredmartin/Designs/Flat UI PSD & HTML 1.2.1/HTML/UI/Flat-UI-Pro-1.2.1/template.html",
+		"/Users/jaredmartin/Programs/YesTags/YesTags/tags/urls.py",
+		"/Users/jaredmartin/Programs/YesTags/YesTags/tags/views.py",
+		"/Users/jaredmartin/Programs/YesTags/YesTags/tags/models.py",
+		"/Users/jaredmartin/Programs/YesTags/YesTags/tags/templates/tags/tag_list.html",
+		"/Users/jaredmartin/Programs/YesTags/YesTags/core/models.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/views/generic/edit.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/forms/formsets.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/views/static.py",
+		"/Users/jaredmartin/Programs/Jade.1/env/lib/python2.7/site-packages/django/views/generic/edit.py",
+		"/Users/jaredmartin/Programs/Jade.1/env/lib/python2.7/site-packages/django/views/generic/base.py",
+		"/Users/jaredmartin/Programs/Jade.1/env/lib/python2.7/site-packages/django/views/generic/simple.py",
+		"/Users/jaredmartin/testserver.sh",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/src/django-extra-views/extra_views/__init__.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/forms.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/actions.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/widgets.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/edit_article_keywords_form.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/action_bar.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/templates/login.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/sidebar.html",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium/webdriver/remote/webdriver.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium/webdriver/remote/webelement.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium/webdriver/common/desired_capabilities.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium/webdriver/support/select.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium/webdriver/support/expected_conditions.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium/webdriver/phantomjs/service.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium/webdriver/firefox/firefox_profile.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium/webdriver/support/events.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium/webdriver/support/ui.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium/webdriver/common/action_chains.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium/webdriver/common/by.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium/webdriver/common/keys.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium/webdriver/remote/utils.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium/webdriver/firefox/firefox_binary.py",
+		"/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/selenium/webdriver/remote/command.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/settings.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/tests.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/js/ajax.js",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/urls.py",
+		"/Users/jaredmartin/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/article_list.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/less/writeraxis.less",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/simple_related_form.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/keyword_inline_form.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/js/checkboxes.js",
+		"/Users/jaredmartin/Desktop/skulpt.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/js/actions.js",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/js/bootstrap-select.js",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/show_more_widget.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/base.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/less/config.less",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/src/django-extra-views/extra_views/advanced.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/src/django-extra-views/extra_views/formsets.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/less/writeraxis.css",
+		"/Users/jaredmartin/Downloads/Flat UI PSD & HTML - Personal License/HTML/UI/Flat-UI-Pro-1.2/template.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/filter_tag_list.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/filter_menu.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/src/django-extra-views/extra_views/search.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/ajax_article_list_row.html",
+		"/Users/jaredmartin/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/Users/jaredmartin/Library/Application Support/Sublime Text 2/Packages/User/JSON.sublime-settings",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/filter.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templatetags/addparam.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templatetags/actions.py",
+		"/Users/jaredmartin/Desktop/Checklist",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/project_list.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/models.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/assignment_widget.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/admin.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/validation_plugins/standard.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/dump.json",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templatetags/can_do.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/src/django-extra-views/extra_views/models.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/testdata backup.json",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templatetags/assignment.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/article_list_row.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/article_edit.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/views.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/old base.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/fixtures/initial_data.yaml",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templatetags/help_icon.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/ajax_user_list_row.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/oldstatic/js/bootstrap.js",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/js/bootstrap.min.js",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/bootstrap/css/bootstrap-responsive.css",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/actions.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/less/config.css",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/js/flatui-checkbox.js",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/article_list_filters.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templatetags/show_more.py",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/old assignment widget.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/less/flat-ui.less",
+		"/Users/jaredmartin/Designs/Flat UI PSD & HTML - Personal License/HTML/UI/template.html",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/css/writeraxis.css",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/static/bootstrap/css/bootstrap.css",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/less/modules/navbar.less",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/less/flat-ui.css",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/static/css/flat-ui.css",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/css/flat-ui.css",
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/templates/base.html",
+		"/Users/jaredmartin/Programs/webservices/articles/templates/articles/article_edit.html",
+		"/Users/jaredmartin/Programs/webservices/articles/plugins.py",
+		"/Users/jaredmartin/Programs/webservices/articles/static/css/stylesheet.css",
+		"/Users/jaredmartin/Programs/webservices/articles/templatetags/can_edit.py",
+		"/Users/jaredmartin/Programs/webservices/articles/admin.py",
+		"/Users/jaredmartin/Programs/webservices/articles/templates/articles/user_actions.html",
+		"/Users/jaredmartin/Programs/webservices/articles/static/js/actions.js",
+		"/Users/jaredmartin/Programs/webservices/articles/urls.py",
+		"/Users/jaredmartin/Programs/webservices/articles/templates/articles/user_list_row.html",
+		"/Users/jaredmartin/Programs/webservices/urls.py",
+		"/Users/jaredmartin/Programs/webservices/articles/forms.py",
+		"/Users/jaredmartin/Programs/webservices/articles/templates/articles/messages.html",
+		"/Users/jaredmartin/Programs/webservices/articles/templates/articles/ajax_user_list_row.html"
+	],
+	"find":
+	{
+		"height": 43.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"lead",
+			".lead",
+			"bottom",
+			".navbar .nav > li > a",
+			"background",
+			"navbar",
+			" class=\"active\"",
+			"navbar",
+			"template",
+			"pytz",
+			"tzinfo",
+			"widgets",
+			"password_reset_confirm",
+			"password_reset_done",
+			"Passwor",
+			"LoginForm",
+			"_form",
+			"get_user_model",
+			"View",
+			"GET&POST",
+			"SignUp",
+			"Search",
+			"ReportAsFound",
+			".psd",
+			"</h1>",
+			"<br />",
+			"</strong>",
+			"<strong>",
+			"<p>",
+			"</p>",
+			"\n\n",
+			"\n; ",
+			"\n\n\n",
+			"\n\n",
+			" \n\n",
+			"\n\n\n",
+			"\n\n",
+			" da'Best X",
+			"get_context_data",
+			"FormView",
+			"TemplateResponseMixin",
+			"all_valid",
+			"UserCreationForm",
+			"Template",
+			"redirect_to",
+			"get_current_site",
+			"all_valid",
+			"CreateWithInlinesView",
+			"\nCreateWithInlinesView",
+			"CreateWithInlinesView",
+			"article_list_filter",
+			"article_list_filters",
+			"save",
+			"\n",
+			"Save",
+			"\"Save\"",
+			"Save",
+			"assert_see_on_page",
+			"login",
+			".pdf",
+			"login",
+			"class Article",
+			"Article",
+			"get_templat",
+			"get_template",
+			"project",
+			"Project",
+			"project",
+			"category",
+			"success__message_template",
+			"get_success__message_template",
+			"project",
+			"category",
+			"placeholder':'Keyw",
+			"target",
+			"label",
+			"name",
+			"value",
+			"{{label}}",
+			"{{name}}",
+			"{{value}}",
+			"%(value)s",
+			"%(label)s",
+			"%(name)s",
+			"AvailabilityForm",
+			"js",
+			"NewBootstrapDropdown",
+			"BootstrapDropdown",
+			"selectpick",
+			"btn-small ",
+			"<div class=\"span4\">",
+			"select()",
+			"BaseInlineFormSet",
+			"get_formset_class",
+			"construct_formset",
+			"ProcessFormSetView",
+			"BaseInlineFormSet",
+			"td",
+			"Th",
+			"th",
+			"BaseInlineFormSet",
+			"BaseInlineFormSetMixin",
+			"hidden-cell",
+			"showSection",
+			"show_section",
+			"span",
+			">\n",
+			"span",
+			"'Keywords',",
+			"['Keywords",
+			"['Keywords'",
+			"if",
+			"search",
+			"SidebarContextMixin",
+			"filters",
+			"get_value_from_request",
+			"qs, self.request.user)",
+			"user.mode",
+			"self.request.user.mode",
+			"user.mode",
+			"user",
+			"self.request.self.request",
+			"user",
+			"class Filter",
+			"search",
+			"all",
+			"request",
+			"ArticleFilterMixin"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"'",
+			"\"",
+			"",
+			"\"",
+			"",
+			"writer",
+			"alter table articles_article add column",
+			"",
+			"{% url article_list %}?last_action=",
+			"",
+			"btn_size",
+			"{{btn-size}}",
+			"",
+			";\n",
+			"036fbd",
+			"0977c6",
+			"\n}",
+			";\n    ",
+			"{\n    ",
+			";\n   ",
+			";\n    ",
+			";\n",
+			"\n}",
+			"{\n",
+			"\n",
+			"{\n\n.",
+			"}\n.",
+			"}\\n.",
+			"btn-small\"",
+			"\"btn .btn-small\""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "schedules/settings.py",
+					"settings":
+					{
+						"buffer_size": 5634,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4524,
+								4524
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1792.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "parts/models.py",
+					"settings":
+					{
+						"buffer_size": 1381,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								951,
+								951
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "schedules/urls.py",
+					"settings":
+					{
+						"buffer_size": 592,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								417,
+								417
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "parts/views.py",
+					"settings":
+					{
+						"buffer_size": 360,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								358,
+								358
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "parts/urls.py",
+					"settings":
+					{
+						"buffer_size": 393,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								53,
+								53
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				0,
+				1,
+				1,
+				2
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			0.606338064921,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 112.0
+	},
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"install",
+				"src/django-filter/docs/install.txt"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 169.0,
+	"status_bar_visible": true
+}

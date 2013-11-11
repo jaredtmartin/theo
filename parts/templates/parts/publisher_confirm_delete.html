@@ -1,0 +1,8 @@
+{% extends "design/header.html" %}
+{% block content %}
+  <h3>Delete {{object.full_name}}</h1>
+  <form method="POST">{% csrf_token %}
+    <div class="lead">Are you sure you want to delete {{object.full_name}}?</div>
+    <input type="submit" value="Delete" class="btn btn-danger">
+  </form>
+{% endblock content %}

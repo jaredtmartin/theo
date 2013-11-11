@@ -1,0 +1,45 @@
+{% extends "authentication/base.html" %}
+{% block content %}
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <h1 class="page-title">User Profile Settings</h1>
+    </div>
+  </div>
+<form action="" method="post">{% csrf_token %}
+	<div class="row input-row">
+		<div class="col-md-3 col-md-offset-3">
+					{{form.first_name}}
+		</div>
+		<div class="col-md-3">
+					{{form.last_name}}
+		</div>
+	</div>
+	<div class="row input-row">
+		<div class="col-md-6 col-md-offset-3">
+					{{form.email}}
+		</div>
+	</div>
+	<div class="row input-row">
+		<div class="col-md-6 col-md-offset-3">
+					<p class="lead"><a href="{% url "change_password" %}">Click here to change your password.</a></p>
+					<p class="lead"><a href="{% url "change_congregation" %}">Click here to change to another congregation.</a></p>
+					<p class="lead"><a href="{% url "create_congregation" %}">Click here to create a new congregation account.</a></p>
+		</div>
+	</div>
+	<div class="row input-row">
+		<div class="col-md-2 col-md-offset-5">
+			<button type="submit" class="btn btn-block btn-primary">
+			  Save Changes
+			</button>
+		</div>
+	</div>
+</form>
+{% endblock %}
+{% block js %}
+	<script type="text/javascript">
+
+$(document).ready(function () {
+  $('.selectpicker').selectpicker();
+});
+</script>
+{% endblock js %}

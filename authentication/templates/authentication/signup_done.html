@@ -1,0 +1,20 @@
+{% extends "authentication/base.html" %}
+{% block content %}
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <h1 class="page-title">Signup Complete</h1>
+    </div>
+  </div>
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+		<p class="lead">A confirmation email has been sent to you with instructions to help you get started.</p>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-2 col-md-offset-5">
+		<a href="{% url "login" %}" class="btn btn-block btn-primary">
+		  Log in
+		</a>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+<li class="list-group-item">
+  {% if not enable_edit %}
+    {% if assignment.part.category_id == 6 or assignment.part.category_id == 7 or assignment.part.category_id == 8 %}
+      <a href="{% url "update_counsel" assignment.pk %}">
+    {% endif %}
+  {% endif %}
+  <div class="theme">
+    {% if assignment.part.theme %}
+      {% if assignment.part.category_id == 7 or assignment.part.category_id == 8 %}
+        {{assignment.part.category}}: {{assignment.part.theme}}
+      {% else %}
+        {{assignment.part.theme}}
+      {% endif %}
+    {% else %}
+      {{assignment.part.category}}: {{assignment.part.material}}
+    {% endif %}
+  </div>
+  {% if enable_edit %}
+    <div class="btn-group select">
+      <i class="dropdown-arrow"></i>
+      <button data-toggle="dropdown" class="btn dropdown-toggle clearfix btn-sm">
+        <span id="assignment-{{assignment.pk}}-label" class="filter-option pull-left">{{assignment.publisher|default:"Choose a publisher"}}</span>&nbsp;<span class="caret"></span>
+      </button>
+      <ul role="menu" class="dropdown-menu">
+        {% for pub in assignment.suggestions %}
+          <li rel="{{pub.pk}}" {% if pub = assignment.publisher %}class="selected"{% endif %}><a class="opt " href="#" onclick="assign_part('{% url "assign_part" assignment.pk %}', {{pub.pk}}, 'assignment-{{assignment.pk}}-label')" tabindex="-1"><span class="pull-left">{{pub.full_name}}</span></a></li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% if assignment.part.category_id == 7 or assignment.part.category_id == 8 %}
+      {% if assignment.publisher.gender = 2 %}
+        <div class="btn-group select">
+          <i class="dropdown-arrow"></i>
+          <button data-toggle="dropdown" class="btn dropdown-toggle clearfix btn-sm">
+            <span id="assignment-assistant-{{assignment.pk}}-label" class="filter-option pull-left">{{assignment.assistant|default:"Choose an assistant"}}</span>&nbsp;<span class="caret"></span>
+          </button>
+          <ul role="menu" class="dropdown-menu">
+            {% for pub in assistants %}
+              <li rel="{{pub.pk}}" {% if pub = assignment.assistant %}class="selected"{% endif %}>
+                <a class="opt " href="#" onclick="assign_assistant_to_part('{% url "assign_assistant_to_part" assignment.pk %}', {{pub.pk}}, 'assignment-assistant-{{assignment.pk}}-label')" tabindex="-1">
+                  <span class="pull-left">{{pub.full_name}}</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    {% endif %}
+    {% if assignment.part.category_id == 12 %}
+        <div class="btn-group select">
+          <i class="dropdown-arrow"></i>
+          <button data-toggle="dropdown" class="btn dropdown-toggle clearfix btn-sm">
+            <span id="assignment-assistant-{{assignment.pk}}-label" class="filter-option pull-left">{{assignment.assistant|default:"Choose an assistant"}}</span>&nbsp;<span class="caret"></span>
+          </button>
+          <ul role="menu" class="dropdown-menu">
+            {% for pub in assignment.suggestions %}
+              <li rel="{{pub.pk}}" {% if pub = assignment.assistant %}class="selected"{% endif %}>
+                <a class="opt " href="#" onclick="assign_assistant_to_part('{% url "assign_assistant_to_part" assignment.pk %}', {{pub.pk}}, 'assignment-assistant-{{assignment.pk}}-label')" tabindex="-1">
+                  <span class="pull-left">{{pub.full_name}}</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% endif %}
+  {% else %}
+    <div class="assignee">{{assignment.publisher.full_name}}{% if assignment.assistant %} & {{assignment.assistant.full_name}}{% endif %}</div>
+  {% endif %}
+  {% if not enable_edit %}{% if assignment.part.category_id == 6 or assignment.part.category_id == 7 or assignment.part.category_id == 8 %}</a>{% endif %}{% endif %}
+</li>

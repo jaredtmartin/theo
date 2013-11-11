@@ -1,0 +1,9 @@
+{% extends "design/header.html" %}
+{% block content %}
+  <ul class="list-group">
+    {% for object in object_list %}
+      <li class="list-group-item"><a href="{% url "show_publisher" object.pk %}">{{object.order_name}}</a></li>
+    {% endfor %}
+  </ul>
+  <a class="btn btn-primary" href="{% url "create_publisher" %}">Create</a>
+{% endblock content %}

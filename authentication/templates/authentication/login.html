@@ -1,0 +1,42 @@
+{% extends "authentication/base.html" %}
+{% block content %}
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <h1 class="page-title">Log In</h1>
+    </div>
+  </div>
+<form method="post" action="{% url "login" %}">{% csrf_token %}
+<div class="row input-row">
+	<div class="col-md-6 col-md-offset-3">
+		<p class="lead">Please enter your email address and password to log in.</p>
+	</div>
+</div>
+	<div class="row input-row">
+		<div class="col-md-4 col-md-offset-4">
+				{{ form.username }}
+		</div>
+	</div>
+	<div class="row input-row">
+		<div class="col-md-4 col-md-offset-4">
+				{{ form.password }}
+		</div>
+	</div>
+	<div class="row input-row">
+		<div class="col-md-2 col-md-offset-3">
+			<button type="submit" class="btn btn-block btn-primary">
+			  Log In
+			</button>
+		</div>
+		<div class="col-md-2">
+			<a class="btn btn-block btn-default" type="button" href="#">
+			  Register
+			</a>
+		</div>
+		<div class="col-md-2">
+			<a class="btn btn-block btn-default" type="button" href="#">
+			  I forgot
+			</a>
+		</div>
+	</div>
+</form>
+{% endblock %}

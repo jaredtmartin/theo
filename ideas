@@ -1,0 +1,65 @@
+Models:
+  Category
+  Publisher
+    first name
+    last name
+    email
+    categories
+  Schedule
+    theme
+    meeting
+    order
+    category
+
+I will copy the part info to the assignment to keep the Assignment model simple 
+and so the user can change it.
+
+  Part(Schedule)
+    part
+    theme
+    order
+    category
+
+    date
+    publisher
+    counsel_point
+    excercise_done
+    comments
+    setting
+    assistant
+
+Templates:
+
+Pages:
+  Full Meeting
+    - has links to individual meetings
+  Show Meeting
+    GET - Shows meeting parts
+    GET - next-meeting
+    GET - previous meeting
+
+  Assign Meeting (Update Parts Formset)
+    GET & POST Changes Parts for meetings
+  Edit Meeting (Update Parts Formset)
+    GET & POST Allows user to change parts & themes for the meetings.
+  Delete Meeting (Delete Multiple Parts)
+    POST - Deletes all related parts for given date
+  Get Suggestion
+    AJAX - GET returns list of publishers
+  Suggest All
+    AJAX - POST redirects to edit meeting
+  Remind Speakers
+    AJAX - POST sends emails to brothers with parts
+  Load Schedule
+    function ran when user logs in.
+  Edit Counsel(Update Part)
+
+  Special Event GET & POST
+  Add/Edit Publisher
+    GET & POST
+  Delete Publisher
+    POST
+  
+  
+  Counsel
+  Publisher
