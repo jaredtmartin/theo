@@ -6,9 +6,9 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect, HttpResponse
 import datetime
 import slick
-
 from django.http import Http404
-class CreateNewAssignments(vanilla.TemplateView):
+
+class CreateNewAssignments(slick.LoginRequiredMixin, vanilla.TemplateView):
   template_name = "parts/new_assignments.html"
   def get(self, request, *args, **kwargs):
     parts = Part.objects.filter(date__gte=datetime.date.today()).exclude(assignments__isnull=False).order_by('date')
@@ -30,8 +30,8 @@ class CreateNewAssignments(vanilla.TemplateView):
     context = self.get_context_data(parts=parts, assignments=Assignment.objects.filter(part__in=parts))
     return self.render_to_response(context)
 
-class CreateCongregation(vanilla.View):pass
-class ChangeCongregation(vanilla.View):pass
+class CreateCongregation(slick.LoginRequiredMixin, vanilla.View):pass
+class ChangeCongregation(slick.LoginRequiredMixin, vanilla.View):pass
 
 class BaseDateView(slick.ListView):
   model = Assignment
@@ -127,7 +127,7 @@ class BaseDateView(slick.ListView):
     # print "qs.filter(date=self.date) = %s" % str(qs.filter(date=self.date))
     return qs.filter(date = self.date)
 
-class Overview(BaseDateView):
+class Overview(slick.LoginRequiredMixin, BaseDateView):
   def get_date(self):
     # First we get the date for monday
     today = datetime.date.today()
@@ -142,16 +142,16 @@ class Overview(BaseDateView):
     return date
     # except: return monday
 
-class ListAssignments(BaseDateView):
+class ListAssignments(slick.LoginRequiredMixin, BaseDateView):
   pass
 
-class EditAssignments(BaseDateView):
+class EditAssignments(slick.LoginRequiredMixin, BaseDateView):
   extra_context = {
     'enable_edit':True,
     'assistants':Category.objects.get(pk=17).suggestions,
   }
 
-class AssignPart(vanilla.UpdateView):
+class AssignPart(slick.LoginRequiredMixin, vanilla.UpdateView):
   model = Assignment
   form_class = AssignmentForm
   template_name = "parts/assign_part.html"
@@ -166,7 +166,7 @@ class FormWithUserMixin(object):
     kwargs['user'] = self.request.user
     return cls(data=data, files=files, **kwargs)
 
-class AssignAssistant(FormWithUserMixin, vanilla.UpdateView):
+class AssignAssistant(slick.LoginRequiredMixin, FormWithUserMixin, vanilla.UpdateView):
   model = Assignment
   form_class = AssistantForm
   template_name = "parts/assign_assistant.html"
@@ -175,24 +175,24 @@ class AssignAssistant(FormWithUserMixin, vanilla.UpdateView):
     context = self.get_context_data(form=form)
     return self.render_to_response(context)
 
-class ListPublishers(vanilla.ListView):
+class ListPublishers(slick.LoginRequiredMixin, vanilla.ListView):
   model = Publisher
   def get_queryset(self):
     return Publisher.objects.filter(congregation = self.request.user.congregation).order_by('last_name')
 
-class ShowPublisher(vanilla.DetailView):
+class ShowPublisher(slick.LoginRequiredMixin, vanilla.DetailView):
   model = Publisher
 
-class UpdatePublisher(vanilla.UpdateView):
+class UpdatePublisher(slick.LoginRequiredMixin, vanilla.UpdateView):
   model = Publisher
   form_class = PublisherForm
   success_url = reverse_lazy('list_publishers')
 
-class DeletePublisher(vanilla.DeleteView):
+class DeletePublisher(slick.LoginRequiredMixin, vanilla.DeleteView):
   model = Publisher
   success_url = reverse_lazy('list_publishers')
 
-class CreatePublisher(vanilla.CreateView):
+class CreatePublisher(slick.LoginRequiredMixin, vanilla.CreateView):
   model = Publisher
   form_class = PublisherForm
 
@@ -202,7 +202,7 @@ class CreatePublisher(vanilla.CreateView):
     self.object = form.save()
     return HttpResponseRedirect(reverse('show_publisher', kwargs={'pk':self.object.pk}))
 
-class UpdateCounsel(slick.ExtraContextMixin, vanilla.UpdateView):
+class UpdateCounsel(slick.LoginRequiredMixin, slick.ExtraContextMixin, vanilla.UpdateView):
   model = Assignment
   form_class = CounselForm
   template_name = "parts/counsel_form.html"
@@ -212,7 +212,7 @@ class UpdateCounsel(slick.ExtraContextMixin, vanilla.UpdateView):
   }
 
 
-class SetForeignKey(vanilla.UpdateView):
+class SetForeignKey(slick.LoginRequiredMixin, vanilla.UpdateView):
   display_attribute = None
   def form_valid(self, form):
     self.object = form.save()
