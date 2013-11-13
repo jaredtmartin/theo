@@ -1,0 +1,5 @@
+*.pyc
+*~
+*-e
+*/*~
+schedules/media/*
