@@ -8,9 +8,9 @@
             <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-01"></button>
             <div class="nav-collapse collapse in" id="nav-collapse-01">
               <ul class="nav">
-                <li><a href="{% url "overview" %}">Overview</a></li>
-                <li><a href="{% url "list_publishers" %}">Publishers</a></li>
                 {% if user.is_authenticated %}
+                  <li><a href="{% url "overview" %}">Overview</a></li>
+                  <li><a href="{% url "list_publishers" %}">Publishers</a></li>
                   <li>
                     <a href="#">Welcome, {{user.full_name}}</a>
                     <ul>
