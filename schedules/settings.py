@@ -13,11 +13,11 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'schedules',                      # Or path to database file if using sqlite3.
+        'NAME': 'jaredtmartin$default',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': 'root',
-        'PASSWORD': 't1bur0n',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'USER': 'jaredtmartin',
+        'PASSWORD': '46A-bDS-7dk-M9J',
+        'HOST': 'mysql.server',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
     }
 }
@@ -142,7 +142,7 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 INTERNAL_IPS = ('127.0.0.1','192.168.1.3')
 LOGIN_URL='/auth/login/'
-LOGIN_REDIRECT_URL = "/tags/"
+LOGIN_REDIRECT_URL = "/parts/"
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
