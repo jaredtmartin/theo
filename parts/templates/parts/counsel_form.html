@@ -9,7 +9,7 @@
     </div>
     <div class="row input-row">
       <div class="col-md-6 col-md-offset-3">
-        <div class="theme"><a href="{% url "show_publisher" object.publisher.pk %}">{{object.publisher.full_name}}</a>{% if object.assistant %} & <a href="{% url "show_publisher" object.assistant.pk %}">{{object.assistant.full_name}}</a>{% endif %}</div>
+        <div class="theme">{% if object.publisher %}<a href="{% url "show_publisher" object.publisher.pk %}">{{object.publisher.full_name}}</a>{% endif %}{% if object.assistant %} & <a href="{% url "show_publisher" object.assistant.pk %}">{{object.assistant.full_name}}</a>{% endif %}</div>
       </div>
     </div>
     <div class="row input-row">
