@@ -106,6 +106,8 @@ class Congregation(models.Model):
   attendants_scheduler = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='attendants_scheduler_for', null=True, blank=True)
   auto_fill_school = models.BooleanField(default=True)
   auto_fill_service_meeting = models.BooleanField(default=True)
+  # num_microphone_handlers = models.IntegerField(default=2)
+  # num_attendants = models.IntegerField(default=2)
   def __unicode__(self): return self.name
 
 GENDER_MALE=1

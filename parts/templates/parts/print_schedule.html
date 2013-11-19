@@ -1,0 +1,45 @@
+{% extends "design/print_base.html" %}
+{% block "content" %}
+  <div class="print">
+    {% if not object_list %}
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <span class="lead">No Meeting has been scheduled for this date.</span>
+        </div>
+      </div>
+    {% else %}
+      {% for assignment in object_list %}
+        {% ifchanged assignment.date %}
+          <div class="row date">
+            <div class="col-md-8 col-md-offset-2">
+              <h1>{{assignment.date}}</h1>
+            </div>
+          </div>
+        {% endifchanged %}
+        {% ifchanged assignment.part.category.meeting %}
+          <div class="row meeting">
+            <div class="col-md-8 col-md-offset-2">
+              <h5>{{assignment.part.category.meeting}}</h5>
+            </div>
+          </div>
+        {% endifchanged %}
+        <div class="row assignment">
+          <div class="col-md-8 col-md-offset-2">
+            <div class="theme">
+              {% if assignment.part.theme %}
+                {% if assignment.part.category_id == 7 or assignment.part.category_id == 8 %}
+                  {{assignment.part.category}}: {{assignment.part.theme}}
+                {% else %}
+                  {{assignment.part.theme}}
+                {% endif %}
+              {% else %}
+                {{assignment.part.category}}: {{assignment.part.material}}
+              {% endif %}
+            </div>
+            <div class="assignee">{{assignment.publisher.full_name}}{% if assignment.assistant %} & {{assignment.assistant.full_name}}{% endif %}</div>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+{% endblock %}

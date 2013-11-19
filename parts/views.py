@@ -7,6 +7,14 @@ from django.http import HttpResponseRedirect, HttpResponse
 import datetime
 import slick
 from django.http import Http404
+from xhtml2pdf import pisa
+import cStringIO as StringIO
+
+
+import os
+from django.conf import settings
+from django.template import Context
+from django.template.loader import get_template
 
 class CreateNewAssignments(slick.LoginRequiredMixin, vanilla.TemplateView):
   template_name = "parts/new_assignments.html"
@@ -141,6 +149,8 @@ class Overview(slick.LoginRequiredMixin, BaseDateView):
     print "date = %s" % str(date)
     return date
     # except: return monday
+class PublicSchedule(Overview):
+  template_name = "parts/public_schedule.html"
 
 class ListAssignments(slick.LoginRequiredMixin, BaseDateView):
   pass
@@ -230,15 +240,91 @@ class SetSetting(SetForeignKey):
   model = Assignment
   fields = ['setting']
   display_attribute = 'name'
-# class Overview(TemplateView):
-#   template_name = "overview.html"
-#   pass
 
-# class PublisherView(UpdateView):
-#     model = Publisher
-#     success_url = reverse_lazy('publisher')
 
-# class AssignmentsView(CreateView):
-#     model = Assignment
-#     success_url = reverse_lazy('assignments')
 
+
+# Convert HTML URIs to absolute system paths so xhtml2pdf can access those resources
+def link_callback(uri, rel):
+    # use short variable names
+    sUrl = settings.STATIC_URL      # Typically /static/
+    sRoot = settings.STATIC_ROOT    # Typically /home/userX/project_static/
+    mUrl = settings.MEDIA_URL       # Typically /static/media/
+    mRoot = settings.MEDIA_ROOT     # Typically /home/userX/project_static/media/
+
+    # convert URIs to absolute system paths
+    if uri.startswith(mUrl):
+        path = os.path.join(mRoot, uri.replace(mUrl, ""))
+    elif uri.startswith(sUrl):
+        path = os.path.join(sRoot, uri.replace(sUrl, ""))
+
+    # make sure that file exists
+    if not os.path.isfile(path):
+            raise Exception(
+                    'media URI must start with %s or %s' % \
+                    (sUrl, mUrl))
+    return path
+
+
+class PisaMixin(object):
+  def render_to_pdf(self, context_dict):
+    template = get_template(self.get_template_names()[0])
+    context = Context(context_dict)
+    html  = template.render(context)
+    # result = StringIO.StringIO()
+    # pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("ISO-8859-1")), dest=result, link_callback=fetch_resources)
+    # if not pdf.err:
+    #   return http.HttpResponse(result.getvalue(), mimetype='application/pdf')
+    # return http.HttpResponse('We had some errors<pre>%s</pre>' % cgi.escape(html))
+    f=open('/tmp/workfile', 'w')
+    file = open(os.path.join(settings.MEDIA_ROOT, 'test.pdf'), "w+b")
+    pisaStatus = pisa.CreatePDF(html, dest=file, link_callback = link_callback)
+
+    # Return PDF document through a Django HTTP response
+    file.seek(0)
+    pdf = file.read()
+    file.close()            # Don't forget to close the file handle
+    return HttpResponse(pdf, mimetype='application/pdf')
+
+
+    # Prepare context
+    # data = {}
+    # data['today'] = datetime.date.today()
+    # data['farmer'] = 'Old MacDonald'
+    # data['animals'] = [('Cow', 'Moo'), ('Goat', 'Baa'), ('Pig', 'Oink')]
+
+    # # Render html content through html template with context
+    # template = get_template('lyrics/oldmacdonald.html')
+    # html  = template.render(Context(data))
+
+    # # Write PDF to file
+    # file = open(os.join(settings.MEDIA_ROOT, 'test.pdf'), "w+b")
+    # pisaStatus = pisa.CreatePDF(html, dest=file,
+    #         link_callback = link_callback)
+
+    # # Return PDF document through a Django HTTP response
+    # file.seek(0)
+    # pdf = file.read()
+    # file.close()            # Don't forget to close the file handle
+    # return HttpResponse(pdf, mimetype='application/pdf')
+
+class PisaList(PisaMixin, vanilla.ListView):
+  def get(self, request, *args, **kwargs):
+    queryset = self.get_queryset()
+    paginate_by = self.get_paginate_by()
+
+    if not self.allow_empty and not queryset.exists():
+        raise Http404
+    self.object_list = queryset
+    context = self.get_context_data(
+        page_obj=None,
+        is_paginated=False,
+        paginator=None,
+    )
+    return self.render_to_pdf(context)
+
+class PrintSchedule(vanilla.ListView):
+  # model = Assignment
+  template_name = "parts/print_schedule.html"
+  def get_queryset(self):
+    return Assignment.objects.filter(date__gte=datetime.date.today(), congregation=self.request.user.congregation).order_by('date','part__order')

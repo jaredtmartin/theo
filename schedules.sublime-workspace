@@ -4,6 +4,82 @@
 		"selected_items":
 		[
 			[
+				"cat",
+				"category"
+			],
+			[
+				"next",
+				"next_counsel_point"
+			],
+			[
+				"set",
+				"set_next_counsel_point"
+			],
+			[
+				"Update",
+				"UpdateView"
+			],
+			[
+				"GEN",
+				"GENDER_MALE"
+			],
+			[
+				"GEND",
+				"GENDER_MALE"
+			],
+			[
+				"rever",
+				"reverse_lazy"
+			],
+			[
+				"margin",
+				"margin-top"
+			],
+			[
+				"pub",
+				"pub_id"
+			],
+			[
+				"cate",
+				"categories"
+			],
+			[
+				"filter_",
+				"filter_key"
+			],
+			[
+				"search",
+				"search_key"
+			],
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"get_",
+				"get_date"
+			],
+			[
+				"date",
+				"datetime"
+			],
+			[
+				"template",
+				"template_name"
+			],
+			[
+				"Con",
+				"Congregation"
+			],
+			[
+				"cont",
+				"congregation"
+			],
+			[
+				"year",
+				"year_format"
+			],
+			[
 				"auto_",
 				"auto_login"
 			],
@@ -84,10 +160,6 @@
 				"PRIORITIES"
 			],
 			[
-				"get_",
-				"get_action_string"
-			],
-			[
 				"user",
 				"user_group"
 			],
@@ -102,10 +174,6 @@
 			[
 				"accor",
 				"accordion-toggle"
-			],
-			[
-				"margin",
-				"margin-left"
 			],
 			[
 				"spellche",
@@ -200,10 +268,6 @@
 				"object_list"
 			],
 			[
-				"font",
-				"font-size"
-			],
-			[
 				"pk",
 				"pk__in"
 			],
@@ -228,10 +292,10 @@
 	"buffers":
 	[
 		{
-			"file": "schedules/settings.py",
+			"contents": "\nShowMeeting(ListView)\nEditMeetingView(ListView with Formset and POST)\nAssignPart(UpdateView)\nAddAssignments()\n\nCounselView(UpdateView)\n\nOverview(ListView)\n\nAddAPart(CreateView)\nDeleteMeeting(DeleteView)\nDeletePart(DeleteView)\nAddEvent(FormView)\nRemindParticipants(TemplatView)\n\n\n\nPublishers\n  PublisherList(ListView)\n  ShowPublisher(DetailView)\n  EditPublisher(UpdateView)\n  DeletePublihser(DeleteView)\n\nCongregations\n  CreateCongregation (should delete old cong if there are no remaining members)\n  ShowCongregation\n  EditCongregation\n  JoinCongregation (should delete old cong if there are no remaining members)",
 			"settings":
 			{
-				"buffer_size": 5634,
+				"buffer_size": 614,
 				"line_ending": "Unix"
 			}
 		},
@@ -239,15 +303,15 @@
 			"file": "parts/models.py",
 			"settings":
 			{
-				"buffer_size": 1381,
+				"buffer_size": 8620,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "schedules/urls.py",
+			"file": "parts/forms.py",
 			"settings":
 			{
-				"buffer_size": 592,
+				"buffer_size": 2916,
 				"line_ending": "Unix"
 			}
 		},
@@ -255,7 +319,7 @@
 			"file": "parts/views.py",
 			"settings":
 			{
-				"buffer_size": 360,
+				"buffer_size": 8944,
 				"line_ending": "Unix"
 			}
 		},
@@ -263,7 +327,110 @@
 			"file": "parts/urls.py",
 			"settings":
 			{
-				"buffer_size": 393,
+				"buffer_size": 2290,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "parts/templates/parts/assignment.html",
+			"settings":
+			{
+				"buffer_size": 3912,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "parts/templates/parts/counsel_form.html",
+			"settings":
+			{
+				"buffer_size": 4846,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "design/static/less/schedules.less",
+			"settings":
+			{
+				"buffer_size": 417,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "parts/templates/parts/assignment_list.html",
+			"settings":
+			{
+				"buffer_size": 2842,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "select first_name, last_name, parts_publisher_categories.category_id, parts_assignment.date from parts_publisher left join parts_publisher_categories on parts_publisher_categories.publisher_id=parts_publisher.id left join parts_assignment on parts_assignment.publisher_id = parts_publisher.id left join parts_part on parts_part.id = part_id where parts_publisher_categories.category_id=9;\n\n\nselect parts_publisher.*, max(parts_assignment.date) as last_date from parts_part inner join parts_assignment on part_id=parts_part.id inner join parts_publisher on publisher_id=parts_publisher.id where category_id=9 group by publisher_id order_by last_date;\nl=Publisher.objects.raw('select parts_publisher.*, max(parts_assignment.date) as last_date from parts_part inner join parts_assignment on part_id=parts_part.id inner join parts_publisher on publisher_id=parts_publisher.id where category_id=9 group by publisher_id order by last_date')\n\n\nSELECT `parts_part`.`category_id`, `parts_publisher`.`first_name`, parts_part.theme, `parts_part`.`id`\nFROM `parts_publisher` \nLEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \nLEFT OUTER JOIN `parts_part` ON (`parts_assignment`.`part_id` = `parts_part`.`id`) \nLEFT OUTER JOIN `parts_publisher_categories` ON (`parts_publisher`.`id` = `parts_publisher_categories`.`publisher_id`) \nWHERE (`parts_part`.`category_id` = 3  OR (`parts_publisher_categories`.`category_id` = 3 AND `parts_part`.id is null)) \nGROUP BY `parts_publisher`.`id` \nORDER BY `last_assignment`;\n\nSELECT `parts_part`.`category_id`, `parts_publisher`.`first_name`, parts_part.theme, `parts_part`.`id`\nFROM `parts_publisher`  \nLEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`)  \nLEFT OUTER JOIN `parts_part` ON (`parts_assignment`.`part_id` = `parts_part`.`id`)  \nLEFT OUTER JOIN `parts_publisher_categories` ON (`parts_publisher`.`id` = `parts_publisher_categories`.`publisher_id`)\nwhere `parts_part`.`category_id`=3;\n\n\nselect `parts_publisher`.`first_name`\nFROM `parts_publisher` \nleft join `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`)\nLEFT JOIN `parts_part` ON (`parts_assignment`.`part_id` = `parts_part`.`id`)  \nwhere parts_part.category_id=3 or parts_part.id is null\ngroup by `parts_publisher`.`id`;\n\n\n\nPublisher.objects.filter(assignments__part__category_id=3).annotate(last_assignment=models.Max('assignments__date')).order_by('last_assignment')\n\nPublisher.objects.filter(categories=3).annotate(select='select')\n\n\nSELECT `parts_publisher`.`id`, MAX(`parts_assignment`.`date`) AS `last_assignment` FROM `parts_publisher` LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) LEFT OUTER JOIN `parts_part` ON (`parts_assignment`.`part_id` = `parts_part`.`id`) WHERE `parts_part`.`category_id` = 3  GROUP BY `parts_publisher`.`id` ORDER BY NULL\n\n\n\nSELECT `parts_publisher`.`id`,  MAX(`parts_assignment`.`date`) AS `last` \nFROM `parts_publisher` \nLEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \nWHERE `parts_assignment`.`category_id` = 3\n\nselect `parts_publisher`.*\nFROM `parts_publisher`\nLEFT OUTER JOIN `parts_publisher_categories` ON (`parts_publisher`.`id` = `parts_publisher_categories`.`publisher_id`)\nleft outer join (\nSELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \nFROM `parts_publisher` \nLEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \nWHERE `parts_assignment`.`category_id` = 3\n) as assignments on (`parts_publisher`.`id` = `assignments`.`publisher_id`) \nwhere parts_publisher_categories.category_id=3\norder by assignments.last;\n\n\nselect `parts_publisher`.*, assignments.last\nFROM `parts_publisher`\nLEFT OUTER JOIN `parts_publisher_categories` ON (`parts_publisher`.`id` = `parts_publisher_categories`.`publisher_id`)\nleft outer join (\n  SELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \n  FROM `parts_publisher` \n  LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \n  WHERE `parts_assignment`.`category_id` = 9\n  GROUP BY publisher_id\n  ) as assignments on (`parts_publisher`.`id` = `assignments`.`publisher_id`) \nleft outer join (\n  SELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \n  FROM `parts_publisher` \n  LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \n  GROUP BY publisher_id\n  ) as all_assignments on (`parts_publisher`.`id` = `assignments`.`publisher_id`) \nwhere parts_publisher_categories.category_id=9\ngroup by `parts_publisher`.`id`\norder by assignments.last, all_assignments.last;\n\n\n\n\n\nSELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \n        FROM `parts_publisher` \n        LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \n        LEFT OUTER JOIN `parts_part` ON (`parts_part`.`id` = `parts_assignment`.`part_id`) \n        WHERE `parts_part`.`category_id` = 4\n        GROUP BY `parts_publisher`.`id`\n\n\n\n        select `parts_publisher`.*, assignments.last, all_assignments.last\n      FROM `parts_publisher`\n      LEFT OUTER JOIN `parts_publisher_categories` ON (`parts_publisher`.`id` = `parts_publisher_categories`.`publisher_id`)\n      left outer join (\n        SELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \n        FROM `parts_publisher` \n        LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \n        LEFT OUTER JOIN `parts_part` ON (`parts_part`.`id` = `parts_assignment`.`part_id`) \n        WHERE `parts_part`.`category_id` = 17\n        GROUP BY `parts_publisher`.`id`\n        ) as assignments on (`parts_publisher`.`id` = `assignments`.`publisher_id`) \n      left outer join (\n        SELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \n        FROM `parts_publisher` \n        LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \n        GROUP BY `parts_publisher`.`id`\n        ) as all_assignments on (`parts_publisher`.`id` = `all_assignments`.`publisher_id`) \n      where parts_publisher_categories.category_id=17\n      group by `parts_publisher`.`id`\n      order by assignments.last, all_assignments.last;\n\n\n\n\n\n            select `parts_publisher`.*, assignments.last, all_assignments.last\n      FROM `parts_publisher`\n      LEFT OUTER JOIN `parts_publisher_categories` ON (`parts_publisher`.`id` = `parts_publisher_categories`.`publisher_id`)\n      \n      left outer join (\n        SELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \n        FROM `parts_publisher` \n        LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`assistant_id`) \n        group by `parts_publisher`.`id`\n        ) as assignments on (`parts_publisher`.`id` = `assignments`.`publisher_id`) \n      left outer join (\n        SELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \n        FROM `parts_publisher` \n        LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \n        ) as all_assignments on (`parts_publisher`.`id` = `assignments`.`publisher_id`) \n      where parts_publisher_categories.category_id=17 and `parts_publisher`.`id` != 1\n      order by assignments.last, all_assignments.last;",
+			"settings":
+			{
+				"buffer_size": 7655,
+				"line_ending": "Unix",
+				"name": "select first_name, last_name, parts_publisher_cate"
+			}
+		},
+		{
+			"file": "dunmp.json",
+			"settings":
+			{
+				"buffer_size": 117451,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "parts/admin.py",
+			"settings":
+			{
+				"buffer_size": 717,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "schedules/settings.py",
+			"settings":
+			{
+				"buffer_size": 6032,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "schedules/test_settings.py",
+			"settings":
+			{
+				"buffer_size": 717,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "schedules/urls.py",
+			"settings":
+			{
+				"buffer_size": 729,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "design/templates/design/header.html",
+			"settings":
+			{
+				"buffer_size": 1339,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"settings":
+			{
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		}
@@ -328,6 +495,37 @@
 	},
 	"file_history":
 	[
+		"/Users/jaredmartin/Programs/schedules/schedules/settings.py",
+		"/Users/jaredmartin/Programs/schedules/parts/admin.py",
+		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/publisher_detail.html",
+		"/Users/jaredmartin/Programs/schedules/parts/views.py",
+		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/assignment_list.html",
+		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/assign_assistant.html",
+		"/Users/jaredmartin/Programs/schedules/slick/views.py",
+		"/Users/jaredmartin/Programs/schedules/design/static/less/schedules.less",
+		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/publisher_form.html",
+		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/publisher_list.html",
+		"/Users/jaredmartin/Programs/schedules/parts/urls.py",
+		"/Users/jaredmartin/Programs/schedules/parts/forms.py",
+		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/assignment.html",
+		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/assign_part.html",
+		"/Users/jaredmartin/Programs/schedules/parts/assign_assistant.html",
+		"/Users/jaredmartin/Programs/schedules/parts/models.py",
+		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/publisher_confirm_delete.html",
+		"/Users/jaredmartin/Programs/schedules/design/templates/design/header.html",
+		"/Users/jaredmartin/Programs/schedules/design/templates/design/base.html",
+		"/Users/jaredmartin/Programs/schedules/authentication/models.py",
+		"/Users/jaredmartin/Programs/schedules/authentication/templates/authentication/user_form.html",
+		"/Users/jaredmartin/Programs/schedules/slick/__init__.py",
+		"/Users/jaredmartin/Programs/schedules/authentication/forms.py",
+		"/Users/jaredmartin/Programs/schedules/authentication/views.py",
+		"/Users/jaredmartin/Programs/schedules/schedules/urls.py",
+		"/Users/jaredmartin/Programs/schedules/authentication/urls.py",
+		"/Users/jaredmartin/Programs/schedules/design/templates/design/footer.html",
+		"/Users/jaredmartin/Programs/schedules/parts/templates/new_assignments.html",
+		"/Users/jaredmartin/Programs/schedules/authentication/admin.py",
+		"/Users/jaredmartin/Programs/schedules/dump.json",
+		"/Users/jaredmartin/Programs/schedules/design/base.html",
 		"/Users/jaredmartin/Programs/YesTags/YesTags/urls.py",
 		"/Users/jaredmartin/Programs/YesTags/design/static/less/fonts.less",
 		"/Users/jaredmartin/Programs/YesTags/YesTags/settings.py",
@@ -424,38 +622,7 @@
 		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/old base.html",
 		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/fixtures/initial_data.yaml",
 		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templatetags/help_icon.py",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/ajax_user_list_row.html",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/oldstatic/js/bootstrap.js",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/js/bootstrap.min.js",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/bootstrap/css/bootstrap-responsive.css",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/actions.py",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/less/config.css",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/js/flatui-checkbox.js",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/article_list_filters.html",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templatetags/show_more.py",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/old assignment widget.html",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/less/flat-ui.less",
-		"/Users/jaredmartin/Designs/Flat UI PSD & HTML - Personal License/HTML/UI/template.html",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/css/writeraxis.css",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/static/bootstrap/css/bootstrap.css",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/less/modules/navbar.less",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/less/flat-ui.css",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/static/css/flat-ui.css",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/project_static/css/flat-ui.css",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/templates/base.html",
-		"/Users/jaredmartin/Programs/webservices/articles/templates/articles/article_edit.html",
-		"/Users/jaredmartin/Programs/webservices/articles/plugins.py",
-		"/Users/jaredmartin/Programs/webservices/articles/static/css/stylesheet.css",
-		"/Users/jaredmartin/Programs/webservices/articles/templatetags/can_edit.py",
-		"/Users/jaredmartin/Programs/webservices/articles/admin.py",
-		"/Users/jaredmartin/Programs/webservices/articles/templates/articles/user_actions.html",
-		"/Users/jaredmartin/Programs/webservices/articles/static/js/actions.js",
-		"/Users/jaredmartin/Programs/webservices/articles/urls.py",
-		"/Users/jaredmartin/Programs/webservices/articles/templates/articles/user_list_row.html",
-		"/Users/jaredmartin/Programs/webservices/urls.py",
-		"/Users/jaredmartin/Programs/webservices/articles/forms.py",
-		"/Users/jaredmartin/Programs/webservices/articles/templates/articles/messages.html",
-		"/Users/jaredmartin/Programs/webservices/articles/templates/articles/ajax_user_list_row.html"
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/ajax_user_list_row.html"
 	],
 	"find":
 	{
@@ -474,6 +641,72 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"choices=DAYS_OF_WEEK",
+			"LoginRequiredMixin",
+			"4",
+			"%s",
+			"category_id",
+			"\"parts.assignment\", \"fi",
+			"}, {",
+			"%",
+			"start_date",
+			"4",
+			"next-counsel-point",
+			"point",
+			" col-md-offset-3",
+			"md-4 col-md-offset-4",
+			"FEMALE",
+			"a",
+			"}}",
+			"{{",
+			"User",
+			"servant",
+			"widgets",
+			"span",
+			"ListThisWeeksAssignments",
+			"\n",
+			"edit",
+			"show",
+			"btn",
+			"next",
+			"button",
+			"internal",
+			"interna",
+			"localhost",
+			"screen",
+			"span",
+			"_(",
+			"year",
+			"self.",
+			"year",
+			"User",
+			"  ",
+			"\n  ",
+			"request",
+			"\n",
+			"Create",
+			"street','city','state','phone",
+			" = \"",
+			" = ",
+			"(",
+			" = ",
+			", ",
+			" = ",
+			"(",
+			"\n  ",
+			" = ",
+			" = \"",
+			"= \" ",
+			"\n",
+			" ",
+			"\n  ",
+			" ",
+			"}, {",
+			"	",
+			"admin",
+			"Tag",
+			"\n",
+			"year",
 			"lead",
 			".lead",
 			"bottom",
@@ -535,73 +768,7 @@
 			"login",
 			".pdf",
 			"login",
-			"class Article",
-			"Article",
-			"get_templat",
-			"get_template",
-			"project",
-			"Project",
-			"project",
-			"category",
-			"success__message_template",
-			"get_success__message_template",
-			"project",
-			"category",
-			"placeholder':'Keyw",
-			"target",
-			"label",
-			"name",
-			"value",
-			"{{label}}",
-			"{{name}}",
-			"{{value}}",
-			"%(value)s",
-			"%(label)s",
-			"%(name)s",
-			"AvailabilityForm",
-			"js",
-			"NewBootstrapDropdown",
-			"BootstrapDropdown",
-			"selectpick",
-			"btn-small ",
-			"<div class=\"span4\">",
-			"select()",
-			"BaseInlineFormSet",
-			"get_formset_class",
-			"construct_formset",
-			"ProcessFormSetView",
-			"BaseInlineFormSet",
-			"td",
-			"Th",
-			"th",
-			"BaseInlineFormSet",
-			"BaseInlineFormSetMixin",
-			"hidden-cell",
-			"showSection",
-			"show_section",
-			"span",
-			">\n",
-			"span",
-			"'Keywords',",
-			"['Keywords",
-			"['Keywords'",
-			"if",
-			"search",
-			"SidebarContextMixin",
-			"filters",
-			"get_value_from_request",
-			"qs, self.request.user)",
-			"user.mode",
-			"self.request.user.mode",
-			"user.mode",
-			"user",
-			"self.request.self.request",
-			"user",
-			"class Filter",
-			"search",
-			"all",
-			"request",
-			"ArticleFilterMixin"
+			"class Article"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -654,28 +821,26 @@
 			[
 				{
 					"buffer": 0,
-					"file": "schedules/settings.py",
 					"settings":
 					{
-						"buffer_size": 5634,
+						"buffer_size": 614,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4524,
-								4524
+								498,
+								498
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"auto_name": "",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1792.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -685,46 +850,50 @@
 					"file": "parts/models.py",
 					"settings":
 					{
-						"buffer_size": 1381,
+						"buffer_size": 8620,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								951,
-								951
+								6002,
+								6002
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1486.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "schedules/urls.py",
+					"file": "parts/forms.py",
 					"settings":
 					{
-						"buffer_size": 592,
+						"buffer_size": 2916,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								417,
-								417
+								1061,
+								1061
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -737,23 +906,29 @@
 					"file": "parts/views.py",
 					"settings":
 					{
-						"buffer_size": 360,
+						"buffer_size": 8944,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								358,
-								358
+								5262,
+								5262
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
+							"rulers":
+							[
+								100
+							],
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2011.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -763,20 +938,2573 @@
 					"file": "parts/urls.py",
 					"settings":
 					{
-						"buffer_size": 393,
+						"buffer_size": 2290,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								53,
-								53
+								877,
+								830
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Djaneiro/Syntaxes/Python Django.tmLanguage"
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "parts/templates/parts/assignment.html",
+					"settings":
+					{
+						"buffer_size": 3912,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1760,
+								1760
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 551.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "parts/templates/parts/counsel_form.html",
+					"settings":
+					{
+						"buffer_size": 4846,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								425,
+								425
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 35.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "design/static/less/schedules.less",
+					"settings":
+					{
+						"buffer_size": 417,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								363,
+								417
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/LESS/LESS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "parts/templates/parts/assignment_list.html",
+					"settings":
+					{
+						"buffer_size": 2842,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1377,
+								1377
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 217.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"settings":
+					{
+						"buffer_size": 7655,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6930,
+								6930
+							]
+						],
+						"settings":
+						{
+							"auto_name": "select first_name, last_name, parts_publisher_cate",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 11.0,
+						"translation.y": 1662.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "dunmp.json",
+					"settings":
+					{
+						"buffer_size": 117451,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								127,
+								127
+							],
+							[
+								243,
+								243
+							],
+							[
+								380,
+								380
+							],
+							[
+								504,
+								504
+							],
+							[
+								619,
+								619
+							],
+							[
+								742,
+								742
+							],
+							[
+								863,
+								863
+							],
+							[
+								995,
+								995
+							],
+							[
+								1127,
+								1127
+							],
+							[
+								1253,
+								1253
+							],
+							[
+								1369,
+								1369
+							],
+							[
+								1497,
+								1497
+							],
+							[
+								1622,
+								1622
+							],
+							[
+								1747,
+								1747
+							],
+							[
+								1869,
+								1869
+							],
+							[
+								2185,
+								2185
+							],
+							[
+								2529,
+								2529
+							],
+							[
+								2845,
+								2845
+							],
+							[
+								3161,
+								3161
+							],
+							[
+								3477,
+								3477
+							],
+							[
+								3793,
+								3793
+							],
+							[
+								3887,
+								3887
+							],
+							[
+								3977,
+								3977
+							],
+							[
+								4076,
+								4076
+							],
+							[
+								4164,
+								4164
+							],
+							[
+								4250,
+								4250
+							],
+							[
+								4332,
+								4332
+							],
+							[
+								4432,
+								4432
+							],
+							[
+								4540,
+								4540
+							],
+							[
+								4626,
+								4626
+							],
+							[
+								4710,
+								4710
+							],
+							[
+								4794,
+								4794
+							],
+							[
+								4878,
+								4878
+							],
+							[
+								4974,
+								4974
+							],
+							[
+								5091,
+								5091
+							],
+							[
+								5197,
+								5197
+							],
+							[
+								5287,
+								5287
+							],
+							[
+								5375,
+								5375
+							],
+							[
+								5465,
+								5465
+							],
+							[
+								5550,
+								5550
+							],
+							[
+								5636,
+								5636
+							],
+							[
+								5722,
+								5722
+							],
+							[
+								5822,
+								5822
+							],
+							[
+								5929,
+								5929
+							],
+							[
+								6050,
+								6050
+							],
+							[
+								6146,
+								6146
+							],
+							[
+								6238,
+								6238
+							],
+							[
+								6329,
+								6329
+							],
+							[
+								6525,
+								6525
+							],
+							[
+								6703,
+								6703
+							],
+							[
+								6892,
+								6892
+							],
+							[
+								7075,
+								7075
+							],
+							[
+								7258,
+								7258
+							],
+							[
+								7450,
+								7450
+							],
+							[
+								7656,
+								7656
+							],
+							[
+								7855,
+								7855
+							],
+							[
+								8055,
+								8055
+							],
+							[
+								8253,
+								8253
+							],
+							[
+								8443,
+								8443
+							],
+							[
+								8631,
+								8631
+							],
+							[
+								8817,
+								8817
+							],
+							[
+								9026,
+								9026
+							],
+							[
+								9197,
+								9197
+							],
+							[
+								9377,
+								9377
+							],
+							[
+								9556,
+								9556
+							],
+							[
+								9729,
+								9729
+							],
+							[
+								9902,
+								9902
+							],
+							[
+								10085,
+								10085
+							],
+							[
+								10294,
+								10294
+							],
+							[
+								10478,
+								10478
+							],
+							[
+								10673,
+								10673
+							],
+							[
+								10854,
+								10854
+							],
+							[
+								11032,
+								11032
+							],
+							[
+								11242,
+								11242
+							],
+							[
+								11428,
+								11428
+							],
+							[
+								11628,
+								11628
+							],
+							[
+								11802,
+								11802
+							],
+							[
+								11984,
+								11984
+							],
+							[
+								12191,
+								12191
+							],
+							[
+								12386,
+								12386
+							],
+							[
+								12569,
+								12569
+							],
+							[
+								12757,
+								12757
+							],
+							[
+								12939,
+								12939
+							],
+							[
+								13120,
+								13120
+							],
+							[
+								13309,
+								13309
+							],
+							[
+								13518,
+								13518
+							],
+							[
+								13701,
+								13701
+							],
+							[
+								13880,
+								13880
+							],
+							[
+								14065,
+								14065
+							],
+							[
+								14248,
+								14248
+							],
+							[
+								14383,
+								14383
+							],
+							[
+								14522,
+								14522
+							],
+							[
+								14743,
+								14743
+							],
+							[
+								14923,
+								14923
+							],
+							[
+								15059,
+								15059
+							],
+							[
+								15199,
+								15199
+							],
+							[
+								15396,
+								15396
+							],
+							[
+								15601,
+								15601
+							],
+							[
+								15739,
+								15739
+							],
+							[
+								15864,
+								15864
+							],
+							[
+								16000,
+								16000
+							],
+							[
+								16139,
+								16139
+							],
+							[
+								16332,
+								16332
+							],
+							[
+								16517,
+								16517
+							],
+							[
+								16703,
+								16703
+							],
+							[
+								16870,
+								16870
+							],
+							[
+								17037,
+								17037
+							],
+							[
+								17177,
+								17177
+							],
+							[
+								17302,
+								17302
+							],
+							[
+								17439,
+								17439
+							],
+							[
+								17580,
+								17580
+							],
+							[
+								17804,
+								17804
+							],
+							[
+								17988,
+								17988
+							],
+							[
+								18125,
+								18125
+							],
+							[
+								18277,
+								18277
+							],
+							[
+								18460,
+								18460
+							],
+							[
+								18604,
+								18604
+							],
+							[
+								18749,
+								18749
+							],
+							[
+								18890,
+								18890
+							],
+							[
+								19015,
+								19015
+							],
+							[
+								19149,
+								19149
+							],
+							[
+								19294,
+								19294
+							],
+							[
+								19456,
+								19456
+							],
+							[
+								19643,
+								19643
+							],
+							[
+								19813,
+								19813
+							],
+							[
+								19960,
+								19960
+							],
+							[
+								20087,
+								20087
+							],
+							[
+								20247,
+								20247
+							],
+							[
+								20391,
+								20391
+							],
+							[
+								20532,
+								20532
+							],
+							[
+								20657,
+								20657
+							],
+							[
+								20806,
+								20806
+							],
+							[
+								20952,
+								20952
+							],
+							[
+								21160,
+								21160
+							],
+							[
+								21346,
+								21346
+							],
+							[
+								21513,
+								21513
+							],
+							[
+								21656,
+								21656
+							],
+							[
+								21793,
+								21793
+							],
+							[
+								21937,
+								21937
+							],
+							[
+								22197,
+								22197
+							],
+							[
+								22458,
+								22458
+							],
+							[
+								22719,
+								22719
+							],
+							[
+								22980,
+								22980
+							],
+							[
+								23238,
+								23238
+							],
+							[
+								23496,
+								23496
+							],
+							[
+								23758,
+								23758
+							],
+							[
+								24019,
+								24019
+							],
+							[
+								24281,
+								24281
+							],
+							[
+								24543,
+								24543
+							],
+							[
+								24806,
+								24806
+							],
+							[
+								25069,
+								25069
+							],
+							[
+								25332,
+								25332
+							],
+							[
+								25595,
+								25595
+							],
+							[
+								25855,
+								25855
+							],
+							[
+								26116,
+								26116
+							],
+							[
+								26379,
+								26379
+							],
+							[
+								26641,
+								26641
+							],
+							[
+								26903,
+								26903
+							],
+							[
+								27166,
+								27166
+							],
+							[
+								27429,
+								27429
+							],
+							[
+								27691,
+								27691
+							],
+							[
+								27953,
+								27953
+							],
+							[
+								28216,
+								28216
+							],
+							[
+								28477,
+								28477
+							],
+							[
+								28738,
+								28738
+							],
+							[
+								29001,
+								29001
+							],
+							[
+								29263,
+								29263
+							],
+							[
+								29524,
+								29524
+							],
+							[
+								29786,
+								29786
+							],
+							[
+								30049,
+								30049
+							],
+							[
+								30312,
+								30312
+							],
+							[
+								30575,
+								30575
+							],
+							[
+								30838,
+								30838
+							],
+							[
+								31101,
+								31101
+							],
+							[
+								31362,
+								31362
+							],
+							[
+								31623,
+								31623
+							],
+							[
+								31886,
+								31886
+							],
+							[
+								32148,
+								32148
+							],
+							[
+								32411,
+								32411
+							],
+							[
+								32674,
+								32674
+							],
+							[
+								32935,
+								32935
+							],
+							[
+								33197,
+								33197
+							],
+							[
+								33457,
+								33457
+							],
+							[
+								33717,
+								33717
+							],
+							[
+								33978,
+								33978
+							],
+							[
+								34240,
+								34240
+							],
+							[
+								34500,
+								34500
+							],
+							[
+								34760,
+								34760
+							],
+							[
+								35087,
+								35087
+							],
+							[
+								35341,
+								35341
+							],
+							[
+								35602,
+								35602
+							],
+							[
+								35864,
+								35864
+							],
+							[
+								36080,
+								36080
+							],
+							[
+								36341,
+								36341
+							],
+							[
+								36588,
+								36588
+							],
+							[
+								36801,
+								36801
+							],
+							[
+								37018,
+								37018
+							],
+							[
+								37265,
+								37265
+							],
+							[
+								37511,
+								37511
+							],
+							[
+								37730,
+								37730
+							],
+							[
+								37942,
+								37942
+							],
+							[
+								38161,
+								38161
+							],
+							[
+								38373,
+								38373
+							],
+							[
+								38620,
+								38620
+							],
+							[
+								38867,
+								38867
+							],
+							[
+								39116,
+								39116
+							],
+							[
+								39365,
+								39365
+							],
+							[
+								39568,
+								39568
+							],
+							[
+								39771,
+								39771
+							],
+							[
+								39974,
+								39974
+							],
+							[
+								40176,
+								40176
+							],
+							[
+								40424,
+								40424
+							],
+							[
+								40672,
+								40672
+							],
+							[
+								40934,
+								40934
+							],
+							[
+								41196,
+								41196
+							],
+							[
+								41398,
+								41398
+							],
+							[
+								41600,
+								41600
+							],
+							[
+								41802,
+								41802
+							],
+							[
+								42004,
+								42004
+							],
+							[
+								42251,
+								42251
+							],
+							[
+								42468,
+								42468
+							],
+							[
+								42682,
+								42682
+							],
+							[
+								42899,
+								42899
+							],
+							[
+								43119,
+								43119
+							],
+							[
+								43354,
+								43354
+							],
+							[
+								43577,
+								43577
+							],
+							[
+								43799,
+								43799
+							],
+							[
+								44015,
+								44015
+							],
+							[
+								44237,
+								44237
+							],
+							[
+								44456,
+								44456
+							],
+							[
+								44702,
+								44702
+							],
+							[
+								44950,
+								44950
+							],
+							[
+								45168,
+								45168
+							],
+							[
+								45382,
+								45382
+							],
+							[
+								45630,
+								45630
+							],
+							[
+								45892,
+								45892
+							],
+							[
+								46109,
+								46109
+							],
+							[
+								46322,
+								46322
+							],
+							[
+								46533,
+								46533
+							],
+							[
+								46779,
+								46779
+							],
+							[
+								47027,
+								47027
+							],
+							[
+								47245,
+								47245
+							],
+							[
+								47459,
+								47459
+							],
+							[
+								47707,
+								47707
+							],
+							[
+								47969,
+								47969
+							],
+							[
+								48186,
+								48186
+							],
+							[
+								48399,
+								48399
+							],
+							[
+								48645,
+								48645
+							],
+							[
+								48893,
+								48893
+							],
+							[
+								49111,
+								49111
+							],
+							[
+								49325,
+								49325
+							],
+							[
+								49573,
+								49573
+							],
+							[
+								49835,
+								49835
+							],
+							[
+								50052,
+								50052
+							],
+							[
+								50265,
+								50265
+							],
+							[
+								50511,
+								50511
+							],
+							[
+								50759,
+								50759
+							],
+							[
+								50977,
+								50977
+							],
+							[
+								51191,
+								51191
+							],
+							[
+								51439,
+								51439
+							],
+							[
+								51701,
+								51701
+							],
+							[
+								51918,
+								51918
+							],
+							[
+								52131,
+								52131
+							],
+							[
+								52354,
+								52354
+							],
+							[
+								52580,
+								52580
+							],
+							[
+								52824,
+								52824
+							],
+							[
+								53064,
+								53064
+							],
+							[
+								53290,
+								53290
+							],
+							[
+								53530,
+								53530
+							],
+							[
+								53777,
+								53777
+							],
+							[
+								54038,
+								54038
+							],
+							[
+								54254,
+								54254
+							],
+							[
+								54457,
+								54457
+							],
+							[
+								54671,
+								54671
+							],
+							[
+								54888,
+								54888
+							],
+							[
+								55146,
+								55146
+							],
+							[
+								55394,
+								55394
+							],
+							[
+								55640,
+								55640
+							],
+							[
+								55885,
+								55885
+							],
+							[
+								56130,
+								56130
+							],
+							[
+								56348,
+								56348
+							],
+							[
+								56551,
+								56551
+							],
+							[
+								56766,
+								56766
+							],
+							[
+								56995,
+								56995
+							],
+							[
+								57214,
+								57214
+							],
+							[
+								57481,
+								57481
+							],
+							[
+								57719,
+								57719
+							],
+							[
+								57934,
+								57934
+							],
+							[
+								58165,
+								58165
+							],
+							[
+								58416,
+								58416
+							],
+							[
+								58638,
+								58638
+							],
+							[
+								58861,
+								58861
+							],
+							[
+								59081,
+								59081
+							],
+							[
+								59285,
+								59285
+							],
+							[
+								59498,
+								59498
+							],
+							[
+								59722,
+								59722
+							],
+							[
+								59949,
+								59949
+							],
+							[
+								60197,
+								60197
+							],
+							[
+								60446,
+								60446
+							],
+							[
+								60650,
+								60650
+							],
+							[
+								60876,
+								60876
+							],
+							[
+								61080,
+								61080
+							],
+							[
+								61318,
+								61318
+							],
+							[
+								61522,
+								61522
+							],
+							[
+								61744,
+								61744
+							],
+							[
+								61964,
+								61964
+							],
+							[
+								62168,
+								62168
+							],
+							[
+								62396,
+								62396
+							],
+							[
+								62621,
+								62621
+							],
+							[
+								62890,
+								62890
+							],
+							[
+								63135,
+								63135
+							],
+							[
+								63339,
+								63339
+							],
+							[
+								63543,
+								63543
+							],
+							[
+								63789,
+								63789
+							],
+							[
+								64011,
+								64011
+							],
+							[
+								64226,
+								64226
+							],
+							[
+								64448,
+								64448
+							],
+							[
+								64693,
+								64693
+							],
+							[
+								64913,
+								64913
+							],
+							[
+								65142,
+								65142
+							],
+							[
+								65360,
+								65360
+							],
+							[
+								65584,
+								65584
+							],
+							[
+								65812,
+								65812
+							],
+							[
+								66038,
+								66038
+							],
+							[
+								66264,
+								66264
+							],
+							[
+								66490,
+								66490
+							],
+							[
+								66728,
+								66728
+							],
+							[
+								66963,
+								66963
+							],
+							[
+								67211,
+								67211
+							],
+							[
+								67467,
+								67467
+							],
+							[
+								67699,
+								67699
+							],
+							[
+								67915,
+								67915
+							],
+							[
+								68145,
+								68145
+							],
+							[
+								68377,
+								68377
+							],
+							[
+								68604,
+								68604
+							],
+							[
+								68832,
+								68832
+							],
+							[
+								69060,
+								69060
+							],
+							[
+								69282,
+								69282
+							],
+							[
+								69497,
+								69497
+							],
+							[
+								69719,
+								69719
+							],
+							[
+								69965,
+								69965
+							],
+							[
+								70210,
+								70210
+							],
+							[
+								70479,
+								70479
+							],
+							[
+								70704,
+								70704
+							],
+							[
+								70932,
+								70932
+							],
+							[
+								71136,
+								71136
+							],
+							[
+								71356,
+								71356
+							],
+							[
+								71578,
+								71578
+							],
+							[
+								71816,
+								71816
+							],
+							[
+								72020,
+								72020
+							],
+							[
+								72246,
+								72246
+							],
+							[
+								72495,
+								72495
+							],
+							[
+								72743,
+								72743
+							],
+							[
+								72970,
+								72970
+							],
+							[
+								73194,
+								73194
+							],
+							[
+								73407,
+								73407
+							],
+							[
+								73611,
+								73611
+							],
+							[
+								73831,
+								73831
+							],
+							[
+								74054,
+								74054
+							],
+							[
+								74276,
+								74276
+							],
+							[
+								74527,
+								74527
+							],
+							[
+								74758,
+								74758
+							],
+							[
+								74974,
+								74974
+							],
+							[
+								75213,
+								75213
+							],
+							[
+								75481,
+								75481
+							],
+							[
+								75701,
+								75701
+							],
+							[
+								75917,
+								75917
+							],
+							[
+								76121,
+								76121
+							],
+							[
+								76340,
+								76340
+							],
+							[
+								76586,
+								76586
+							],
+							[
+								76832,
+								76832
+							],
+							[
+								77079,
+								77079
+							],
+							[
+								77328,
+								77328
+							],
+							[
+								77587,
+								77587
+							],
+							[
+								77805,
+								77805
+							],
+							[
+								78020,
+								78020
+							],
+							[
+								78224,
+								78224
+							],
+							[
+								78441,
+								78441
+							],
+							[
+								78688,
+								78688
+							],
+							[
+								78937,
+								78937
+							],
+							[
+								79156,
+								79156
+							],
+							[
+								79371,
+								79371
+							],
+							[
+								79620,
+								79620
+							],
+							[
+								79883,
+								79883
+							],
+							[
+								80101,
+								80101
+							],
+							[
+								80315,
+								80315
+							],
+							[
+								80537,
+								80537
+							],
+							[
+								80752,
+								80752
+							],
+							[
+								80974,
+								80974
+							],
+							[
+								81220,
+								81220
+							],
+							[
+								81465,
+								81465
+							],
+							[
+								81734,
+								81734
+							],
+							[
+								81959,
+								81959
+							],
+							[
+								82187,
+								82187
+							],
+							[
+								82391,
+								82391
+							],
+							[
+								82611,
+								82611
+							],
+							[
+								82833,
+								82833
+							],
+							[
+								83071,
+								83071
+							],
+							[
+								83275,
+								83275
+							],
+							[
+								83501,
+								83501
+							],
+							[
+								83750,
+								83750
+							],
+							[
+								83998,
+								83998
+							],
+							[
+								84225,
+								84225
+							],
+							[
+								84449,
+								84449
+							],
+							[
+								84662,
+								84662
+							],
+							[
+								84866,
+								84866
+							],
+							[
+								85086,
+								85086
+							],
+							[
+								85309,
+								85309
+							],
+							[
+								85531,
+								85531
+							],
+							[
+								85782,
+								85782
+							],
+							[
+								86013,
+								86013
+							],
+							[
+								86229,
+								86229
+							],
+							[
+								86468,
+								86468
+							],
+							[
+								86736,
+								86736
+							],
+							[
+								86956,
+								86956
+							],
+							[
+								87172,
+								87172
+							],
+							[
+								87376,
+								87376
+							],
+							[
+								87595,
+								87595
+							],
+							[
+								87841,
+								87841
+							],
+							[
+								88087,
+								88087
+							],
+							[
+								88334,
+								88334
+							],
+							[
+								88583,
+								88583
+							],
+							[
+								88842,
+								88842
+							],
+							[
+								89060,
+								89060
+							],
+							[
+								89275,
+								89275
+							],
+							[
+								89479,
+								89479
+							],
+							[
+								89696,
+								89696
+							],
+							[
+								89943,
+								89943
+							],
+							[
+								90192,
+								90192
+							],
+							[
+								90411,
+								90411
+							],
+							[
+								90626,
+								90626
+							],
+							[
+								90875,
+								90875
+							],
+							[
+								91138,
+								91138
+							],
+							[
+								91356,
+								91356
+							],
+							[
+								91570,
+								91570
+							],
+							[
+								91818,
+								91818
+							],
+							[
+								92068,
+								92068
+							],
+							[
+								92288,
+								92288
+							],
+							[
+								92504,
+								92504
+							],
+							[
+								92754,
+								92754
+							],
+							[
+								93018,
+								93018
+							],
+							[
+								93237,
+								93237
+							],
+							[
+								93452,
+								93452
+							],
+							[
+								93674,
+								93674
+							],
+							[
+								93889,
+								93889
+							],
+							[
+								94111,
+								94111
+							],
+							[
+								94357,
+								94357
+							],
+							[
+								94602,
+								94602
+							],
+							[
+								94871,
+								94871
+							],
+							[
+								95096,
+								95096
+							],
+							[
+								95324,
+								95324
+							],
+							[
+								95528,
+								95528
+							],
+							[
+								95748,
+								95748
+							],
+							[
+								95970,
+								95970
+							],
+							[
+								96208,
+								96208
+							],
+							[
+								96412,
+								96412
+							],
+							[
+								96638,
+								96638
+							],
+							[
+								96887,
+								96887
+							],
+							[
+								97135,
+								97135
+							],
+							[
+								97362,
+								97362
+							],
+							[
+								97586,
+								97586
+							],
+							[
+								97799,
+								97799
+							],
+							[
+								98003,
+								98003
+							],
+							[
+								98223,
+								98223
+							],
+							[
+								98445,
+								98445
+							],
+							[
+								98696,
+								98696
+							],
+							[
+								98927,
+								98927
+							],
+							[
+								99143,
+								99143
+							],
+							[
+								99382,
+								99382
+							],
+							[
+								99650,
+								99650
+							],
+							[
+								99870,
+								99870
+							],
+							[
+								100086,
+								100086
+							],
+							[
+								100290,
+								100290
+							],
+							[
+								100509,
+								100509
+							],
+							[
+								100732,
+								100732
+							],
+							[
+								100977,
+								100977
+							],
+							[
+								101222,
+								101222
+							],
+							[
+								101468,
+								101468
+							],
+							[
+								101716,
+								101716
+							],
+							[
+								101974,
+								101974
+							],
+							[
+								102191,
+								102191
+							],
+							[
+								102405,
+								102405
+							],
+							[
+								102608,
+								102608
+							],
+							[
+								102825,
+								102825
+							],
+							[
+								103073,
+								103073
+							],
+							[
+								103323,
+								103323
+							],
+							[
+								103543,
+								103543
+							],
+							[
+								103759,
+								103759
+							],
+							[
+								104009,
+								104009
+							],
+							[
+								104273,
+								104273
+							],
+							[
+								104492,
+								104492
+							],
+							[
+								104707,
+								104707
+							],
+							[
+								104929,
+								104929
+							],
+							[
+								105144,
+								105144
+							],
+							[
+								105366,
+								105366
+							],
+							[
+								105612,
+								105612
+							],
+							[
+								105857,
+								105857
+							],
+							[
+								106126,
+								106126
+							],
+							[
+								106351,
+								106351
+							],
+							[
+								106579,
+								106579
+							],
+							[
+								106783,
+								106783
+							],
+							[
+								107003,
+								107003
+							],
+							[
+								107225,
+								107225
+							],
+							[
+								107463,
+								107463
+							],
+							[
+								107667,
+								107667
+							],
+							[
+								107893,
+								107893
+							],
+							[
+								108142,
+								108142
+							],
+							[
+								108390,
+								108390
+							],
+							[
+								108617,
+								108617
+							],
+							[
+								108841,
+								108841
+							],
+							[
+								109054,
+								109054
+							],
+							[
+								109258,
+								109258
+							],
+							[
+								109478,
+								109478
+							],
+							[
+								109700,
+								109700
+							],
+							[
+								109951,
+								109951
+							],
+							[
+								110182,
+								110182
+							],
+							[
+								110398,
+								110398
+							],
+							[
+								110637,
+								110637
+							],
+							[
+								110905,
+								110905
+							],
+							[
+								111125,
+								111125
+							],
+							[
+								111341,
+								111341
+							],
+							[
+								111545,
+								111545
+							],
+							[
+								111764,
+								111764
+							],
+							[
+								111987,
+								111987
+							],
+							[
+								112232,
+								112232
+							],
+							[
+								112477,
+								112477
+							],
+							[
+								112723,
+								112723
+							],
+							[
+								112971,
+								112971
+							],
+							[
+								113229,
+								113229
+							],
+							[
+								113446,
+								113446
+							],
+							[
+								113660,
+								113660
+							],
+							[
+								113863,
+								113863
+							],
+							[
+								114080,
+								114080
+							],
+							[
+								114401,
+								114401
+							],
+							[
+								114531,
+								114531
+							],
+							[
+								114667,
+								114667
+							],
+							[
+								114803,
+								114803
+							],
+							[
+								114923,
+								114923
+							],
+							[
+								115049,
+								115049
+							],
+							[
+								115175,
+								115175
+							],
+							[
+								115309,
+								115309
+							],
+							[
+								115449,
+								115449
+							],
+							[
+								115589,
+								115589
+							],
+							[
+								115714,
+								115714
+							],
+							[
+								115845,
+								115845
+							],
+							[
+								115976,
+								115976
+							],
+							[
+								116095,
+								116095
+							],
+							[
+								116220,
+								116220
+							],
+							[
+								116345,
+								116345
+							],
+							[
+								116472,
+								116472
+							],
+							[
+								116605,
+								116605
+							],
+							[
+								116738,
+								116738
+							],
+							[
+								116863,
+								116863
+							],
+							[
+								116994,
+								116994
+							],
+							[
+								117125,
+								117125
+							],
+							[
+								117261,
+								117261
+							],
+							[
+								117403,
+								117403
+							],
+							[
+								117451,
+								117451
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 581.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "parts/admin.py",
+					"settings":
+					{
+						"buffer_size": 717,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								352,
+								352
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "schedules/settings.py",
+					"settings":
+					{
+						"buffer_size": 6032,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4950,
+								4950
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1890.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 14,
+					"file": "schedules/test_settings.py",
+					"settings":
+					{
+						"buffer_size": 717,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								613,
+								653
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "schedules/urls.py",
+					"settings":
+					{
+						"buffer_size": 729,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								729,
+								729
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"file": "design/templates/design/header.html",
+					"settings":
+					{
+						"buffer_size": 1339,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1174,
+								1174
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -787,8 +3515,34 @@
 			]
 		},
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 17,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -825,7 +3579,7 @@
 		"rows":
 		[
 			0.0,
-			0.606338064921,
+			0.907903588754,
 			1.0
 		]
 	},
@@ -863,6 +3617,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 169.0,
+	"side_bar_width": 233.0,
 	"status_bar_visible": true
 }

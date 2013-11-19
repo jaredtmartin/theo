@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url
 from parts.views import (CreateNewAssignments, CreateCongregation, ChangeCongregation, 
   ListAssignments, Overview, EditAssignments, AssignPart, ShowPublisher, 
   UpdatePublisher, DeletePublisher, ListPublishers, CreatePublisher, AssignAssistant, 
-  UpdateCounsel, SetNextCounselPoint, SetSetting)
+  UpdateCounsel, SetNextCounselPoint, SetSetting, PrintSchedule)
 #  For this project view and url names will follow verb_noun naming pattern.
 
 urlpatterns = patterns('',
@@ -26,6 +26,8 @@ urlpatterns = patterns('',
   url(r'^part/(?P<pk>\d+)/counsel/$',UpdateCounsel.as_view(), name='update_counsel'),
   url(r'^part/(?P<pk>\d+)/next-counsel-point/', SetNextCounselPoint.as_view(), name='set_next_counsel_point'),
   url(r'^part/(?P<pk>\d+)/setting/', SetSetting.as_view(), name='set_setting'),
+  url(r'^print/$',PrintSchedule.as_view(), name='print_schedule'),
+  
     
 
 
