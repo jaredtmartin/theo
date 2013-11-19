@@ -1,6 +1,6 @@
 {% extends "design/header.html" %}
 {% block content %}
-  <form method="POST">
+  <form id="counsel_form" method="POST">
     {% csrf_token %}
     <div class="row input-row">
       <div class="col-md-6 col-md-offset-3">
@@ -9,7 +9,7 @@
     </div>
     <div class="row input-row">
       <div class="col-md-6 col-md-offset-3">
-        <div class="theme">{{object.publisher.full_name}}{% if object.assistant %} & {{object.assistant.full_name}}{% endif %}</div>
+        <div class="theme"><a href="{% url "show_publisher" object.publisher.pk %}">{{object.publisher.full_name}}</a>{% if object.assistant %} & <a href="{% url "show_publisher" object.assistant.pk %}">{{object.assistant.full_name}}</a>{% endif %}</div>
       </div>
     </div>
     <div class="row input-row">
@@ -82,16 +82,14 @@
       </div>
     </div>
     <div class="row input-row">
-      <div class="col-md-3 col-md-offset-3">
-        <input type="submit" value="Save" class="btn btn-primary btn-block" href="{% url "create_publisher" %}">
-      </div>
-      <div class="col-md-3">
-        <a class="btn btn-block" href="{% url "edit_publisher" object.pk %}">Cancel</a>
+      <div class="col-md-6 col-md-offset-3">
+        <a class="btn btn-block btn-primary" href="{% url "list_assignments" year=object.date.year month=object.date.month day=object.date.day %}">Done</a>
       </div>
     </div>
   </form>
 {% endblock content %}
 {% block js %}
+  <script type="text/javascript" src="{{STATIC_URL}}js/jquery.autosave.js"></script>
   <script type="text/javascript">
     function set_next_counsel_point(url, point_id, label){
       window.label_to_update = label;
@@ -114,5 +112,39 @@
     function updateLabel(data){
       $('#'+window.label_to_update).html(data);
     }
+    jQuery(function($) {
+      // $("counsel_form").autosave();
+      // $("#counsel_form").autosave({
+      //   callbacks: {
+      //     trigger: ["change", function() {
+      //       var self = this;
+
+      //       $("[name=save]").click(function() {
+      //         self.save();
+      //       });
+      //     }],
+      //     save: {
+      //       options: {
+      //         success: function() {
+      //           alert("saved!");
+      //         }
+      //       }
+      //     }
+      //   }
+      // });
+
+
+    $('#counsel_form').autosave({
+      callbacks: {
+        scope:"all",
+        save: {
+          method: "ajax",
+          options: {
+            type: "POST"
+          }
+        }
+       }
+    });
+    });
   </script>
 {% endblock js %}

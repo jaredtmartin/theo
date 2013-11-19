@@ -20,7 +20,7 @@ class CounselForm(forms.ModelForm):
   setting = forms.CharField(initial="", widget=forms.TextInput(attrs={'placeholder':'Setting','class':'form-control'}), required=False)
   counsel = forms.CharField(initial="", widget=forms.Textarea(attrs={'placeholder':'Notes','class':'form-control'}), required=False)
   timing = forms.CharField(initial="", widget=forms.TextInput(attrs={'placeholder':'Timing','class':'form-control'}), required=False)
-  exercises_done = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-control'}))
+  exercises_done = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-control'}), required=False)
 
 class AssistantForm(forms.ModelForm):
   class Meta:

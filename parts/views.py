@@ -220,13 +220,19 @@ class UpdateCounsel(slick.LoginRequiredMixin, slick.ExtraContextMixin, vanilla.U
     'counsel_point_list':CounselPoint.objects.all(),
     'my_setting_list':Setting.objects.all(),
   }
+  def form_valid(self, form):
+    self.object = form.save()
+    if self.object.next_counsel_point and self.object.publisher:
+      self.object.publisher.counsel_point = self.object.next_counsel_point
+      self.object.publisher.save()
+    if self.request.is_ajax(): return HttpResponse("AOK")
+    return HttpResponseRedirect(self.get_success_url())
 
 
 class SetForeignKey(slick.LoginRequiredMixin, vanilla.UpdateView):
   display_attribute = None
   def form_valid(self, form):
     self.object = form.save()
-    print "self.object.next_counsel_point = %s" % str(self.object.next_counsel_point)
     try: msg = getattr(form.cleaned_data[self.fields[0]],self.display_attribute)
     except: msg = form.cleaned_data[self.fields[0]]
     return HttpResponse(msg)
@@ -235,6 +241,13 @@ class SetNextCounselPoint(SetForeignKey):
   model = Assignment
   fields = ['next_counsel_point']
   display_attribute = 'name'
+  def form_valid(self, form):
+    response = super(SetNextCounselPoint, self).form_valid(form)
+    print "self.object.publisher = %s" % str(self.object.publisher)
+    if self.object.publisher: 
+      self.object.publisher.counsel_point = self.object.next_counsel_point
+      self.object.publisher.save()
+    return response
 
 class SetSetting(SetForeignKey):
   model = Assignment
