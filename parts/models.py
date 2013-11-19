@@ -87,7 +87,7 @@ class Category(models.Model):
   # def top_suggestion(self, start_date=None):
   #   return Publisher.objects.raw("select parts_publisher.*, max(parts_assignment.date) as last_date from parts_part inner join parts_assignment on part_id=parts_part.id inner join parts_publisher on publisher_id=parts_publisher.id where category_id=%s group by publisher_id order by last_date limit 1" % self.pk)[0]
 class Setting(models.Model):
-  name = models.CharField(max_length=64)
+  name = models.CharField(max_length=130)
   def __unicode__(self): return self.name
 
 class CounselPoint(models.Model):
