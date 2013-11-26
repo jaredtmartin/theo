@@ -15,7 +15,8 @@
     <link href="{{ STATIC_URL}}css/schedules.css" rel="stylesheet">
 
     <link rel="shortcut icon" href="{{ STATIC_URL}}images/favicon.ico">
-
+    <link rel="stylesheet" href="{{ STATIC_URL}}css/print.css" type="text/css" media="print" />
+    {% block css %}{% endblock %}
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
     <!--[if lt IE 9]>
       <script src="js/html5shiv.js"></script>

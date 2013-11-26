@@ -24,7 +24,7 @@
     </div>
     <div class="row input-row">
       <div class="col-md-6 col-md-offset-3">
-        <div class="theme">{% if object.counsel_point %}{{object.counsel_point.name}}{% else %}{{object.publisher.counsel_point.name}}{% endif %}</div>
+        <div class="theme">{% if object.publisher %}{% if object.publisher.counsel_point %}{{object.publisher.counsel_point.name}}{% else %}No Counsel Point Assigned{% endif %}{% else %}No Counsel Point Assigned{% endif %}</div>
       </div>
     </div>
     <div class="row input-row">

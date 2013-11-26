@@ -1,4 +1,5 @@
 {% extends "design/print_base.html" %}
+    
 {% block "content" %}
   <div class="print">
     {% if not object_list %}
@@ -10,6 +11,8 @@
     {% else %}
       {% for assignment in object_list %}
         {% ifchanged assignment.date %}
+          {% if not assignment == object_list.0 %} </div>{% endif %}
+          <div class="meeting-date">
           <div class="row date">
             <div class="col-md-8 col-md-offset-2">
               <h1>{{assignment.date}}</h1>
@@ -25,7 +28,7 @@
         {% endifchanged %}
         <div class="row assignment">
           <div class="col-md-8 col-md-offset-2">
-            <div class="theme">
+            <span class="theme">
               {% if assignment.part.theme %}
                 {% if assignment.part.category_id == 7 or assignment.part.category_id == 8 %}
                   {{assignment.part.category}}: {{assignment.part.theme}}
@@ -35,8 +38,8 @@
               {% else %}
                 {{assignment.part.category}}: {{assignment.part.material}}
               {% endif %}
-            </div>
-            <div class="assignee">{{assignment.publisher.full_name}}{% if assignment.assistant %} & {{assignment.assistant.full_name}}{% endif %}</div>
+            </span>
+            <span class="assignee">{{assignment.publisher.full_name}}{% if assignment.assistant %} & {{assignment.assistant.full_name}}{% endif %}</span>
           </div>
         </div>
       {% endfor %}

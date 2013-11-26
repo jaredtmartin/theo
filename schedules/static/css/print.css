@@ -1,0 +1,18 @@
+.meeting-date {
+  page-break-inside: avoid;
+}
+div.row.date h1 {
+  font-size: 26px;
+  border-bottom: medium solid;
+}
+div.row.meeting h5 {
+  font-size: 18px;
+  border-bottom: thin solid;
+}
+div.row.assignment .theme,
+div.row.assignment .assignee {
+  font-size: 13px;
+}
+div.row.assignment .assignee {
+  float: right;
+}

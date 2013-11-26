@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"pub",
+				"publisher"
+			],
+			[
+				"obj",
+				"objects"
+			],
+			[
 				"cat",
 				"category"
 			],
@@ -34,10 +42,6 @@
 			[
 				"margin",
 				"margin-top"
-			],
-			[
-				"pub",
-				"pub_id"
 			],
 			[
 				"cate",
@@ -292,73 +296,10 @@
 	"buffers":
 	[
 		{
-			"contents": "\nShowMeeting(ListView)\nEditMeetingView(ListView with Formset and POST)\nAssignPart(UpdateView)\nAddAssignments()\n\nCounselView(UpdateView)\n\nOverview(ListView)\n\nAddAPart(CreateView)\nDeleteMeeting(DeleteView)\nDeletePart(DeleteView)\nAddEvent(FormView)\nRemindParticipants(TemplatView)\n\n\n\nPublishers\n  PublisherList(ListView)\n  ShowPublisher(DetailView)\n  EditPublisher(UpdateView)\n  DeletePublihser(DeleteView)\n\nCongregations\n  CreateCongregation (should delete old cong if there are no remaining members)\n  ShowCongregation\n  EditCongregation\n  JoinCongregation (should delete old cong if there are no remaining members)",
-			"settings":
-			{
-				"buffer_size": 614,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "parts/models.py",
-			"settings":
-			{
-				"buffer_size": 8620,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "parts/forms.py",
-			"settings":
-			{
-				"buffer_size": 2916,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "parts/views.py",
-			"settings":
-			{
-				"buffer_size": 8944,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "parts/urls.py",
-			"settings":
-			{
-				"buffer_size": 2290,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "parts/templates/parts/assignment.html",
 			"settings":
 			{
 				"buffer_size": 3912,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "parts/templates/parts/counsel_form.html",
-			"settings":
-			{
-				"buffer_size": 4846,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "design/static/less/schedules.less",
-			"settings":
-			{
-				"buffer_size": 417,
 				"line_ending": "Unix"
 			}
 		},
@@ -371,59 +312,74 @@
 			}
 		},
 		{
-			"contents": "select first_name, last_name, parts_publisher_categories.category_id, parts_assignment.date from parts_publisher left join parts_publisher_categories on parts_publisher_categories.publisher_id=parts_publisher.id left join parts_assignment on parts_assignment.publisher_id = parts_publisher.id left join parts_part on parts_part.id = part_id where parts_publisher_categories.category_id=9;\n\n\nselect parts_publisher.*, max(parts_assignment.date) as last_date from parts_part inner join parts_assignment on part_id=parts_part.id inner join parts_publisher on publisher_id=parts_publisher.id where category_id=9 group by publisher_id order_by last_date;\nl=Publisher.objects.raw('select parts_publisher.*, max(parts_assignment.date) as last_date from parts_part inner join parts_assignment on part_id=parts_part.id inner join parts_publisher on publisher_id=parts_publisher.id where category_id=9 group by publisher_id order by last_date')\n\n\nSELECT `parts_part`.`category_id`, `parts_publisher`.`first_name`, parts_part.theme, `parts_part`.`id`\nFROM `parts_publisher` \nLEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \nLEFT OUTER JOIN `parts_part` ON (`parts_assignment`.`part_id` = `parts_part`.`id`) \nLEFT OUTER JOIN `parts_publisher_categories` ON (`parts_publisher`.`id` = `parts_publisher_categories`.`publisher_id`) \nWHERE (`parts_part`.`category_id` = 3  OR (`parts_publisher_categories`.`category_id` = 3 AND `parts_part`.id is null)) \nGROUP BY `parts_publisher`.`id` \nORDER BY `last_assignment`;\n\nSELECT `parts_part`.`category_id`, `parts_publisher`.`first_name`, parts_part.theme, `parts_part`.`id`\nFROM `parts_publisher`  \nLEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`)  \nLEFT OUTER JOIN `parts_part` ON (`parts_assignment`.`part_id` = `parts_part`.`id`)  \nLEFT OUTER JOIN `parts_publisher_categories` ON (`parts_publisher`.`id` = `parts_publisher_categories`.`publisher_id`)\nwhere `parts_part`.`category_id`=3;\n\n\nselect `parts_publisher`.`first_name`\nFROM `parts_publisher` \nleft join `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`)\nLEFT JOIN `parts_part` ON (`parts_assignment`.`part_id` = `parts_part`.`id`)  \nwhere parts_part.category_id=3 or parts_part.id is null\ngroup by `parts_publisher`.`id`;\n\n\n\nPublisher.objects.filter(assignments__part__category_id=3).annotate(last_assignment=models.Max('assignments__date')).order_by('last_assignment')\n\nPublisher.objects.filter(categories=3).annotate(select='select')\n\n\nSELECT `parts_publisher`.`id`, MAX(`parts_assignment`.`date`) AS `last_assignment` FROM `parts_publisher` LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) LEFT OUTER JOIN `parts_part` ON (`parts_assignment`.`part_id` = `parts_part`.`id`) WHERE `parts_part`.`category_id` = 3  GROUP BY `parts_publisher`.`id` ORDER BY NULL\n\n\n\nSELECT `parts_publisher`.`id`,  MAX(`parts_assignment`.`date`) AS `last` \nFROM `parts_publisher` \nLEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \nWHERE `parts_assignment`.`category_id` = 3\n\nselect `parts_publisher`.*\nFROM `parts_publisher`\nLEFT OUTER JOIN `parts_publisher_categories` ON (`parts_publisher`.`id` = `parts_publisher_categories`.`publisher_id`)\nleft outer join (\nSELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \nFROM `parts_publisher` \nLEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \nWHERE `parts_assignment`.`category_id` = 3\n) as assignments on (`parts_publisher`.`id` = `assignments`.`publisher_id`) \nwhere parts_publisher_categories.category_id=3\norder by assignments.last;\n\n\nselect `parts_publisher`.*, assignments.last\nFROM `parts_publisher`\nLEFT OUTER JOIN `parts_publisher_categories` ON (`parts_publisher`.`id` = `parts_publisher_categories`.`publisher_id`)\nleft outer join (\n  SELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \n  FROM `parts_publisher` \n  LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \n  WHERE `parts_assignment`.`category_id` = 9\n  GROUP BY publisher_id\n  ) as assignments on (`parts_publisher`.`id` = `assignments`.`publisher_id`) \nleft outer join (\n  SELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \n  FROM `parts_publisher` \n  LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \n  GROUP BY publisher_id\n  ) as all_assignments on (`parts_publisher`.`id` = `assignments`.`publisher_id`) \nwhere parts_publisher_categories.category_id=9\ngroup by `parts_publisher`.`id`\norder by assignments.last, all_assignments.last;\n\n\n\n\n\nSELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \n        FROM `parts_publisher` \n        LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \n        LEFT OUTER JOIN `parts_part` ON (`parts_part`.`id` = `parts_assignment`.`part_id`) \n        WHERE `parts_part`.`category_id` = 4\n        GROUP BY `parts_publisher`.`id`\n\n\n\n        select `parts_publisher`.*, assignments.last, all_assignments.last\n      FROM `parts_publisher`\n      LEFT OUTER JOIN `parts_publisher_categories` ON (`parts_publisher`.`id` = `parts_publisher_categories`.`publisher_id`)\n      left outer join (\n        SELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \n        FROM `parts_publisher` \n        LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \n        LEFT OUTER JOIN `parts_part` ON (`parts_part`.`id` = `parts_assignment`.`part_id`) \n        WHERE `parts_part`.`category_id` = 17\n        GROUP BY `parts_publisher`.`id`\n        ) as assignments on (`parts_publisher`.`id` = `assignments`.`publisher_id`) \n      left outer join (\n        SELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \n        FROM `parts_publisher` \n        LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \n        GROUP BY `parts_publisher`.`id`\n        ) as all_assignments on (`parts_publisher`.`id` = `all_assignments`.`publisher_id`) \n      where parts_publisher_categories.category_id=17\n      group by `parts_publisher`.`id`\n      order by assignments.last, all_assignments.last;\n\n\n\n\n\n            select `parts_publisher`.*, assignments.last, all_assignments.last\n      FROM `parts_publisher`\n      LEFT OUTER JOIN `parts_publisher_categories` ON (`parts_publisher`.`id` = `parts_publisher_categories`.`publisher_id`)\n      \n      left outer join (\n        SELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \n        FROM `parts_publisher` \n        LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`assistant_id`) \n        group by `parts_publisher`.`id`\n        ) as assignments on (`parts_publisher`.`id` = `assignments`.`publisher_id`) \n      left outer join (\n        SELECT `parts_publisher`.`id` as publisher_id,  MAX(`parts_assignment`.`date`) AS `last` \n        FROM `parts_publisher` \n        LEFT OUTER JOIN `parts_assignment` ON (`parts_publisher`.`id` = `parts_assignment`.`publisher_id`) \n        ) as all_assignments on (`parts_publisher`.`id` = `assignments`.`publisher_id`) \n      where parts_publisher_categories.category_id=17 and `parts_publisher`.`id` != 1\n      order by assignments.last, all_assignments.last;",
+			"file": "parts/views.py",
 			"settings":
 			{
-				"buffer_size": 7655,
+				"buffer_size": 12722,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "html5lib reportlab",
+			"file": "install.sh",
+			"file_size": 8,
+			"file_write_time": 1384886379000000,
+			"settings":
+			{
+				"buffer_size": 18,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "parts/templates/parts/counsel_form.html",
+			"settings":
+			{
+				"buffer_size": 5830,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "counsel_points.json",
+			"settings":
+			{
+				"buffer_size": 5305,
 				"line_ending": "Unix",
-				"name": "select first_name, last_name, parts_publisher_cate"
+				"name": "[{\"pk\":1, \"model\": \"parts.counselpoint\", \"fields\":"
 			}
 		},
 		{
+			"file": "talk_settings.json",
+			"settings":
+			{
+				"buffer_size": 3374,
+				"line_ending": "Unix",
+				"name": "[{\"pk\":1, \"model\": \"parts.setting\", \"fields\": {\"na"
+			}
+		},
+		{
+			"file": "parts/forms.py",
+			"settings":
+			{
+				"buffer_size": 2932,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "parts/models.py",
+			"settings":
+			{
+				"buffer_size": 8621,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "[{\"pk\": 1, \"model\": \"contenttypes.contenttype\", \"fields\": {\"model\": \"permission\", \"name\": \"permission\", \"app_label\": \"auth\"}}, \n\n{\"pk\": 2, \"model\": \"contenttypes.contenttype\", \"fields\": {\"model\": \"group\", \"name\": \"group\", \"app_label\": \"auth\"}}, \n\n{\"pk\": 4, \"model\": \"contenttypes.contenttype\", \"fields\": {\"model\": \"contenttype\", \"name\": \"content type\", \"app_label\": \"contenttypes\"}}, \n\n{\"pk\": 5, \"model\": \"contenttypes.contenttype\", \"fields\": {\"model\": \"session\", \"name\": \"session\", \"app_label\": \"sessions\"}}, \n\n{\"pk\": 6, \"model\": \"contenttypes.contenttype\", \"fields\": {\"model\": \"site\", \"name\": \"site\", \"app_label\": \"sites\"}}, \n\n{\"pk\": 7, \"model\": \"contenttypes.contenttype\", \"fields\": {\"model\": \"category\", \"name\": \"category\", \"app_label\": \"parts\"}}, \n\n{\"pk\": 8, \"model\": \"contenttypes.contenttype\", \"fields\": {\"model\": \"setting\", \"name\": \"setting\", \"app_label\": \"parts\"}}, \n\n{\"pk\": 9, \"model\": \"contenttypes.contenttype\", \"fields\": {\"model\": \"counselpoint\", \"name\": \"counsel point\", \"app_label\": \"parts\"}}, \n\n{\"pk\": 10, \"model\": \"contenttypes.contenttype\", \"fields\": {\"model\": \"congregation\", \"name\": \"congregation\", \"app_label\": \"parts\"}}, \n\n{\"pk\": 11, \"model\": \"contenttypes.contenttype\", \"fields\": {\"model\": \"publisher\", \"name\": \"publisher\", \"app_label\": \"parts\"}}, \n\n{\"pk\": 12, \"model\": \"contenttypes.contenttype\", \"fields\": {\"model\": \"part\", \"name\": \"part\", \"app_label\": \"parts\"}}, \n\n{\"pk\": 13, \"model\": \"contenttypes.contenttype\", \"fields\": {\"model\": \"assignment\", \"name\": \"assignment\", \"app_label\": \"parts\"}}, \n\n{\"pk\": 14, \"model\": \"contenttypes.contenttype\", \"fields\": {\"model\": \"logentry\", \"name\": \"log entry\", \"app_label\": \"admin\"}}, \n\n{\"pk\": 15, \"model\": \"contenttypes.contenttype\", \"fields\": {\"model\": \"user\", \"name\": \"user\", \"app_label\": \"authentication\"}}, \n\n{\"pk\": 16, \"model\": \"contenttypes.contenttype\", \"fields\": {\"model\": \"meeting\", \"name\": \"meeting\", \"app_label\": \"parts\"}}, \n\n{\"pk\": \"abxuffakop1ryd1mvytedu52lw06c7y4\", \"model\": \"sessions.session\", \"fields\": {\"expire_date\": \"2013-11-18T18:16:02Z\", \"session_data\": \"MWRiMWMyMDJhMmUxYjRlM2MxNGI0MDUwZjdiYzM4ZmVmOWRjOTM5Mjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0=\"}}, \n\n{\"pk\": \"jmodblpf8spbgslt3mlrqd3ek585x6y9\", \"model\": \"sessions.session\", \"fields\": {\"expire_date\": \"2013-11-18T02:51:35Z\", \"session_data\": \"Zjk2NzM1MDM5ZjExMDI5MGJiOTE4NGI0NjY2MmQ5NTU3ZTk3ZjY3Zjp7InRlc3Rjb29raWUiOiJ3b3JrZWQiLCJfYXV0aF91c2VyX2lkIjoxLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCJ9\"}}, \n\n{\"pk\": \"mpcouihs5nw7zrv53arcz0pbuzfvj803\", \"model\": \"sessions.session\", \"fields\": {\"expire_date\": \"2013-11-25T22:11:55Z\", \"session_data\": \"MWRiMWMyMDJhMmUxYjRlM2MxNGI0MDUwZjdiYzM4ZmVmOWRjOTM5Mjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0=\"}}, \n\n{\"pk\": \"n3i6hqyd7zdahbwpzeap52ggomgcdjoj\", \"model\": \"sessions.session\", \"fields\": {\"expire_date\": \"2013-11-25T01:45:14Z\", \"session_data\": \"MWRiMWMyMDJhMmUxYjRlM2MxNGI0MDUwZjdiYzM4ZmVmOWRjOTM5Mjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0=\"}}, \n\n{\"pk\": \"o2m2a07slsay1p7xfgpj6uqahk8iajiq\", \"model\": \"sessions.session\", \"fields\": {\"expire_date\": \"2013-11-24T23:06:12Z\", \"session_data\": \"MWRiMWMyMDJhMmUxYjRlM2MxNGI0MDUwZjdiYzM4ZmVmOWRjOTM5Mjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0=\"}}, \n\n{\"pk\": \"urcp1jzy99p8tjkkcvrquvzy6crypykw\", \"model\": \"sessions.session\", \"fields\": {\"expire_date\": \"2013-11-18T21:19:05Z\", \"session_data\": \"MWRiMWMyMDJhMmUxYjRlM2MxNGI0MDUwZjdiYzM4ZmVmOWRjOTM5Mjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0=\"}}, \n\n{\"pk\": \"wbspi1ak91nnhbj6jme26js2xvnd0h4w\", \"model\": \"sessions.session\", \"fields\": {\"expire_date\": \"2013-11-19T22:00:17Z\", \"session_data\": \"MWRiMWMyMDJhMmUxYjRlM2MxNGI0MDUwZjdiYzM4ZmVmOWRjOTM5Mjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0=\"}}, \n\n{\"pk\": 1, \"model\": \"sites.site\", \"fields\": {\"domain\": \"example.com\", \"name\": \"example.com\"}}, \n\n{\"pk\": 1, \"model\": \"parts.meeting\", \"fields\": {\"name\": \"Cong. Bible Study\", \"order\": 1}}, \n\n{\"pk\": 2, \"model\": \"parts.meeting\", \"fields\": {\"name\": \"Theocratic Ministry School\", \"order\": 2}}, \n\n{\"pk\": 3, \"model\": \"parts.meeting\", \"fields\": {\"name\": \"Service Meeting\", \"order\": 3}}, \n\n{\"pk\": 4, \"model\": \"parts.meeting\", \"fields\": {\"name\": \"Sound & Stage\", \"order\": 4}}, \n\n{\"pk\": 2, \"model\": \"parts.category\", \"fields\": {\"meeting\": 3, \"name\": \"Prayer\"}}, \n\n{\"pk\": 3, \"model\": \"parts.category\", \"fields\": {\"meeting\": 1, \"name\": \"Congregation Bible Study\"}}, \n\n{\"pk\": 4, \"model\": \"parts.category\", \"fields\": {\"meeting\": 1, \"name\": \"Congregation Bible Study Reading\"}}, \n\n{\"pk\": 5, \"model\": \"parts.category\", \"fields\": {\"meeting\": 2, \"name\": \"Highlights\"}}, \n\n{\"pk\": 6, \"model\": \"parts.category\", \"fields\": {\"meeting\": 2, \"name\": \"Number 1\"}}, \n\n{\"pk\": 7, \"model\": \"parts.category\", \"fields\": {\"meeting\": 2, \"name\": \"Number 2\"}}, \n\n{\"pk\": 8, \"model\": \"parts.category\", \"fields\": {\"meeting\": 2, \"name\": \"Number 3\"}}, \n\n{\"pk\": 9, \"model\": \"parts.category\", \"fields\": {\"meeting\": 3, \"name\": \"Service Meeting Part\"}}, \n\n{\"pk\": 10, \"model\": \"parts.category\", \"fields\": {\"meeting\": 3, \"name\": \"Service Meeting Part by Service Overseer\"}}, \n\n{\"pk\": 11, \"model\": \"parts.category\", \"fields\": {\"meeting\": 3, \"name\": \"Service Meeting Part by Elder\"}}, \n\n{\"pk\": 12, \"model\": \"parts.category\", \"fields\": {\"meeting\": 3, \"name\": \"Demonstration\"}}, \n\n{\"pk\": 13, \"model\": \"parts.category\", \"fields\": {\"meeting\": 4, \"name\": \"Microphones\"}}, \n\n{\"pk\": 14, \"model\": \"parts.category\", \"fields\": {\"meeting\": 4, \"name\": \"Sound Console\"}}, \n\n{\"pk\": 15, \"model\": \"parts.category\", \"fields\": {\"meeting\": 4, \"name\": \"Platform\"}}, \n\n{\"pk\": 16, \"model\": \"parts.category\", \"fields\": {\"meeting\": 4, \"name\": \"Attendant\"}}, \n\n{\"pk\": 17, \"model\": \"parts.category\", \"fields\": {\"meeting\": 2, \"name\": \"Assistant\"}}, \n\n{\"pk\": 1, \"model\": \"parts.setting\", \"fields\": {\"name\": \"1. Giving a house-to-house presentation\"}}, \n\n{\"pk\": 2, \"model\": \"parts.setting\", \"fields\": {\"name\": \"2. Overcoming a potential conversation stopper\"}}, \n\n{\"pk\": 3, \"model\": \"parts.setting\", \"fields\": {\"name\": \"Making the first return visit on someone who showed interest\"}}, \n\n{\"pk\": 1, \"model\": \"parts.counselpoint\", \"fields\": {\"name\": \"11: Warmth and Feeling (p.118)\"}}, \n\n{\"pk\": 2, \"model\": \"parts.counselpoint\", \"fields\": {\"name\": \"1: Accurate Reading (p.83)\"}}, \n\n{\"pk\": 3, \"model\": \"parts.counselpoint\", \"fields\": {\"name\": \"4: Fluent Delivery (p.93)\"}}, \n\n{\"pk\": 1, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Jared\", \"last_name\": \"Martin\", \"gender\": 1, \"congregation\": 1, \"categories\": [2, 3, 4, 5, 9, 10, 11, 12, 16], \"counsel_point\": 1}}, \n\n{\"pk\": 2, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Alba\", \"last_name\": \"Martin\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 12, 17], \"counsel_point\": null}}, \n\n{\"pk\": 3, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"David\", \"last_name\": \"Argueta\", \"gender\": 1, \"congregation\": 1, \"categories\": [2, 4, 6, 8, 12, 16], \"counsel_point\": null}}, \n\n{\"pk\": 4, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Gilma\", \"last_name\": \"Argueta\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 12, 17], \"counsel_point\": null}}, \n\n{\"pk\": 5, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Mirna\", \"last_name\": \"Argueta\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 12, 17], \"counsel_point\": null}}, \n\n{\"pk\": 6, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"David\", \"last_name\": \"Calderon\", \"gender\": 1, \"congregation\": 1, \"categories\": [6, 8, 12, 13, 15, 16], \"counsel_point\": null}}, \n\n{\"pk\": 7, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Jose Miguel\", \"last_name\": \"Castro\", \"gender\": 1, \"congregation\": 1, \"categories\": [2, 4, 5, 8, 9, 12, 13, 14, 15, 16], \"counsel_point\": 1}}, \n\n{\"pk\": 8, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Jonathan\", \"last_name\": \"Contreras\", \"gender\": 1, \"congregation\": 1, \"categories\": [2, 6, 8, 12, 13, 15, 16], \"counsel_point\": null}}, \n\n{\"pk\": 9, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Julio\", \"last_name\": \"Diaz\", \"gender\": 1, \"congregation\": 1, \"categories\": [2, 4, 5, 6, 8, 9, 12, 13, 15, 16], \"counsel_point\": null}}, \n\n{\"pk\": 10, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Daniel\", \"last_name\": \"Gutierrez\", \"gender\": 1, \"congregation\": 1, \"categories\": [2, 6, 8, 12, 13, 15, 16], \"counsel_point\": null}}, \n\n{\"pk\": 11, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Elizabeth\", \"last_name\": \"Hernandez\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 12, 17], \"counsel_point\": null}}, \n\n{\"pk\": 12, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Jessica\", \"last_name\": \"Hernandez\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 12, 17], \"counsel_point\": null}}, \n\n{\"pk\": 13, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Wendy\", \"last_name\": \"Hernandez\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 12, 17], \"counsel_point\": null}}, \n\n{\"pk\": 14, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Jaime\", \"last_name\": \"Marroquin\", \"gender\": 1, \"congregation\": 1, \"categories\": [2, 3, 4, 5, 6, 8, 9, 12, 13, 15, 16], \"counsel_point\": null}}, \n\n{\"pk\": 15, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Samuel\", \"last_name\": \"Mejia\", \"gender\": 1, \"congregation\": 1, \"categories\": [], \"counsel_point\": null}}, \n\n{\"pk\": 16, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Raul\", \"last_name\": \"Mezquita\", \"gender\": 1, \"congregation\": 1, \"categories\": [6, 8, 13], \"counsel_point\": null}}, \n\n{\"pk\": 17, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Illia\", \"last_name\": \"Mojica\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 17], \"counsel_point\": null}}, \n\n{\"pk\": 18, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Manuel\", \"last_name\": \"Mojica\", \"gender\": 1, \"congregation\": 1, \"categories\": [6], \"counsel_point\": null}}, \n\n{\"pk\": 19, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Ernesto\", \"last_name\": \"Molina\", \"gender\": 1, \"congregation\": 1, \"categories\": [], \"counsel_point\": null}}, \n\n{\"pk\": 20, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Silvia\", \"last_name\": \"Moran\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 12, 17], \"counsel_point\": null}}, \n\n{\"pk\": 21, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Jhonatan\", \"last_name\": \"Zepeda\", \"gender\": 1, \"congregation\": 1, \"categories\": [2, 3, 4, 5, 6, 8, 9, 12, 13, 15, 16], \"counsel_point\": null}}, \n\n{\"pk\": 22, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Ana Dolores\", \"last_name\": \"Navas\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 17], \"counsel_point\": null}}, \n\n{\"pk\": 23, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Jose Miguel\", \"last_name\": \"Navas\", \"gender\": 1, \"congregation\": 1, \"categories\": [2, 6, 8, 12, 13, 15], \"counsel_point\": null}}, \n\n{\"pk\": 24, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Lucy\", \"last_name\": \"Navas\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 12, 17], \"counsel_point\": null}}, \n\n{\"pk\": 25, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Miguel Angel\", \"last_name\": \"Navas\", \"gender\": 1, \"congregation\": 1, \"categories\": [6], \"counsel_point\": null}}, \n\n{\"pk\": 26, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Jose Miguel\", \"last_name\": \"Portillo\", \"gender\": 1, \"congregation\": 1, \"categories\": [2, 3, 4, 5, 6, 8, 9, 12, 13, 16], \"counsel_point\": null}}, \n\n{\"pk\": 27, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Elaine\", \"last_name\": \"Regalado\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 12, 17], \"counsel_point\": null}}, \n\n{\"pk\": 28, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Ernesto\", \"last_name\": \"Regalado\", \"gender\": 1, \"congregation\": 1, \"categories\": [2, 3, 4, 5, 9, 11, 12, 16], \"counsel_point\": null}}, \n\n{\"pk\": 29, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Luis\", \"last_name\": \"Rodriguez\", \"gender\": 1, \"congregation\": 1, \"categories\": [6], \"counsel_point\": null}}, \n\n{\"pk\": 30, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Sonya\", \"last_name\": \"Rodriguez\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 17], \"counsel_point\": null}}, \n\n{\"pk\": 31, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Renan\", \"last_name\": \"Santos\", \"gender\": 1, \"congregation\": 1, \"categories\": [2, 3, 4, 5, 8, 9, 12, 13, 14, 15, 16], \"counsel_point\": null}}, \n\n{\"pk\": 32, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Daniel\", \"last_name\": \"Serpas\", \"gender\": 1, \"congregation\": 1, \"categories\": [2, 6, 8, 12, 13, 14, 15], \"counsel_point\": null}}, \n\n{\"pk\": 33, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Karen\", \"last_name\": \"Serpas\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 12, 17], \"counsel_point\": null}}, \n\n{\"pk\": 34, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Ricardo\", \"last_name\": \"Serpas\", \"gender\": 1, \"congregation\": 1, \"categories\": [2, 6, 8, 12, 16], \"counsel_point\": null}}, \n\n{\"pk\": 35, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Ruth\", \"last_name\": \"Serpas\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 12, 17], \"counsel_point\": null}}, \n\n{\"pk\": 36, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Karen\", \"last_name\": \"Trujillo\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 17], \"counsel_point\": null}}, \n\n{\"pk\": 37, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Mario\", \"last_name\": \"Trujillo\", \"gender\": 1, \"congregation\": 1, \"categories\": [6, 8, 12, 15, 16], \"counsel_point\": null}}, \n\n{\"pk\": 38, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Rafael\", \"last_name\": \"Trujillo\", \"gender\": 1, \"congregation\": 1, \"categories\": [2, 3, 4, 5, 6, 8, 9, 12, 13, 14, 16], \"counsel_point\": null}}, \n\n{\"pk\": 39, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Magali\", \"last_name\": \"Ulloa\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 12, 17], \"counsel_point\": null}}, \n\n{\"pk\": 40, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Heilem\", \"last_name\": \"Valle\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 17], \"counsel_point\": null}}, \n\n{\"pk\": 41, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Jennifer\", \"last_name\": \"Valle\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 12, 17], \"counsel_point\": null}}, \n\n{\"pk\": 42, \"model\": \"parts.publisher\", \"fields\": {\"first_name\": \"Susana\", \"last_name\": \"Valle\", \"gender\": 2, \"congregation\": 1, \"categories\": [7, 8, 12, 17], \"counsel_point\": null}}, \n\n{\"pk\": 1, \"model\": \"parts.part\", \"fields\": {\"date\": \"2014-01-06\", \"category\": 5, \"theme\": \"\", \"material\": \"Matthew 1-6\", \"order\": 3}}, \n\n{\"pk\": 2, \"model\": \"parts.part\", \"fields\": {\"date\": \"2014-01-06\", \"category\": 6, \"theme\": \"\", \"material\": \"Matthew 5:21-32\", \"order\": 4}}, \n\n{\"pk\": 3, \"model\": \"parts.part\", \"fields\": {\"date\": \"2014-01-06\", \"category\": 7, \"theme\": \"What Could Make a Person\\u2019s Prayers Unacceptable to God?\", \"material\": \"rs p. 293 par. 3 \\u2013 p. 294 par. 3\", \"order\": 5}}, \n\n{\"pk\": 4, \"model\": \"parts.part\", \"fields\": {\"date\": \"2014-01-06\", \"category\": 8, \"theme\": \"What It Means to Have Jehovah's \\\"Your Share\\\"\", \"material\": \"Num. 18:20\", \"order\": 6}}, \n\n{\"pk\": 5, \"model\": \"parts.part\", \"fields\": {\"date\": \"2014-01-13\", \"category\": 5, \"theme\": \"\", \"material\": \"Matthew 7-11\", \"order\": 3}}, \n\n{\"pk\": 6, \"model\": \"parts.part\", \"fields\": {\"date\": \"2014-01-13\", \"category\": 6, \"theme\": \"\", \"material\": \"Matthew 10:24-42\", \"order\": 4}}, \n\n{\"pk\": 7, \"model\": \"parts.part\", \"fields\": {\"date\": \"2014-01-13\", \"category\": 7, \"theme\": \"Be Discerning, and Avoid Following Unrealities\", \"material\": \"1 Sam. 12:21; Prov. 23:4, 5\", \"order\": 5}}, \n\n{\"pk\": 8, \"model\": \"parts.part\", \"fields\": {\"date\": \"2014-01-13\", \"category\": 8, \"theme\": \"What Are Proper Matters About Which to Pray?\", \"material\": \"rs p. 294 par. 4 \\u2013 p. 295 par. 3\", \"order\": 6}}, \n\n{\"pk\": 9, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-11\", \"category\": 3, \"theme\": \"\", \"material\": \"jl Lessons 5-7\", \"order\": 1}}, \n\n{\"pk\": 10, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-11\", \"category\": 4, \"theme\": \"\", \"material\": \"\", \"order\": 2}}, \n\n{\"pk\": 11, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-11\", \"category\": 5, \"theme\": \"\", \"material\": \"Hebrews 1-8\", \"order\": 3}}, \n\n{\"pk\": 12, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-11\", \"category\": 6, \"theme\": \"\", \"material\": \"Hebrews 4:1-16\", \"order\": 4}}, \n\n{\"pk\": 13, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-11\", \"category\": 7, \"theme\": \"How Can We Show That We Have \\\"the Wisdom From Above\\\"?\", \"material\": \"Jas. 3:17, 18\", \"order\": 5}}, \n\n{\"pk\": 14, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-11\", \"category\": 8, \"theme\": \"Is Loving One's Fellowman What Really Counts?\", \"material\": \"rs p. 327 par 4\", \"order\": 6}}, \n\n{\"pk\": 15, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-11\", \"category\": 11, \"theme\": \"How We Can Help To Meet the Needs of Others\", \"material\": \"w13 11/15 pp. 8,9\", \"order\": 7}}, \n\n{\"pk\": 16, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-11\", \"category\": 9, \"theme\": \"How To Overcome Nervousness When Preaching\", \"material\": \"\", \"order\": 8}}, \n\n{\"pk\": 17, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-11\", \"category\": 9, \"theme\": \"\\\"Take as a Pattern the Prophets - Hosea\\\"\", \"material\": \"\", \"order\": 9}}, \n\n{\"pk\": 18, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-18\", \"category\": 3, \"theme\": \"\", \"material\": \"jl Lessons 8-10\", \"order\": 1}}, \n\n{\"pk\": 19, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-18\", \"category\": 4, \"theme\": \"\", \"material\": \"\", \"order\": 2}}, \n\n{\"pk\": 20, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-18\", \"category\": 5, \"theme\": \"\", \"material\": \"Hebrews 9-13\", \"order\": 3}}, \n\n{\"pk\": 21, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-18\", \"category\": 6, \"theme\": \"\", \"material\": \"Hebrews 10:19-39\", \"order\": 4}}, \n\n{\"pk\": 22, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-18\", \"category\": 7, \"theme\": \"Is Having a Personal Relationship With God the Really Important \", \"material\": \"rs p. 327 par. 5\\u2013p. 328 par. 1\", \"order\": 5}}, \n\n{\"pk\": 23, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-18\", \"category\": 8, \"theme\": \"Ways in Which We Can Comfort Others\", \"material\": \"Rom. 15:4; 2 Cor. 1:3, 4\", \"order\": 6}}, \n\n{\"pk\": 24, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-18\", \"category\": 9, \"theme\": \"Question Box\", \"material\": \"\", \"order\": 7}}, \n\n{\"pk\": 25, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-18\", \"category\": 9, \"theme\": \"\\\"I Am Here Because . . .\\\"\", \"material\": \"\", \"order\": 8}}, \n\n{\"pk\": 26, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-18\", \"category\": 9, \"theme\": \"Jehovah Listens to the Prayers of His Servants.\", \"material\": \"1 John 3:22\", \"order\": 9}}, \n\n{\"pk\": 27, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-18\", \"category\": 2, \"theme\": \"Song 56 and Prayer\", \"material\": \"\", \"order\": 10}}, \n\n{\"pk\": 28, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-11\", \"category\": 2, \"theme\": \"Song 113 and Prayer\", \"material\": \"\", \"order\": 10}}, \n\n{\"pk\": 29, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-25\", \"category\": 3, \"theme\": \"\", \"material\": \"jl Lessons 11-13\", \"order\": 1}}, \n\n{\"pk\": 30, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-25\", \"category\": 4, \"theme\": \"\", \"material\": \"\", \"order\": 2}}, \n\n{\"pk\": 31, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-25\", \"category\": 5, \"theme\": \"\", \"material\": \"James 1-5\", \"order\": 3}}, \n\n{\"pk\": 32, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-25\", \"category\": 6, \"theme\": \"\", \"material\": \"James 1:22\\u20132:13\", \"order\": 4}}, \n\n{\"pk\": 33, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-25\", \"category\": 7, \"theme\": \"How Love Overcomes Fear\", \"material\": \"1 John 4:16-18\", \"order\": 5}}, \n\n{\"pk\": 34, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-25\", \"category\": 8, \"theme\": \"Why Just Reading the Bible Is Not Sufficient\", \"material\": \"rs p. 328 par. 2-3\", \"order\": 6}}, \n\n{\"pk\": 35, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-25\", \"category\": 9, \"theme\": \"Ideas for Offering the Magazines in December.\", \"material\": \"\", \"order\": 7}}, \n\n{\"pk\": 37, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-25\", \"category\": 9, \"theme\": \"How Should You Answer?\", \"material\": \"\", \"order\": 9}}, \n\n{\"pk\": 38, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-25\", \"category\": 12, \"theme\": \"\", \"material\": \"\", \"order\": 10}}, \n\n{\"pk\": 39, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-25\", \"category\": 9, \"theme\": \"A Helpful Series for Our Ministry.\", \"material\": \"\", \"order\": 11}}, \n\n{\"pk\": 41, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-11-25\", \"category\": 2, \"theme\": \"Song 45 and Prayer\", \"material\": \"\", \"order\": 13}}, \n\n{\"pk\": 42, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-12-02\", \"category\": 3, \"theme\": \"\", \"material\": \"jl Lessons 14-16\", \"order\": 1}}, \n\n{\"pk\": 43, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-12-02\", \"category\": 4, \"theme\": \"\", \"material\": \"\", \"order\": 2}}, \n\n{\"pk\": 44, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-12-02\", \"category\": 5, \"theme\": \"\", \"material\": \"1 Peter 1\\u20132 Peter 3\", \"order\": 3}}, \n\n{\"pk\": 45, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-12-02\", \"category\": 6, \"theme\": \"\", \"material\": \"1 Peter 2:18\\u20133:7\", \"order\": 4}}, \n\n{\"pk\": 46, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-12-02\", \"category\": 7, \"theme\": \"The Right Religion Is Bible-Based and Makes Known God\\u2019s Name\", \"material\": \"rs p. 328 par. 4-5\", \"order\": 5}}, \n\n{\"pk\": 47, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-12-02\", \"category\": 8, \"theme\": \"Why We Are Sure That Jesus Is the Messiah\", \"material\": \"Luke 24:44; Gal. 4:4\", \"order\": 6}}, \n\n{\"pk\": 48, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-12-02\", \"category\": 9, \"theme\": \"Start a Bible Study on the First Saturday.\", \"material\": \"\", \"order\": 7}}, \n\n{\"pk\": 49, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-12-02\", \"category\": 9, \"theme\": \"Have You Tried It?\", \"material\": \"\", \"order\": 8}}, \n\n{\"pk\": 50, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-12-02\", \"category\": 11, \"theme\": \"Local needs\", \"material\": \"\", \"order\": 9}}, \n\n{\"pk\": 51, \"model\": \"parts.part\", \"fields\": {\"date\": \"2013-12-02\", \"category\": 2, \"theme\": \"Song 12 and Prayer\", \"material\": \"\", \"order\": 10}}, \n\n{\"pk\": 1, \"model\": \"authentication.user\", \"fields\": {\"first_name\": \"Jared\", \"last_name\": \"Martin\", \"is_active\": true, \"congregation\": 1, \"last_login\": \"2013-11-11T22:11:55Z\", \"is_admin\": true, \"password\": \"pbkdf2_sha256$10000$4Yjij0tNNrGZ$IQBFT4DeVyXuJfSF6zW0eMeRV8wFgp0ZtyInO3FSdwA=\", \"email\": \"jaredtmartin@gmail.com\"}}, \n\n{\"pk\": 1, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-03T04:15:31Z\", \"object_repr\": \"Highlights\", \"object_id\": \"1\", \"change_message\": \"Changed theme, material, date and category.\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 2, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-03T04:17:08Z\", \"object_repr\": \"What Could Make a Person\\u2019s Prayers Unacceptable to God?\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 3, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-03T05:00:15Z\", \"object_repr\": \"Matthew 1-6\", \"object_id\": \"1\", \"change_message\": \"Changed theme, material, order, date and category.\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 4, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-03T05:00:41Z\", \"object_repr\": \"Matthew 5:21-32\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 5, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-03T05:02:07Z\", \"object_repr\": \"What Could Make a Person\\u2019s Prayers Unacceptable to God?\", \"object_id\": \"3\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 6, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-03T05:02:59Z\", \"object_repr\": \"What It Means to Have Jehovah's \\\"Your Share\\\"\", \"object_id\": \"4\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 7, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-03T05:06:03Z\", \"object_repr\": \"Matthew 7-11\", \"object_id\": \"5\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 8, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-03T05:06:31Z\", \"object_repr\": \"Matthew 10:24-42\", \"object_id\": \"6\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 9, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-03T05:07:56Z\", \"object_repr\": \"Be Discerning, and Avoid Following Unrealities\", \"object_id\": \"7\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 10, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-03T05:09:06Z\", \"object_repr\": \"What Are Proper Matters About Which to Pray?\", \"object_id\": \"8\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 11, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-03T05:33:18Z\", \"object_repr\": \"Santa Ana English\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 10}}, \n\n{\"pk\": 12, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-03T05:33:27Z\", \"object_repr\": \"Metropolis\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 10}}, \n\n{\"pk\": 13, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-04T02:19:36Z\", \"object_repr\": \"Santa Ana English\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 10}}, \n\n{\"pk\": 14, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-04T02:19:45Z\", \"object_repr\": \"Metropolis\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 10}}, \n\n{\"pk\": 15, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"What Are Proper Matters About Which to Pray?\", \"object_id\": \"16\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 16, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"What Are Proper Matters About Which to Pray?\", \"object_id\": \"15\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 17, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"Be Discerning, and Avoid Following Unrealities\", \"object_id\": \"14\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 18, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"Be Discerning, and Avoid Following Unrealities\", \"object_id\": \"13\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 19, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"\", \"object_id\": \"12\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 20, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"\", \"object_id\": \"11\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 21, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"\", \"object_id\": \"10\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 22, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"\", \"object_id\": \"9\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 23, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"What It Means to Have Jehovah's \\\"Your Share\\\"\", \"object_id\": \"8\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 24, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"What It Means to Have Jehovah's \\\"Your Share\\\"\", \"object_id\": \"7\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 25, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"What Could Make a Person\\u2019s Prayers Unacceptable to God?\", \"object_id\": \"6\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 26, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"What Could Make a Person\\u2019s Prayers Unacceptable to God?\", \"object_id\": \"5\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 27, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"\", \"object_id\": \"4\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 28, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"\", \"object_id\": \"3\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 29, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 30, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-04T02:24:41Z\", \"object_repr\": \"\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 31, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-04T02:56:54Z\", \"object_repr\": \"Jared Martin\", \"object_id\": \"1\", \"change_message\": \"Changed first_name and last_name.\", \"user\": 1, \"content_type\": 15}}, \n\n{\"pk\": 32, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-04T17:43:10Z\", \"object_repr\": \"Accurate Reading\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 9}}, \n\n{\"pk\": 33, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-04T17:43:13Z\", \"object_repr\": \"Jared Martin\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 11}}, \n\n{\"pk\": 34, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-04T17:43:35Z\", \"object_repr\": \"Rafael Trujillo\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 11}}, \n\n{\"pk\": 35, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-04T17:44:24Z\", \"object_repr\": \"\", \"object_id\": \"1\", \"change_message\": \"Changed publisher.\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 36, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-04T18:21:39Z\", \"object_repr\": \"Matthew 5:21-32\", \"object_id\": \"3\", \"change_message\": \"Changed publisher.\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 37, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-04T18:23:02Z\", \"object_repr\": \"Number 1:\", \"object_id\": \"6\", \"change_message\": \"Changed name.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 38, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-04T18:23:08Z\", \"object_repr\": \"Number 1\", \"object_id\": \"6\", \"change_message\": \"Changed name.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 39, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-04T18:54:34Z\", \"object_repr\": \"jl Lessons 3-4\", \"object_id\": \"9\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 40, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-05T03:17:00Z\", \"object_repr\": \"Number 1\", \"object_id\": \"6\", \"change_message\": \"Changed name.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 41, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-05T03:19:26Z\", \"object_repr\": \"Santa Ana English\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 10}}, \n\n{\"pk\": 42, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:14:01Z\", \"object_repr\": \"What Are Proper Matters About Which to Pray?\", \"object_id\": \"8\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 43, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:14:01Z\", \"object_repr\": \"Be Discerning, and Avoid Following Unrealities\", \"object_id\": \"7\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 44, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:14:01Z\", \"object_repr\": \"Matthew 10:24-42\", \"object_id\": \"6\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 45, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:14:01Z\", \"object_repr\": \"Matthew 7-11\", \"object_id\": \"5\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 46, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:14:01Z\", \"object_repr\": \"What It Means to Have Jehovah's \\\"Your Share\\\"\", \"object_id\": \"4\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 47, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:14:01Z\", \"object_repr\": \"What Could Make a Person\\u2019s Prayers Unacceptable to God?\", \"object_id\": \"3\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 48, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:14:01Z\", \"object_repr\": \"Matthew 5:21-32\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 49, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:14:01Z\", \"object_repr\": \"Matthew 1-6\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 50, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-05T04:29:11Z\", \"object_repr\": \"Assistant\", \"object_id\": \"17\", \"change_message\": \"\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 51, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:33:39Z\", \"object_repr\": \"What Are Proper Matters About Which to Pray?\", \"object_id\": \"8\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 52, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:33:39Z\", \"object_repr\": \"Be Discerning, and Avoid Following Unrealities\", \"object_id\": \"7\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 53, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:33:39Z\", \"object_repr\": \"Matthew 10:24-42\", \"object_id\": \"6\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 54, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:33:39Z\", \"object_repr\": \"Matthew 7-11\", \"object_id\": \"5\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 55, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:33:39Z\", \"object_repr\": \"What It Means to Have Jehovah's \\\"Your Share\\\"\", \"object_id\": \"4\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 56, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:33:39Z\", \"object_repr\": \"What Could Make a Person\\u2019s Prayers Unacceptable to God?\", \"object_id\": \"3\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 57, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:33:39Z\", \"object_repr\": \"Matthew 5:21-32\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 58, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:33:39Z\", \"object_repr\": \"Matthew 1-6\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 59, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:35:11Z\", \"object_repr\": \"What Are Proper Matters About Which to Pray?\", \"object_id\": \"8\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 60, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:35:11Z\", \"object_repr\": \"Be Discerning, and Avoid Following Unrealities\", \"object_id\": \"7\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 61, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:35:11Z\", \"object_repr\": \"Matthew 10:24-42\", \"object_id\": \"6\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 62, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:35:11Z\", \"object_repr\": \"Matthew 7-11\", \"object_id\": \"5\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 63, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:35:11Z\", \"object_repr\": \"What It Means to Have Jehovah's \\\"Your Share\\\"\", \"object_id\": \"4\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 64, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:35:11Z\", \"object_repr\": \"What Could Make a Person\\u2019s Prayers Unacceptable to God?\", \"object_id\": \"3\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 65, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:35:11Z\", \"object_repr\": \"Matthew 5:21-32\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 66, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T04:35:11Z\", \"object_repr\": \"Matthew 1-6\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 67, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T22:15:35Z\", \"object_repr\": \"What Are Proper Matters About Which to Pray?\", \"object_id\": \"8\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 68, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T22:15:35Z\", \"object_repr\": \"Be Discerning, and Avoid Following Unrealities\", \"object_id\": \"7\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 69, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T22:15:35Z\", \"object_repr\": \"Matthew 10:24-42\", \"object_id\": \"6\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 70, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T22:15:35Z\", \"object_repr\": \"Matthew 7-11\", \"object_id\": \"5\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 71, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T22:15:35Z\", \"object_repr\": \"What It Means to Have Jehovah's \\\"Your Share\\\"\", \"object_id\": \"4\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 72, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T22:15:35Z\", \"object_repr\": \"What Could Make a Person\\u2019s Prayers Unacceptable to God?\", \"object_id\": \"3\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 73, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T22:15:35Z\", \"object_repr\": \"Matthew 5:21-32\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 74, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-05T22:15:35Z\", \"object_repr\": \"Matthew 1-6\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 75, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-05T23:23:55Z\", \"object_repr\": \"11: Warmth and Feeling\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 9}}, \n\n{\"pk\": 76, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-05T23:24:17Z\", \"object_repr\": \"1: Accurate Reading (p83)\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 9}}, \n\n{\"pk\": 77, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-05T23:24:29Z\", \"object_repr\": \"11: Warmth and Feeling (p.118)\", \"object_id\": \"1\", \"change_message\": \"Changed name.\", \"user\": 1, \"content_type\": 9}}, \n\n{\"pk\": 78, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-05T23:24:34Z\", \"object_repr\": \"1: Accurate Reading (p.83)\", \"object_id\": \"2\", \"change_message\": \"Changed name.\", \"user\": 1, \"content_type\": 9}}, \n\n{\"pk\": 79, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-05T23:31:37Z\", \"object_repr\": \"4: Fluent Delivery (p.93)\", \"object_id\": \"3\", \"change_message\": \"\", \"user\": 1, \"content_type\": 9}}, \n\n{\"pk\": 80, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-06T06:14:55Z\", \"object_repr\": \"1. Giving a house-to-house presentation\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 8}}, \n\n{\"pk\": 81, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-06T06:15:11Z\", \"object_repr\": \"2. Overcoming a potential conversation stopper\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 8}}, \n\n{\"pk\": 82, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-06T06:15:33Z\", \"object_repr\": \"Making the first return visit on someone who showed interest\", \"object_id\": \"3\", \"change_message\": \"\", \"user\": 1, \"content_type\": 8}}, \n\n{\"pk\": 83, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:24:03Z\", \"object_repr\": \"jl Lessons 5-7\", \"object_id\": \"9\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 84, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:24:23Z\", \"object_repr\": \"\", \"object_id\": \"10\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 85, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:24:41Z\", \"object_repr\": \"Hebrews 1-8\", \"object_id\": \"11\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 86, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:25:16Z\", \"object_repr\": \"Hebrews 4:1-16\", \"object_id\": \"12\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 87, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:26:19Z\", \"object_repr\": \"How Can We Show That We Have \\\"the Wisdom From Above\\\"?\", \"object_id\": \"13\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 88, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:27:07Z\", \"object_repr\": \"Is Loving One's Fellowman What Really Counts?\", \"object_id\": \"14\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 89, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:28:42Z\", \"object_repr\": \"How We Can Help To Meet the Needs of Others\", \"object_id\": \"15\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 90, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:29:21Z\", \"object_repr\": \"How To Overcome Nervousness When Preaching\", \"object_id\": \"16\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 91, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:30:03Z\", \"object_repr\": \"\\\"Take as a Pattern the Prophets - Hosea\\\"\", \"object_id\": \"17\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 92, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:31:37Z\", \"object_repr\": \"jl Lessons 8-10\", \"object_id\": \"18\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 93, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:31:47Z\", \"object_repr\": \"\", \"object_id\": \"19\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 94, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:33:07Z\", \"object_repr\": \"Hebrews 9-13\", \"object_id\": \"20\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 95, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-10T23:33:31Z\", \"object_repr\": \"Hebrews 9-13\", \"object_id\": \"20\", \"change_message\": \"Changed order.\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 96, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:33:57Z\", \"object_repr\": \"Hebrews 10:19-39\", \"object_id\": \"21\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 97, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:34:47Z\", \"object_repr\": \"Is Having a Personal Relationship With God the Really Important \", \"object_id\": \"22\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 98, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:35:15Z\", \"object_repr\": \"Ways in Which We Can Comfort Others\", \"object_id\": \"23\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 99, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:35:34Z\", \"object_repr\": \"Question Box\", \"object_id\": \"24\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 100, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:35:57Z\", \"object_repr\": \"\\\"I Am Here Because . . .\\\"\", \"object_id\": \"25\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 101, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:36:24Z\", \"object_repr\": \"Jehovah Listens to the Prayers of His Servants.\", \"object_id\": \"26\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 102, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:36:44Z\", \"object_repr\": \"Song 56 and Prayer\", \"object_id\": \"27\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 103, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:37:09Z\", \"object_repr\": \"Song 113 and Prayer\", \"object_id\": \"28\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 104, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:37:29Z\", \"object_repr\": \"jl Lessons 11-13\", \"object_id\": \"29\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 105, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:37:39Z\", \"object_repr\": \"\", \"object_id\": \"30\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 106, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:37:55Z\", \"object_repr\": \"James 1-5\", \"object_id\": \"31\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 107, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:38:15Z\", \"object_repr\": \"James 1:22\\u20132:13\", \"object_id\": \"32\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 108, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:38:34Z\", \"object_repr\": \"How Love Overcomes Fear\", \"object_id\": \"33\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 109, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:39:02Z\", \"object_repr\": \"Why Just Reading the Bible Is Not Sufficient\", \"object_id\": \"34\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 110, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:40:05Z\", \"object_repr\": \"Ideas for Offering the Magazines in December.\", \"object_id\": \"35\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 111, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:40:44Z\", \"object_repr\": \"\", \"object_id\": \"36\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 112, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:41:13Z\", \"object_repr\": \"How Should You Answer?\", \"object_id\": \"37\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 113, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:41:30Z\", \"object_repr\": \"\", \"object_id\": \"38\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 114, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:42:05Z\", \"object_repr\": \"A Helpful Series for Our Ministry.\", \"object_id\": \"39\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 115, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:42:15Z\", \"object_repr\": \"\", \"object_id\": \"40\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 116, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:42:36Z\", \"object_repr\": \"Song 45 and Prayer\", \"object_id\": \"41\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 117, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:43:04Z\", \"object_repr\": \"jl Lessons 14-16\", \"object_id\": \"42\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 118, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:44:15Z\", \"object_repr\": \"\", \"object_id\": \"43\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 119, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:44:35Z\", \"object_repr\": \"1 Peter 1\\u20132 Peter 3\", \"object_id\": \"44\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 120, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:45:28Z\", \"object_repr\": \"1 Peter 2:18\\u20133:7\", \"object_id\": \"45\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 121, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-10T23:46:21Z\", \"object_repr\": \"The Right Religion Is Bible-Based and Makes Known God\\u2019s Name\", \"object_id\": \"46\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 122, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-11T00:59:55Z\", \"object_repr\": \"Why We Are Sure That Jesus Is the Messiah\", \"object_id\": \"47\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 123, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T01:35:39Z\", \"object_repr\": \"\", \"object_id\": \"40\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 124, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T01:35:39Z\", \"object_repr\": \"\", \"object_id\": \"36\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 125, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-11T01:36:18Z\", \"object_repr\": \"Start a Bible Study on the First Saturday.\", \"object_id\": \"48\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 126, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-11T01:36:41Z\", \"object_repr\": \"Have You Tried It?\", \"object_id\": \"49\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 127, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-11T01:37:11Z\", \"object_repr\": \"Local needs\", \"object_id\": \"50\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 128, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-11T01:37:28Z\", \"object_repr\": \"Song 12 and Prayer\", \"object_id\": \"51\", \"change_message\": \"\", \"user\": 1, \"content_type\": 12}}, \n\n{\"pk\": 129, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:07:24Z\", \"object_repr\": \"Service Meeting Part by Elder\", \"object_id\": \"11\", \"change_message\": \"Changed name.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 130, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-11T02:11:16Z\", \"object_repr\": \"Cong. Bible Study\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 16}}, \n\n{\"pk\": 131, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-11T02:11:27Z\", \"object_repr\": \"Theocratic Ministry School\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 16}}, \n\n{\"pk\": 132, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-11T02:11:33Z\", \"object_repr\": \"Service Meeting\", \"object_id\": \"3\", \"change_message\": \"\", \"user\": 1, \"content_type\": 16}}, \n\n{\"pk\": 133, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:11:53Z\", \"object_repr\": \"Prayer\", \"object_id\": \"2\", \"change_message\": \"Changed meeting.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 134, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:12:02Z\", \"object_repr\": \"Highlights\", \"object_id\": \"5\", \"change_message\": \"Changed meeting.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 135, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:12:08Z\", \"object_repr\": \"Number 1\", \"object_id\": \"6\", \"change_message\": \"Changed meeting.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 136, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:12:13Z\", \"object_repr\": \"Number 2\", \"object_id\": \"7\", \"change_message\": \"Changed meeting.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 137, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:12:18Z\", \"object_repr\": \"Number 3\", \"object_id\": \"8\", \"change_message\": \"Changed meeting.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 138, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:12:24Z\", \"object_repr\": \"Service Meeting Part\", \"object_id\": \"9\", \"change_message\": \"Changed meeting.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 139, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:12:30Z\", \"object_repr\": \"Service Overseer\", \"object_id\": \"10\", \"change_message\": \"Changed meeting.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 140, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:12:41Z\", \"object_repr\": \"Service Meeting Part by Elder\", \"object_id\": \"11\", \"change_message\": \"Changed meeting.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 141, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:12:47Z\", \"object_repr\": \"Service Meeting Part by Service Overseer\", \"object_id\": \"10\", \"change_message\": \"Changed name.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 142, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:12:54Z\", \"object_repr\": \"Demonstration\", \"object_id\": \"12\", \"change_message\": \"Changed meeting.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 143, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 1, \"action_time\": \"2013-11-11T02:13:11Z\", \"object_repr\": \"Sound & Stage\", \"object_id\": \"4\", \"change_message\": \"\", \"user\": 1, \"content_type\": 16}}, \n\n{\"pk\": 144, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:13:46Z\", \"object_repr\": \"Microphones\", \"object_id\": \"13\", \"change_message\": \"Changed meeting.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 145, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:13:51Z\", \"object_repr\": \"Sound Console\", \"object_id\": \"14\", \"change_message\": \"Changed meeting.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 146, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:13:59Z\", \"object_repr\": \"Platform\", \"object_id\": \"15\", \"change_message\": \"Changed meeting.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 147, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:14:06Z\", \"object_repr\": \"Attendant\", \"object_id\": \"16\", \"change_message\": \"Changed meeting.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 148, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 2, \"action_time\": \"2013-11-11T02:14:12Z\", \"object_repr\": \"Assistant\", \"object_id\": \"17\", \"change_message\": \"Changed meeting.\", \"user\": 1, \"content_type\": 7}}, \n\n{\"pk\": 149, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Song 12 and Prayer\", \"object_id\": \"49\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 150, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Local needs\", \"object_id\": \"48\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 151, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Have You Tried It?\", \"object_id\": \"47\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 152, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Start a Bible Study on the First Saturday.\", \"object_id\": \"46\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 153, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Why We Are Sure That Jesus Is the Messiah\", \"object_id\": \"45\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 154, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"The Right Religion Is Bible-Based and Makes Known God\\u2019s Name\", \"object_id\": \"44\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 155, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"1 Peter 2:18\\u20133:7\", \"object_id\": \"43\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 156, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"1 Peter 1\\u20132 Peter 3\", \"object_id\": \"42\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 157, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"\", \"object_id\": \"41\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 158, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"jl Lessons 14-16\", \"object_id\": \"40\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 159, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Song 45 and Prayer\", \"object_id\": \"39\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 160, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"A Helpful Series for Our Ministry.\", \"object_id\": \"38\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 161, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"\", \"object_id\": \"37\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 162, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"How Should You Answer?\", \"object_id\": \"36\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 163, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Ideas for Offering the Magazines in December.\", \"object_id\": \"35\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 164, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Why Just Reading the Bible Is Not Sufficient\", \"object_id\": \"34\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 165, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"How Love Overcomes Fear\", \"object_id\": \"33\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 166, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"James 1:22\\u20132:13\", \"object_id\": \"32\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 167, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"James 1-5\", \"object_id\": \"31\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 168, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"\", \"object_id\": \"30\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 169, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"jl Lessons 11-13\", \"object_id\": \"29\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 170, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Song 113 and Prayer\", \"object_id\": \"28\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 171, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Song 56 and Prayer\", \"object_id\": \"27\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 172, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Jehovah Listens to the Prayers of His Servants.\", \"object_id\": \"26\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 173, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"\\\"I Am Here Because . . .\\\"\", \"object_id\": \"25\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 174, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Question Box\", \"object_id\": \"24\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 175, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Ways in Which We Can Comfort Others\", \"object_id\": \"23\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 176, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Is Having a Personal Relationship With God the Really Important \", \"object_id\": \"22\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 177, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Hebrews 10:19-39\", \"object_id\": \"21\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 178, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Hebrews 9-13\", \"object_id\": \"20\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 179, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"\", \"object_id\": \"19\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 180, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"jl Lessons 8-10\", \"object_id\": \"18\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 181, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"\\\"Take as a Pattern the Prophets - Hosea\\\"\", \"object_id\": \"17\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 182, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"How To Overcome Nervousness When Preaching\", \"object_id\": \"16\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 183, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"How We Can Help To Meet the Needs of Others\", \"object_id\": \"15\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 184, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Is Loving One's Fellowman What Really Counts?\", \"object_id\": \"14\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 185, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"How Can We Show That We Have \\\"the Wisdom From Above\\\"?\", \"object_id\": \"13\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 186, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Hebrews 4:1-16\", \"object_id\": \"12\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 187, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Hebrews 1-8\", \"object_id\": \"11\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 188, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"\", \"object_id\": \"10\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 189, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"jl Lessons 5-7\", \"object_id\": \"9\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 190, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"What Are Proper Matters About Which to Pray?\", \"object_id\": \"8\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 191, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Be Discerning, and Avoid Following Unrealities\", \"object_id\": \"7\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 192, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Matthew 10:24-42\", \"object_id\": \"6\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 193, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Matthew 7-11\", \"object_id\": \"5\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 194, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"What It Means to Have Jehovah's \\\"Your Share\\\"\", \"object_id\": \"4\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 195, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"What Could Make a Person\\u2019s Prayers Unacceptable to God?\", \"object_id\": \"3\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 196, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Matthew 5:21-32\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 197, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:00:26Z\", \"object_repr\": \"Matthew 1-6\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 198, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"Song 12 and Prayer\", \"object_id\": \"49\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 199, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"Local needs\", \"object_id\": \"48\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 200, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"Have You Tried It?\", \"object_id\": \"47\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 201, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"Start a Bible Study on the First Saturday.\", \"object_id\": \"46\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 202, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"Why We Are Sure That Jesus Is the Messiah\", \"object_id\": \"45\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 203, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"The Right Religion Is Bible-Based and Makes Known God\\u2019s Name\", \"object_id\": \"44\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 204, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"1 Peter 2:18\\u20133:7\", \"object_id\": \"43\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 205, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"1 Peter 1\\u20132 Peter 3\", \"object_id\": \"42\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 206, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"\", \"object_id\": \"41\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 207, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"jl Lessons 14-16\", \"object_id\": \"40\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 208, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"Song 45 and Prayer\", \"object_id\": \"39\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 209, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"A Helpful Series for Our Ministry.\", \"object_id\": \"38\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 210, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"\", \"object_id\": \"37\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 211, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"How Should You Answer?\", \"object_id\": \"36\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 212, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"Ideas for Offering the Magazines in December.\", \"object_id\": \"35\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 213, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"Why Just Reading the Bible Is Not Sufficient\", \"object_id\": \"34\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 214, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"How Love Overcomes Fear\", \"object_id\": \"33\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 215, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"James 1:22\\u20132:13\", \"object_id\": \"32\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 216, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:14Z\", \"object_repr\": \"James 1-5\", \"object_id\": \"31\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 217, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"\", \"object_id\": \"30\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 218, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"jl Lessons 11-13\", \"object_id\": \"29\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 219, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Song 113 and Prayer\", \"object_id\": \"28\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 220, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Song 56 and Prayer\", \"object_id\": \"27\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 221, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Jehovah Listens to the Prayers of His Servants.\", \"object_id\": \"26\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 222, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"\\\"I Am Here Because . . .\\\"\", \"object_id\": \"25\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 223, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Question Box\", \"object_id\": \"24\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 224, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Ways in Which We Can Comfort Others\", \"object_id\": \"23\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 225, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Is Having a Personal Relationship With God the Really Important \", \"object_id\": \"22\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 226, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Hebrews 10:19-39\", \"object_id\": \"21\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 227, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Hebrews 9-13\", \"object_id\": \"20\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 228, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"\", \"object_id\": \"19\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 229, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"jl Lessons 8-10\", \"object_id\": \"18\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 230, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"\\\"Take as a Pattern the Prophets - Hosea\\\"\", \"object_id\": \"17\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 231, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"How To Overcome Nervousness When Preaching\", \"object_id\": \"16\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 232, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"How We Can Help To Meet the Needs of Others\", \"object_id\": \"15\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 233, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Is Loving One's Fellowman What Really Counts?\", \"object_id\": \"14\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 234, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"How Can We Show That We Have \\\"the Wisdom From Above\\\"?\", \"object_id\": \"13\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 235, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Hebrews 4:1-16\", \"object_id\": \"12\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 236, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Hebrews 1-8\", \"object_id\": \"11\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 237, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"\", \"object_id\": \"10\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 238, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"jl Lessons 5-7\", \"object_id\": \"9\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 239, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"What Are Proper Matters About Which to Pray?\", \"object_id\": \"8\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 240, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Be Discerning, and Avoid Following Unrealities\", \"object_id\": \"7\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 241, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Matthew 10:24-42\", \"object_id\": \"6\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 242, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Matthew 7-11\", \"object_id\": \"5\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 243, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"What It Means to Have Jehovah's \\\"Your Share\\\"\", \"object_id\": \"4\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 244, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"What Could Make a Person\\u2019s Prayers Unacceptable to God?\", \"object_id\": \"3\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 245, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Matthew 5:21-32\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 246, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:06:15Z\", \"object_repr\": \"Matthew 1-6\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 247, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"What Are Proper Matters About Which to Pray?\", \"object_id\": \"49\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 248, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Be Discerning, and Avoid Following Unrealities\", \"object_id\": \"48\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 249, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Matthew 10:24-42\", \"object_id\": \"47\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 250, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Matthew 7-11\", \"object_id\": \"46\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 251, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"What It Means to Have Jehovah's \\\"Your Share\\\"\", \"object_id\": \"45\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 252, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"What Could Make a Person\\u2019s Prayers Unacceptable to God?\", \"object_id\": \"44\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 253, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Matthew 5:21-32\", \"object_id\": \"43\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 254, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Matthew 1-6\", \"object_id\": \"42\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 255, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Song 12 and Prayer\", \"object_id\": \"41\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 256, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Local needs\", \"object_id\": \"40\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 257, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Have You Tried It?\", \"object_id\": \"39\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 258, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Start a Bible Study on the First Saturday.\", \"object_id\": \"38\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 259, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Why We Are Sure That Jesus Is the Messiah\", \"object_id\": \"37\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 260, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"The Right Religion Is Bible-Based and Makes Known God\\u2019s Name\", \"object_id\": \"36\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 261, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"1 Peter 2:18\\u20133:7\", \"object_id\": \"35\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 262, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"1 Peter 1\\u20132 Peter 3\", \"object_id\": \"34\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 263, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"\", \"object_id\": \"33\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 264, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"jl Lessons 14-16\", \"object_id\": \"32\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 265, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Song 45 and Prayer\", \"object_id\": \"31\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 266, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"A Helpful Series for Our Ministry.\", \"object_id\": \"30\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 267, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"\", \"object_id\": \"29\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 268, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"How Should You Answer?\", \"object_id\": \"28\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 269, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Ideas for Offering the Magazines in December.\", \"object_id\": \"27\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 270, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Why Just Reading the Bible Is Not Sufficient\", \"object_id\": \"26\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 271, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"How Love Overcomes Fear\", \"object_id\": \"25\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 272, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"James 1:22\\u20132:13\", \"object_id\": \"24\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 273, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"James 1-5\", \"object_id\": \"23\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 274, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"\", \"object_id\": \"22\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 275, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"jl Lessons 11-13\", \"object_id\": \"21\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 276, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Song 56 and Prayer\", \"object_id\": \"20\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 277, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Jehovah Listens to the Prayers of His Servants.\", \"object_id\": \"19\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 278, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"\\\"I Am Here Because . . .\\\"\", \"object_id\": \"18\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 279, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Question Box\", \"object_id\": \"17\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 280, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Ways in Which We Can Comfort Others\", \"object_id\": \"16\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 281, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Is Having a Personal Relationship With God the Really Important \", \"object_id\": \"15\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 282, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Hebrews 10:19-39\", \"object_id\": \"14\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 283, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Hebrews 9-13\", \"object_id\": \"13\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 284, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"\", \"object_id\": \"12\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 285, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"jl Lessons 8-10\", \"object_id\": \"11\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 286, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Song 113 and Prayer\", \"object_id\": \"10\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 287, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"\\\"Take as a Pattern the Prophets - Hosea\\\"\", \"object_id\": \"9\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 288, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"How To Overcome Nervousness When Preaching\", \"object_id\": \"8\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 289, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"How We Can Help To Meet the Needs of Others\", \"object_id\": \"7\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 290, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Is Loving One's Fellowman What Really Counts?\", \"object_id\": \"6\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 291, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"How Can We Show That We Have \\\"the Wisdom From Above\\\"?\", \"object_id\": \"5\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 292, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Hebrews 4:1-16\", \"object_id\": \"4\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 293, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"Hebrews 1-8\", \"object_id\": \"3\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 294, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 295, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:19:50Z\", \"object_repr\": \"jl Lessons 5-7\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 296, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"What Are Proper Matters About Which to Pray?\", \"object_id\": \"49\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 297, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Be Discerning, and Avoid Following Unrealities\", \"object_id\": \"48\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 298, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Matthew 10:24-42\", \"object_id\": \"47\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 299, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Matthew 7-11\", \"object_id\": \"46\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 300, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"What It Means to Have Jehovah's \\\"Your Share\\\"\", \"object_id\": \"45\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 301, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"What Could Make a Person\\u2019s Prayers Unacceptable to God?\", \"object_id\": \"44\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 302, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Matthew 5:21-32\", \"object_id\": \"43\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 303, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Matthew 1-6\", \"object_id\": \"42\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 304, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Song 12 and Prayer\", \"object_id\": \"41\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 305, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Local needs\", \"object_id\": \"40\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 306, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Have You Tried It?\", \"object_id\": \"39\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 307, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Start a Bible Study on the First Saturday.\", \"object_id\": \"38\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 308, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Why We Are Sure That Jesus Is the Messiah\", \"object_id\": \"37\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 309, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"The Right Religion Is Bible-Based and Makes Known God\\u2019s Name\", \"object_id\": \"36\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 310, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"1 Peter 2:18\\u20133:7\", \"object_id\": \"35\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 311, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"1 Peter 1\\u20132 Peter 3\", \"object_id\": \"34\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 312, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"\", \"object_id\": \"33\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 313, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"jl Lessons 14-16\", \"object_id\": \"32\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 314, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Song 45 and Prayer\", \"object_id\": \"31\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 315, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"A Helpful Series for Our Ministry.\", \"object_id\": \"30\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 316, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"\", \"object_id\": \"29\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 317, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"How Should You Answer?\", \"object_id\": \"28\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 318, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Ideas for Offering the Magazines in December.\", \"object_id\": \"27\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 319, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Why Just Reading the Bible Is Not Sufficient\", \"object_id\": \"26\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 320, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"How Love Overcomes Fear\", \"object_id\": \"25\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 321, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"James 1:22\\u20132:13\", \"object_id\": \"24\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 322, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"James 1-5\", \"object_id\": \"23\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 323, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"\", \"object_id\": \"22\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 324, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"jl Lessons 11-13\", \"object_id\": \"21\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 325, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Song 56 and Prayer\", \"object_id\": \"20\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 326, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Jehovah Listens to the Prayers of His Servants.\", \"object_id\": \"19\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 327, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"\\\"I Am Here Because . . .\\\"\", \"object_id\": \"18\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 328, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Question Box\", \"object_id\": \"17\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 329, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Ways in Which We Can Comfort Others\", \"object_id\": \"16\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 330, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Is Having a Personal Relationship With God the Really Important \", \"object_id\": \"15\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 331, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Hebrews 10:19-39\", \"object_id\": \"14\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 332, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Hebrews 9-13\", \"object_id\": \"13\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 333, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"\", \"object_id\": \"12\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 334, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"jl Lessons 8-10\", \"object_id\": \"11\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 335, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Song 113 and Prayer\", \"object_id\": \"10\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 336, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"\\\"Take as a Pattern the Prophets - Hosea\\\"\", \"object_id\": \"9\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 337, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"How To Overcome Nervousness When Preaching\", \"object_id\": \"8\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 338, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"How We Can Help To Meet the Needs of Others\", \"object_id\": \"7\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 339, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Is Loving One's Fellowman What Really Counts?\", \"object_id\": \"6\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 340, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"How Can We Show That We Have \\\"the Wisdom From Above\\\"?\", \"object_id\": \"5\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 341, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Hebrews 4:1-16\", \"object_id\": \"4\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 342, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"Hebrews 1-8\", \"object_id\": \"3\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 343, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 344, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T03:20:49Z\", \"object_repr\": \"jl Lessons 5-7\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 345, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"What Are Proper Matters About Which to Pray?\", \"object_id\": \"49\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 346, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Be Discerning, and Avoid Following Unrealities\", \"object_id\": \"48\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 347, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Matthew 10:24-42\", \"object_id\": \"47\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 348, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Matthew 7-11\", \"object_id\": \"46\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 349, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"What It Means to Have Jehovah's \\\"Your Share\\\"\", \"object_id\": \"45\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 350, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"What Could Make a Person\\u2019s Prayers Unacceptable to God?\", \"object_id\": \"44\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 351, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Matthew 5:21-32\", \"object_id\": \"43\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 352, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Matthew 1-6\", \"object_id\": \"42\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 353, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Song 12 and Prayer\", \"object_id\": \"41\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 354, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Local needs\", \"object_id\": \"40\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 355, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Have You Tried It?\", \"object_id\": \"39\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 356, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Start a Bible Study on the First Saturday.\", \"object_id\": \"38\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 357, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Why We Are Sure That Jesus Is the Messiah\", \"object_id\": \"37\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 358, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"The Right Religion Is Bible-Based and Makes Known God\\u2019s Name\", \"object_id\": \"36\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 359, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"1 Peter 2:18\\u20133:7\", \"object_id\": \"35\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 360, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"1 Peter 1\\u20132 Peter 3\", \"object_id\": \"34\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 361, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"\", \"object_id\": \"33\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 362, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"jl Lessons 14-16\", \"object_id\": \"32\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 363, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Song 45 and Prayer\", \"object_id\": \"31\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 364, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"A Helpful Series for Our Ministry.\", \"object_id\": \"30\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 365, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"\", \"object_id\": \"29\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 366, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"How Should You Answer?\", \"object_id\": \"28\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 367, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Ideas for Offering the Magazines in December.\", \"object_id\": \"27\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 368, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Why Just Reading the Bible Is Not Sufficient\", \"object_id\": \"26\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 369, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"How Love Overcomes Fear\", \"object_id\": \"25\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 370, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"James 1:22\\u20132:13\", \"object_id\": \"24\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 371, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"James 1-5\", \"object_id\": \"23\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 372, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"\", \"object_id\": \"22\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 373, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"jl Lessons 11-13\", \"object_id\": \"21\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 374, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Song 56 and Prayer\", \"object_id\": \"20\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 375, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Jehovah Listens to the Prayers of His Servants.\", \"object_id\": \"19\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 376, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"\\\"I Am Here Because . . .\\\"\", \"object_id\": \"18\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 377, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Question Box\", \"object_id\": \"17\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 378, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Ways in Which We Can Comfort Others\", \"object_id\": \"16\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 379, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Is Having a Personal Relationship With God the Really Important \", \"object_id\": \"15\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 380, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Hebrews 10:19-39\", \"object_id\": \"14\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 381, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Hebrews 9-13\", \"object_id\": \"13\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 382, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"\", \"object_id\": \"12\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 383, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"jl Lessons 8-10\", \"object_id\": \"11\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 384, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Song 113 and Prayer\", \"object_id\": \"10\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 385, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"\\\"Take as a Pattern the Prophets - Hosea\\\"\", \"object_id\": \"9\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 386, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"How To Overcome Nervousness When Preaching\", \"object_id\": \"8\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 387, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"How We Can Help To Meet the Needs of Others\", \"object_id\": \"7\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 388, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Is Loving One's Fellowman What Really Counts?\", \"object_id\": \"6\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 389, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"How Can We Show That We Have \\\"the Wisdom From Above\\\"?\", \"object_id\": \"5\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 390, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Hebrews 4:1-16\", \"object_id\": \"4\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 391, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"Hebrews 1-8\", \"object_id\": \"3\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 392, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"\", \"object_id\": \"2\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 393, \"model\": \"admin.logentry\", \"fields\": {\"action_flag\": 3, \"action_time\": \"2013-11-11T22:12:12Z\", \"object_repr\": \"jl Lessons 5-7\", \"object_id\": \"1\", \"change_message\": \"\", \"user\": 1, \"content_type\": 13}}, \n\n{\"pk\": 1, \"model\": \"parts.congregation\", \"fields\": {\"sound_scheduler\": null, \"auto_fill_service_meeting\": true, \"name\": \"Santa Ana English\", \"stage_scheduler\": null, \"attendants_scheduler\": null, \"admins\": [1], \"coordinator\": null, \"auto_fill_school\": true, \"weekday\": 1, \"schedule_public\": true, \"school_overseer\": 1}}, \n\n{\"pk\": 1, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"add_permission\", \"name\": \"Can add permission\", \"content_type\": 1}}, \n\n{\"pk\": 2, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"change_permission\", \"name\": \"Can change permission\", \"content_type\": 1}}, \n\n{\"pk\": 3, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"delete_permission\", \"name\": \"Can delete permission\", \"content_type\": 1}}, \n\n{\"pk\": 4, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"add_group\", \"name\": \"Can add group\", \"content_type\": 2}}, \n\n{\"pk\": 5, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"change_group\", \"name\": \"Can change group\", \"content_type\": 2}}, \n\n{\"pk\": 6, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"delete_group\", \"name\": \"Can delete group\", \"content_type\": 2}}, \n\n{\"pk\": 10, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"add_contenttype\", \"name\": \"Can add content type\", \"content_type\": 4}}, \n\n{\"pk\": 11, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"change_contenttype\", \"name\": \"Can change content type\", \"content_type\": 4}}, \n\n{\"pk\": 12, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"delete_contenttype\", \"name\": \"Can delete content type\", \"content_type\": 4}}, \n\n{\"pk\": 13, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"add_session\", \"name\": \"Can add session\", \"content_type\": 5}}, \n\n{\"pk\": 14, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"change_session\", \"name\": \"Can change session\", \"content_type\": 5}}, \n\n{\"pk\": 15, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"delete_session\", \"name\": \"Can delete session\", \"content_type\": 5}}, \n\n{\"pk\": 16, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"add_site\", \"name\": \"Can add site\", \"content_type\": 6}}, \n\n{\"pk\": 17, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"change_site\", \"name\": \"Can change site\", \"content_type\": 6}}, \n\n{\"pk\": 18, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"delete_site\", \"name\": \"Can delete site\", \"content_type\": 6}}, \n\n{\"pk\": 19, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"add_category\", \"name\": \"Can add category\", \"content_type\": 7}}, \n\n{\"pk\": 20, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"change_category\", \"name\": \"Can change category\", \"content_type\": 7}}, \n\n{\"pk\": 21, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"delete_category\", \"name\": \"Can delete category\", \"content_type\": 7}}, \n\n{\"pk\": 22, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"add_setting\", \"name\": \"Can add setting\", \"content_type\": 8}}, \n\n{\"pk\": 23, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"change_setting\", \"name\": \"Can change setting\", \"content_type\": 8}}, \n\n{\"pk\": 24, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"delete_setting\", \"name\": \"Can delete setting\", \"content_type\": 8}}, \n\n{\"pk\": 25, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"add_counselpoint\", \"name\": \"Can add counsel point\", \"content_type\": 9}}, \n\n{\"pk\": 26, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"change_counselpoint\", \"name\": \"Can change counsel point\", \"content_type\": 9}}, \n\n{\"pk\": 27, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"delete_counselpoint\", \"name\": \"Can delete counsel point\", \"content_type\": 9}}, \n\n{\"pk\": 28, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"add_congregation\", \"name\": \"Can add congregation\", \"content_type\": 10}}, \n\n{\"pk\": 29, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"change_congregation\", \"name\": \"Can change congregation\", \"content_type\": 10}}, \n\n{\"pk\": 30, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"delete_congregation\", \"name\": \"Can delete congregation\", \"content_type\": 10}}, \n\n{\"pk\": 31, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"add_publisher\", \"name\": \"Can add publisher\", \"content_type\": 11}}, \n\n{\"pk\": 32, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"change_publisher\", \"name\": \"Can change publisher\", \"content_type\": 11}}, \n\n{\"pk\": 33, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"delete_publisher\", \"name\": \"Can delete publisher\", \"content_type\": 11}}, \n\n{\"pk\": 34, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"add_part\", \"name\": \"Can add part\", \"content_type\": 12}}, \n\n{\"pk\": 35, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"change_part\", \"name\": \"Can change part\", \"content_type\": 12}}, \n\n{\"pk\": 36, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"delete_part\", \"name\": \"Can delete part\", \"content_type\": 12}}, \n\n{\"pk\": 37, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"add_assignment\", \"name\": \"Can add assignment\", \"content_type\": 13}}, \n\n{\"pk\": 38, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"change_assignment\", \"name\": \"Can change assignment\", \"content_type\": 13}}, \n\n{\"pk\": 39, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"delete_assignment\", \"name\": \"Can delete assignment\", \"content_type\": 13}}, \n\n{\"pk\": 40, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"add_logentry\", \"name\": \"Can add log entry\", \"content_type\": 14}}, \n\n{\"pk\": 41, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"change_logentry\", \"name\": \"Can change log entry\", \"content_type\": 14}}, \n\n{\"pk\": 42, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"delete_logentry\", \"name\": \"Can delete log entry\", \"content_type\": 14}}, \n\n{\"pk\": 43, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"add_user\", \"name\": \"Can add user\", \"content_type\": 15}}, \n\n{\"pk\": 44, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"change_user\", \"name\": \"Can change user\", \"content_type\": 15}}, \n\n{\"pk\": 45, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"delete_user\", \"name\": \"Can delete user\", \"content_type\": 15}}, \n\n{\"pk\": 46, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"add_meeting\", \"name\": \"Can add meeting\", \"content_type\": 16}}, \n\n{\"pk\": 47, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"change_meeting\", \"name\": \"Can change meeting\", \"content_type\": 16}}, \n\n{\"pk\": 48, \"model\": \"auth.permission\", \"fields\": {\"codename\": \"delete_meeting\", \"name\": \"Can delete meeting\", \"content_type\": 16}}]",
 			"file": "dunmp.json",
+			"file_size": 117451,
+			"file_write_time": 1384207953000000,
 			"settings":
 			{
-				"buffer_size": 117451,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "parts/admin.py",
-			"settings":
-			{
-				"buffer_size": 717,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "schedules/settings.py",
-			"settings":
-			{
-				"buffer_size": 6032,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "schedules/test_settings.py",
-			"settings":
-			{
-				"buffer_size": 717,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "schedules/urls.py",
-			"settings":
-			{
-				"buffer_size": 729,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "design/templates/design/header.html",
-			"settings":
-			{
-				"buffer_size": 1339,
+				"buffer_size": 118609,
 				"line_ending": "Unix"
 			}
 		},
@@ -495,36 +451,41 @@
 	},
 	"file_history":
 	[
+		"/Users/jaredmartin/Programs/schedules/dump.json",
+		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/print_schedule.html",
+		"/Users/jaredmartin/Programs/schedules/design/templates/design/print_base.html",
+		"/Users/jaredmartin/Programs/schedules/schedules/urls.py",
+		"/Users/jaredmartin/Programs/schedules/schedules/test_settings.py",
 		"/Users/jaredmartin/Programs/schedules/schedules/settings.py",
 		"/Users/jaredmartin/Programs/schedules/parts/admin.py",
-		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/publisher_detail.html",
+		"/Users/jaredmartin/Programs/schedules/dunmp.json",
+		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/counsel_form.html",
+		"/Users/jaredmartin/Programs/schedules/parts/forms.py",
+		"/Users/jaredmartin/Programs/schedules/design/static/less/schedules.less",
+		"/Users/jaredmartin/Programs/schedules/parts/urls.py",
 		"/Users/jaredmartin/Programs/schedules/parts/views.py",
+		"/Users/jaredmartin/Programs/schedules/design/templates/design/header.html",
+		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/assignment.html",
 		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/assignment_list.html",
+		"/Users/jaredmartin/Programs/schedules/parts/models.py",
+		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/publisher_detail.html",
 		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/assign_assistant.html",
 		"/Users/jaredmartin/Programs/schedules/slick/views.py",
-		"/Users/jaredmartin/Programs/schedules/design/static/less/schedules.less",
 		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/publisher_form.html",
 		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/publisher_list.html",
-		"/Users/jaredmartin/Programs/schedules/parts/urls.py",
-		"/Users/jaredmartin/Programs/schedules/parts/forms.py",
-		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/assignment.html",
 		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/assign_part.html",
 		"/Users/jaredmartin/Programs/schedules/parts/assign_assistant.html",
-		"/Users/jaredmartin/Programs/schedules/parts/models.py",
 		"/Users/jaredmartin/Programs/schedules/parts/templates/parts/publisher_confirm_delete.html",
-		"/Users/jaredmartin/Programs/schedules/design/templates/design/header.html",
 		"/Users/jaredmartin/Programs/schedules/design/templates/design/base.html",
 		"/Users/jaredmartin/Programs/schedules/authentication/models.py",
 		"/Users/jaredmartin/Programs/schedules/authentication/templates/authentication/user_form.html",
 		"/Users/jaredmartin/Programs/schedules/slick/__init__.py",
 		"/Users/jaredmartin/Programs/schedules/authentication/forms.py",
 		"/Users/jaredmartin/Programs/schedules/authentication/views.py",
-		"/Users/jaredmartin/Programs/schedules/schedules/urls.py",
 		"/Users/jaredmartin/Programs/schedules/authentication/urls.py",
 		"/Users/jaredmartin/Programs/schedules/design/templates/design/footer.html",
 		"/Users/jaredmartin/Programs/schedules/parts/templates/new_assignments.html",
 		"/Users/jaredmartin/Programs/schedules/authentication/admin.py",
-		"/Users/jaredmartin/Programs/schedules/dump.json",
 		"/Users/jaredmartin/Programs/schedules/design/base.html",
 		"/Users/jaredmartin/Programs/YesTags/YesTags/urls.py",
 		"/Users/jaredmartin/Programs/YesTags/design/static/less/fonts.less",
@@ -617,12 +578,7 @@
 		"/Users/jaredmartin/Programs/writeraxis/writeraxis/testdata backup.json",
 		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templatetags/assignment.py",
 		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/article_list_row.html",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/article_edit.html",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/views.py",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/old base.html",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/fixtures/initial_data.yaml",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templatetags/help_icon.py",
-		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/ajax_user_list_row.html"
+		"/Users/jaredmartin/Programs/writeraxis/writeraxis/articles/templates/articles/article_edit.html"
 	],
 	"find":
 	{
@@ -641,6 +597,22 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			".",
+			":",
+			"}, {",
+			":",
+			"(p. ",
+			"p. (p.",
+			"(p. (p.",
+			" )",
+			"  ",
+			".",
+			"...",
+			"self.publisher",
+			"previous_date",
+			"context_dict",
+			"col-md-6 col-md-offset-3",
+			"print",
 			"choices=DAYS_OF_WEEK",
 			"LoginRequiredMixin",
 			"4",
@@ -752,23 +724,7 @@
 			"UserCreationForm",
 			"Template",
 			"redirect_to",
-			"get_current_site",
-			"all_valid",
-			"CreateWithInlinesView",
-			"\nCreateWithInlinesView",
-			"CreateWithInlinesView",
-			"article_list_filter",
-			"article_list_filters",
-			"save",
-			"\n",
-			"Save",
-			"\"Save\"",
-			"Save",
-			"assert_see_on_page",
-			"login",
-			".pdf",
-			"login",
-			"class Article"
+			"get_current_site"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -816,178 +772,11 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"settings":
-					{
-						"buffer_size": 614,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								498,
-								498
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "parts/models.py",
-					"settings":
-					{
-						"buffer_size": 8620,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6002,
-								6002
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1486.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "parts/forms.py",
-					"settings":
-					{
-						"buffer_size": 2916,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1061,
-								1061
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "parts/views.py",
-					"settings":
-					{
-						"buffer_size": 8944,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5262,
-								5262
-							]
-						],
-						"settings":
-						{
-							"rulers":
-							[
-								100
-							],
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2011.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "parts/urls.py",
-					"settings":
-					{
-						"buffer_size": 2290,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								877,
-								830
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
 					"file": "parts/templates/parts/assignment.html",
 					"settings":
 					{
@@ -998,69 +787,13 @@
 						"selection":
 						[
 							[
-								1760,
-								1760
+								0,
+								28
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 551.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "parts/templates/parts/counsel_form.html",
-					"settings":
-					{
-						"buffer_size": 4846,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								425,
-								425
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 35.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "design/static/less/schedules.less",
-					"settings":
-					{
-						"buffer_size": 417,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								363,
-								417
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LESS/LESS.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -1071,7 +804,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 1,
 					"file": "parts/templates/parts/assignment_list.html",
 					"settings":
 					{
@@ -1082,8 +815,8 @@
 						"selection":
 						[
 							[
-								1377,
-								1377
+								815,
+								787
 							]
 						],
 						"settings":
@@ -1093,2421 +826,231 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 217.0,
+						"translation.y": 269.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 10,
+					"buffer": 2,
+					"file": "parts/views.py",
 					"settings":
 					{
-						"buffer_size": 7655,
+						"buffer_size": 12722,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6930,
-								6930
+								8190,
+								8190
 							]
 						],
 						"settings":
 						{
-							"auto_name": "select first_name, last_name, parts_publisher_cate",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 11.0,
-						"translation.y": 1662.0,
+						"translation.x": 0.0,
+						"translation.y": 3404.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 11,
-					"file": "dunmp.json",
+					"buffer": 3,
+					"file": "install.sh",
 					"settings":
 					{
-						"buffer_size": 117451,
+						"buffer_size": 18,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								127,
-								127
-							],
-							[
-								243,
-								243
-							],
-							[
-								380,
-								380
-							],
-							[
-								504,
-								504
-							],
-							[
-								619,
-								619
-							],
-							[
-								742,
-								742
-							],
-							[
-								863,
-								863
-							],
-							[
-								995,
-								995
-							],
-							[
-								1127,
-								1127
-							],
-							[
-								1253,
-								1253
-							],
-							[
-								1369,
-								1369
-							],
-							[
-								1497,
-								1497
-							],
-							[
-								1622,
-								1622
-							],
-							[
-								1747,
-								1747
-							],
-							[
-								1869,
-								1869
-							],
-							[
-								2185,
-								2185
-							],
-							[
-								2529,
-								2529
-							],
-							[
-								2845,
-								2845
-							],
-							[
-								3161,
-								3161
-							],
-							[
-								3477,
-								3477
-							],
-							[
-								3793,
-								3793
-							],
-							[
-								3887,
-								3887
-							],
-							[
-								3977,
-								3977
-							],
-							[
-								4076,
-								4076
-							],
-							[
-								4164,
-								4164
-							],
-							[
-								4250,
-								4250
-							],
-							[
-								4332,
-								4332
-							],
-							[
-								4432,
-								4432
-							],
-							[
-								4540,
-								4540
-							],
-							[
-								4626,
-								4626
-							],
-							[
-								4710,
-								4710
-							],
-							[
-								4794,
-								4794
-							],
-							[
-								4878,
-								4878
-							],
-							[
-								4974,
-								4974
-							],
-							[
-								5091,
-								5091
-							],
-							[
-								5197,
-								5197
-							],
-							[
-								5287,
-								5287
-							],
-							[
-								5375,
-								5375
-							],
-							[
-								5465,
-								5465
-							],
-							[
-								5550,
-								5550
-							],
-							[
-								5636,
-								5636
-							],
-							[
-								5722,
-								5722
-							],
-							[
-								5822,
-								5822
-							],
-							[
-								5929,
-								5929
-							],
-							[
-								6050,
-								6050
-							],
-							[
-								6146,
-								6146
-							],
-							[
-								6238,
-								6238
-							],
-							[
-								6329,
-								6329
-							],
-							[
-								6525,
-								6525
-							],
-							[
-								6703,
-								6703
-							],
-							[
-								6892,
-								6892
-							],
-							[
-								7075,
-								7075
-							],
-							[
-								7258,
-								7258
-							],
-							[
-								7450,
-								7450
-							],
-							[
-								7656,
-								7656
-							],
-							[
-								7855,
-								7855
-							],
-							[
-								8055,
-								8055
-							],
-							[
-								8253,
-								8253
-							],
-							[
-								8443,
-								8443
-							],
-							[
-								8631,
-								8631
-							],
-							[
-								8817,
-								8817
-							],
-							[
-								9026,
-								9026
-							],
-							[
-								9197,
-								9197
-							],
-							[
-								9377,
-								9377
-							],
-							[
-								9556,
-								9556
-							],
-							[
-								9729,
-								9729
-							],
-							[
-								9902,
-								9902
-							],
-							[
-								10085,
-								10085
-							],
-							[
-								10294,
-								10294
-							],
-							[
-								10478,
-								10478
-							],
-							[
-								10673,
-								10673
-							],
-							[
-								10854,
-								10854
-							],
-							[
-								11032,
-								11032
-							],
-							[
-								11242,
-								11242
-							],
-							[
-								11428,
-								11428
-							],
-							[
-								11628,
-								11628
-							],
-							[
-								11802,
-								11802
-							],
-							[
-								11984,
-								11984
-							],
-							[
-								12191,
-								12191
-							],
-							[
-								12386,
-								12386
-							],
-							[
-								12569,
-								12569
-							],
-							[
-								12757,
-								12757
-							],
-							[
-								12939,
-								12939
-							],
-							[
-								13120,
-								13120
-							],
-							[
-								13309,
-								13309
-							],
-							[
-								13518,
-								13518
-							],
-							[
-								13701,
-								13701
-							],
-							[
-								13880,
-								13880
-							],
-							[
-								14065,
-								14065
-							],
-							[
-								14248,
-								14248
-							],
-							[
-								14383,
-								14383
-							],
-							[
-								14522,
-								14522
-							],
-							[
-								14743,
-								14743
-							],
-							[
-								14923,
-								14923
-							],
-							[
-								15059,
-								15059
-							],
-							[
-								15199,
-								15199
-							],
-							[
-								15396,
-								15396
-							],
-							[
-								15601,
-								15601
-							],
-							[
-								15739,
-								15739
-							],
-							[
-								15864,
-								15864
-							],
-							[
-								16000,
-								16000
-							],
-							[
-								16139,
-								16139
-							],
-							[
-								16332,
-								16332
-							],
-							[
-								16517,
-								16517
-							],
-							[
-								16703,
-								16703
-							],
-							[
-								16870,
-								16870
-							],
-							[
-								17037,
-								17037
-							],
-							[
-								17177,
-								17177
-							],
-							[
-								17302,
-								17302
-							],
-							[
-								17439,
-								17439
-							],
-							[
-								17580,
-								17580
-							],
-							[
-								17804,
-								17804
-							],
-							[
-								17988,
-								17988
-							],
-							[
-								18125,
-								18125
-							],
-							[
-								18277,
-								18277
-							],
-							[
-								18460,
-								18460
-							],
-							[
-								18604,
-								18604
-							],
-							[
-								18749,
-								18749
-							],
-							[
-								18890,
-								18890
-							],
-							[
-								19015,
-								19015
-							],
-							[
-								19149,
-								19149
-							],
-							[
-								19294,
-								19294
-							],
-							[
-								19456,
-								19456
-							],
-							[
-								19643,
-								19643
-							],
-							[
-								19813,
-								19813
-							],
-							[
-								19960,
-								19960
-							],
-							[
-								20087,
-								20087
-							],
-							[
-								20247,
-								20247
-							],
-							[
-								20391,
-								20391
-							],
-							[
-								20532,
-								20532
-							],
-							[
-								20657,
-								20657
-							],
-							[
-								20806,
-								20806
-							],
-							[
-								20952,
-								20952
-							],
-							[
-								21160,
-								21160
-							],
-							[
-								21346,
-								21346
-							],
-							[
-								21513,
-								21513
-							],
-							[
-								21656,
-								21656
-							],
-							[
-								21793,
-								21793
-							],
-							[
-								21937,
-								21937
-							],
-							[
-								22197,
-								22197
-							],
-							[
-								22458,
-								22458
-							],
-							[
-								22719,
-								22719
-							],
-							[
-								22980,
-								22980
-							],
-							[
-								23238,
-								23238
-							],
-							[
-								23496,
-								23496
-							],
-							[
-								23758,
-								23758
-							],
-							[
-								24019,
-								24019
-							],
-							[
-								24281,
-								24281
-							],
-							[
-								24543,
-								24543
-							],
-							[
-								24806,
-								24806
-							],
-							[
-								25069,
-								25069
-							],
-							[
-								25332,
-								25332
-							],
-							[
-								25595,
-								25595
-							],
-							[
-								25855,
-								25855
-							],
-							[
-								26116,
-								26116
-							],
-							[
-								26379,
-								26379
-							],
-							[
-								26641,
-								26641
-							],
-							[
-								26903,
-								26903
-							],
-							[
-								27166,
-								27166
-							],
-							[
-								27429,
-								27429
-							],
-							[
-								27691,
-								27691
-							],
-							[
-								27953,
-								27953
-							],
-							[
-								28216,
-								28216
-							],
-							[
-								28477,
-								28477
-							],
-							[
-								28738,
-								28738
-							],
-							[
-								29001,
-								29001
-							],
-							[
-								29263,
-								29263
-							],
-							[
-								29524,
-								29524
-							],
-							[
-								29786,
-								29786
-							],
-							[
-								30049,
-								30049
-							],
-							[
-								30312,
-								30312
-							],
-							[
-								30575,
-								30575
-							],
-							[
-								30838,
-								30838
-							],
-							[
-								31101,
-								31101
-							],
-							[
-								31362,
-								31362
-							],
-							[
-								31623,
-								31623
-							],
-							[
-								31886,
-								31886
-							],
-							[
-								32148,
-								32148
-							],
-							[
-								32411,
-								32411
-							],
-							[
-								32674,
-								32674
-							],
-							[
-								32935,
-								32935
-							],
-							[
-								33197,
-								33197
-							],
-							[
-								33457,
-								33457
-							],
-							[
-								33717,
-								33717
-							],
-							[
-								33978,
-								33978
-							],
-							[
-								34240,
-								34240
-							],
-							[
-								34500,
-								34500
-							],
-							[
-								34760,
-								34760
-							],
-							[
-								35087,
-								35087
-							],
-							[
-								35341,
-								35341
-							],
-							[
-								35602,
-								35602
-							],
-							[
-								35864,
-								35864
-							],
-							[
-								36080,
-								36080
-							],
-							[
-								36341,
-								36341
-							],
-							[
-								36588,
-								36588
-							],
-							[
-								36801,
-								36801
-							],
-							[
-								37018,
-								37018
-							],
-							[
-								37265,
-								37265
-							],
-							[
-								37511,
-								37511
-							],
-							[
-								37730,
-								37730
-							],
-							[
-								37942,
-								37942
-							],
-							[
-								38161,
-								38161
-							],
-							[
-								38373,
-								38373
-							],
-							[
-								38620,
-								38620
-							],
-							[
-								38867,
-								38867
-							],
-							[
-								39116,
-								39116
-							],
-							[
-								39365,
-								39365
-							],
-							[
-								39568,
-								39568
-							],
-							[
-								39771,
-								39771
-							],
-							[
-								39974,
-								39974
-							],
-							[
-								40176,
-								40176
-							],
-							[
-								40424,
-								40424
-							],
-							[
-								40672,
-								40672
-							],
-							[
-								40934,
-								40934
-							],
-							[
-								41196,
-								41196
-							],
-							[
-								41398,
-								41398
-							],
-							[
-								41600,
-								41600
-							],
-							[
-								41802,
-								41802
-							],
-							[
-								42004,
-								42004
-							],
-							[
-								42251,
-								42251
-							],
-							[
-								42468,
-								42468
-							],
-							[
-								42682,
-								42682
-							],
-							[
-								42899,
-								42899
-							],
-							[
-								43119,
-								43119
-							],
-							[
-								43354,
-								43354
-							],
-							[
-								43577,
-								43577
-							],
-							[
-								43799,
-								43799
-							],
-							[
-								44015,
-								44015
-							],
-							[
-								44237,
-								44237
-							],
-							[
-								44456,
-								44456
-							],
-							[
-								44702,
-								44702
-							],
-							[
-								44950,
-								44950
-							],
-							[
-								45168,
-								45168
-							],
-							[
-								45382,
-								45382
-							],
-							[
-								45630,
-								45630
-							],
-							[
-								45892,
-								45892
-							],
-							[
-								46109,
-								46109
-							],
-							[
-								46322,
-								46322
-							],
-							[
-								46533,
-								46533
-							],
-							[
-								46779,
-								46779
-							],
-							[
-								47027,
-								47027
-							],
-							[
-								47245,
-								47245
-							],
-							[
-								47459,
-								47459
-							],
-							[
-								47707,
-								47707
-							],
-							[
-								47969,
-								47969
-							],
-							[
-								48186,
-								48186
-							],
-							[
-								48399,
-								48399
-							],
-							[
-								48645,
-								48645
-							],
-							[
-								48893,
-								48893
-							],
-							[
-								49111,
-								49111
-							],
-							[
-								49325,
-								49325
-							],
-							[
-								49573,
-								49573
-							],
-							[
-								49835,
-								49835
-							],
-							[
-								50052,
-								50052
-							],
-							[
-								50265,
-								50265
-							],
-							[
-								50511,
-								50511
-							],
-							[
-								50759,
-								50759
-							],
-							[
-								50977,
-								50977
-							],
-							[
-								51191,
-								51191
-							],
-							[
-								51439,
-								51439
-							],
-							[
-								51701,
-								51701
-							],
-							[
-								51918,
-								51918
-							],
-							[
-								52131,
-								52131
-							],
-							[
-								52354,
-								52354
-							],
-							[
-								52580,
-								52580
-							],
-							[
-								52824,
-								52824
-							],
-							[
-								53064,
-								53064
-							],
-							[
-								53290,
-								53290
-							],
-							[
-								53530,
-								53530
-							],
-							[
-								53777,
-								53777
-							],
-							[
-								54038,
-								54038
-							],
-							[
-								54254,
-								54254
-							],
-							[
-								54457,
-								54457
-							],
-							[
-								54671,
-								54671
-							],
-							[
-								54888,
-								54888
-							],
-							[
-								55146,
-								55146
-							],
-							[
-								55394,
-								55394
-							],
-							[
-								55640,
-								55640
-							],
-							[
-								55885,
-								55885
-							],
-							[
-								56130,
-								56130
-							],
-							[
-								56348,
-								56348
-							],
-							[
-								56551,
-								56551
-							],
-							[
-								56766,
-								56766
-							],
-							[
-								56995,
-								56995
-							],
-							[
-								57214,
-								57214
-							],
-							[
-								57481,
-								57481
-							],
-							[
-								57719,
-								57719
-							],
-							[
-								57934,
-								57934
-							],
-							[
-								58165,
-								58165
-							],
-							[
-								58416,
-								58416
-							],
-							[
-								58638,
-								58638
-							],
-							[
-								58861,
-								58861
-							],
-							[
-								59081,
-								59081
-							],
-							[
-								59285,
-								59285
-							],
-							[
-								59498,
-								59498
-							],
-							[
-								59722,
-								59722
-							],
-							[
-								59949,
-								59949
-							],
-							[
-								60197,
-								60197
-							],
-							[
-								60446,
-								60446
-							],
-							[
-								60650,
-								60650
-							],
-							[
-								60876,
-								60876
-							],
-							[
-								61080,
-								61080
-							],
-							[
-								61318,
-								61318
-							],
-							[
-								61522,
-								61522
-							],
-							[
-								61744,
-								61744
-							],
-							[
-								61964,
-								61964
-							],
-							[
-								62168,
-								62168
-							],
-							[
-								62396,
-								62396
-							],
-							[
-								62621,
-								62621
-							],
-							[
-								62890,
-								62890
-							],
-							[
-								63135,
-								63135
-							],
-							[
-								63339,
-								63339
-							],
-							[
-								63543,
-								63543
-							],
-							[
-								63789,
-								63789
-							],
-							[
-								64011,
-								64011
-							],
-							[
-								64226,
-								64226
-							],
-							[
-								64448,
-								64448
-							],
-							[
-								64693,
-								64693
-							],
-							[
-								64913,
-								64913
-							],
-							[
-								65142,
-								65142
-							],
-							[
-								65360,
-								65360
-							],
-							[
-								65584,
-								65584
-							],
-							[
-								65812,
-								65812
-							],
-							[
-								66038,
-								66038
-							],
-							[
-								66264,
-								66264
-							],
-							[
-								66490,
-								66490
-							],
-							[
-								66728,
-								66728
-							],
-							[
-								66963,
-								66963
-							],
-							[
-								67211,
-								67211
-							],
-							[
-								67467,
-								67467
-							],
-							[
-								67699,
-								67699
-							],
-							[
-								67915,
-								67915
-							],
-							[
-								68145,
-								68145
-							],
-							[
-								68377,
-								68377
-							],
-							[
-								68604,
-								68604
-							],
-							[
-								68832,
-								68832
-							],
-							[
-								69060,
-								69060
-							],
-							[
-								69282,
-								69282
-							],
-							[
-								69497,
-								69497
-							],
-							[
-								69719,
-								69719
-							],
-							[
-								69965,
-								69965
-							],
-							[
-								70210,
-								70210
-							],
-							[
-								70479,
-								70479
-							],
-							[
-								70704,
-								70704
-							],
-							[
-								70932,
-								70932
-							],
-							[
-								71136,
-								71136
-							],
-							[
-								71356,
-								71356
-							],
-							[
-								71578,
-								71578
-							],
-							[
-								71816,
-								71816
-							],
-							[
-								72020,
-								72020
-							],
-							[
-								72246,
-								72246
-							],
-							[
-								72495,
-								72495
-							],
-							[
-								72743,
-								72743
-							],
-							[
-								72970,
-								72970
-							],
-							[
-								73194,
-								73194
-							],
-							[
-								73407,
-								73407
-							],
-							[
-								73611,
-								73611
-							],
-							[
-								73831,
-								73831
-							],
-							[
-								74054,
-								74054
-							],
-							[
-								74276,
-								74276
-							],
-							[
-								74527,
-								74527
-							],
-							[
-								74758,
-								74758
-							],
-							[
-								74974,
-								74974
-							],
-							[
-								75213,
-								75213
-							],
-							[
-								75481,
-								75481
-							],
-							[
-								75701,
-								75701
-							],
-							[
-								75917,
-								75917
-							],
-							[
-								76121,
-								76121
-							],
-							[
-								76340,
-								76340
-							],
-							[
-								76586,
-								76586
-							],
-							[
-								76832,
-								76832
-							],
-							[
-								77079,
-								77079
-							],
-							[
-								77328,
-								77328
-							],
-							[
-								77587,
-								77587
-							],
-							[
-								77805,
-								77805
-							],
-							[
-								78020,
-								78020
-							],
-							[
-								78224,
-								78224
-							],
-							[
-								78441,
-								78441
-							],
-							[
-								78688,
-								78688
-							],
-							[
-								78937,
-								78937
-							],
-							[
-								79156,
-								79156
-							],
-							[
-								79371,
-								79371
-							],
-							[
-								79620,
-								79620
-							],
-							[
-								79883,
-								79883
-							],
-							[
-								80101,
-								80101
-							],
-							[
-								80315,
-								80315
-							],
-							[
-								80537,
-								80537
-							],
-							[
-								80752,
-								80752
-							],
-							[
-								80974,
-								80974
-							],
-							[
-								81220,
-								81220
-							],
-							[
-								81465,
-								81465
-							],
-							[
-								81734,
-								81734
-							],
-							[
-								81959,
-								81959
-							],
-							[
-								82187,
-								82187
-							],
-							[
-								82391,
-								82391
-							],
-							[
-								82611,
-								82611
-							],
-							[
-								82833,
-								82833
-							],
-							[
-								83071,
-								83071
-							],
-							[
-								83275,
-								83275
-							],
-							[
-								83501,
-								83501
-							],
-							[
-								83750,
-								83750
-							],
-							[
-								83998,
-								83998
-							],
-							[
-								84225,
-								84225
-							],
-							[
-								84449,
-								84449
-							],
-							[
-								84662,
-								84662
-							],
-							[
-								84866,
-								84866
-							],
-							[
-								85086,
-								85086
-							],
-							[
-								85309,
-								85309
-							],
-							[
-								85531,
-								85531
-							],
-							[
-								85782,
-								85782
-							],
-							[
-								86013,
-								86013
-							],
-							[
-								86229,
-								86229
-							],
-							[
-								86468,
-								86468
-							],
-							[
-								86736,
-								86736
-							],
-							[
-								86956,
-								86956
-							],
-							[
-								87172,
-								87172
-							],
-							[
-								87376,
-								87376
-							],
-							[
-								87595,
-								87595
-							],
-							[
-								87841,
-								87841
-							],
-							[
-								88087,
-								88087
-							],
-							[
-								88334,
-								88334
-							],
-							[
-								88583,
-								88583
-							],
-							[
-								88842,
-								88842
-							],
-							[
-								89060,
-								89060
-							],
-							[
-								89275,
-								89275
-							],
-							[
-								89479,
-								89479
-							],
-							[
-								89696,
-								89696
-							],
-							[
-								89943,
-								89943
-							],
-							[
-								90192,
-								90192
-							],
-							[
-								90411,
-								90411
-							],
-							[
-								90626,
-								90626
-							],
-							[
-								90875,
-								90875
-							],
-							[
-								91138,
-								91138
-							],
-							[
-								91356,
-								91356
-							],
-							[
-								91570,
-								91570
-							],
-							[
-								91818,
-								91818
-							],
-							[
-								92068,
-								92068
-							],
-							[
-								92288,
-								92288
-							],
-							[
-								92504,
-								92504
-							],
-							[
-								92754,
-								92754
-							],
-							[
-								93018,
-								93018
-							],
-							[
-								93237,
-								93237
-							],
-							[
-								93452,
-								93452
-							],
-							[
-								93674,
-								93674
-							],
-							[
-								93889,
-								93889
-							],
-							[
-								94111,
-								94111
-							],
-							[
-								94357,
-								94357
-							],
-							[
-								94602,
-								94602
-							],
-							[
-								94871,
-								94871
-							],
-							[
-								95096,
-								95096
-							],
-							[
-								95324,
-								95324
-							],
-							[
-								95528,
-								95528
-							],
-							[
-								95748,
-								95748
-							],
-							[
-								95970,
-								95970
-							],
-							[
-								96208,
-								96208
-							],
-							[
-								96412,
-								96412
-							],
-							[
-								96638,
-								96638
-							],
-							[
-								96887,
-								96887
-							],
-							[
-								97135,
-								97135
-							],
-							[
-								97362,
-								97362
-							],
-							[
-								97586,
-								97586
-							],
-							[
-								97799,
-								97799
-							],
-							[
-								98003,
-								98003
-							],
-							[
-								98223,
-								98223
-							],
-							[
-								98445,
-								98445
-							],
-							[
-								98696,
-								98696
-							],
-							[
-								98927,
-								98927
-							],
-							[
-								99143,
-								99143
-							],
-							[
-								99382,
-								99382
-							],
-							[
-								99650,
-								99650
-							],
-							[
-								99870,
-								99870
-							],
-							[
-								100086,
-								100086
-							],
-							[
-								100290,
-								100290
-							],
-							[
-								100509,
-								100509
-							],
-							[
-								100732,
-								100732
-							],
-							[
-								100977,
-								100977
-							],
-							[
-								101222,
-								101222
-							],
-							[
-								101468,
-								101468
-							],
-							[
-								101716,
-								101716
-							],
-							[
-								101974,
-								101974
-							],
-							[
-								102191,
-								102191
-							],
-							[
-								102405,
-								102405
-							],
-							[
-								102608,
-								102608
-							],
-							[
-								102825,
-								102825
-							],
-							[
-								103073,
-								103073
-							],
-							[
-								103323,
-								103323
-							],
-							[
-								103543,
-								103543
-							],
-							[
-								103759,
-								103759
-							],
-							[
-								104009,
-								104009
-							],
-							[
-								104273,
-								104273
-							],
-							[
-								104492,
-								104492
-							],
-							[
-								104707,
-								104707
-							],
-							[
-								104929,
-								104929
-							],
-							[
-								105144,
-								105144
-							],
-							[
-								105366,
-								105366
-							],
-							[
-								105612,
-								105612
-							],
-							[
-								105857,
-								105857
-							],
-							[
-								106126,
-								106126
-							],
-							[
-								106351,
-								106351
-							],
-							[
-								106579,
-								106579
-							],
-							[
-								106783,
-								106783
-							],
-							[
-								107003,
-								107003
-							],
-							[
-								107225,
-								107225
-							],
-							[
-								107463,
-								107463
-							],
-							[
-								107667,
-								107667
-							],
-							[
-								107893,
-								107893
-							],
-							[
-								108142,
-								108142
-							],
-							[
-								108390,
-								108390
-							],
-							[
-								108617,
-								108617
-							],
-							[
-								108841,
-								108841
-							],
-							[
-								109054,
-								109054
-							],
-							[
-								109258,
-								109258
-							],
-							[
-								109478,
-								109478
-							],
-							[
-								109700,
-								109700
-							],
-							[
-								109951,
-								109951
-							],
-							[
-								110182,
-								110182
-							],
-							[
-								110398,
-								110398
-							],
-							[
-								110637,
-								110637
-							],
-							[
-								110905,
-								110905
-							],
-							[
-								111125,
-								111125
-							],
-							[
-								111341,
-								111341
-							],
-							[
-								111545,
-								111545
-							],
-							[
-								111764,
-								111764
-							],
-							[
-								111987,
-								111987
-							],
-							[
-								112232,
-								112232
-							],
-							[
-								112477,
-								112477
-							],
-							[
-								112723,
-								112723
-							],
-							[
-								112971,
-								112971
-							],
-							[
-								113229,
-								113229
-							],
-							[
-								113446,
-								113446
-							],
-							[
-								113660,
-								113660
-							],
-							[
-								113863,
-								113863
-							],
-							[
-								114080,
-								114080
-							],
-							[
-								114401,
-								114401
-							],
-							[
-								114531,
-								114531
-							],
-							[
-								114667,
-								114667
-							],
-							[
-								114803,
-								114803
-							],
-							[
-								114923,
-								114923
-							],
-							[
-								115049,
-								115049
-							],
-							[
-								115175,
-								115175
-							],
-							[
-								115309,
-								115309
-							],
-							[
-								115449,
-								115449
-							],
-							[
-								115589,
-								115589
-							],
-							[
-								115714,
-								115714
-							],
-							[
-								115845,
-								115845
-							],
-							[
-								115976,
-								115976
-							],
-							[
-								116095,
-								116095
-							],
-							[
-								116220,
-								116220
-							],
-							[
-								116345,
-								116345
-							],
-							[
-								116472,
-								116472
-							],
-							[
-								116605,
-								116605
-							],
-							[
-								116738,
-								116738
-							],
-							[
-								116863,
-								116863
-							],
-							[
-								116994,
-								116994
-							],
-							[
-								117125,
-								117125
-							],
-							[
-								117261,
-								117261
-							],
-							[
-								117403,
-								117403
-							],
-							[
-								117451,
-								117451
+								18,
+								18
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "parts/templates/parts/counsel_form.html",
+					"settings":
+					{
+						"buffer_size": 5830,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1276,
+								1276
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 843.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "counsel_points.json",
+					"settings":
+					{
+						"buffer_size": 5305,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								196,
+								246
+							]
+						],
+						"settings":
+						{
+							"auto_name": "[{\"pk\":1, \"model\": \"parts.counselpoint\", \"fields\":",
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 75.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "talk_settings.json",
+					"settings":
+					{
+						"buffer_size": 3374,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3166,
+								3166
+							]
+						],
+						"settings":
+						{
+							"auto_name": "[{\"pk\":1, \"model\": \"parts.setting\", \"fields\": {\"na",
+							"rulers":
+							[
+								120
+							],
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "parts/forms.py",
+					"settings":
+					{
+						"buffer_size": 2932,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1413,
+								1413
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 51.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "parts/models.py",
+					"settings":
+					{
+						"buffer_size": 8621,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4728,
+								4728
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1063.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "dunmp.json",
+					"settings":
+					{
+						"buffer_size": 118609,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6106,
+								6151
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JSON.tmLanguage"
 						},
-						"translation.x": 581.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "parts/admin.py",
-					"settings":
-					{
-						"buffer_size": 717,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								352,
-								352
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage"
-						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 13,
-					"file": "schedules/settings.py",
-					"settings":
-					{
-						"buffer_size": 6032,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4950,
-								4950
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1890.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 14,
-					"file": "schedules/test_settings.py",
-					"settings":
-					{
-						"buffer_size": 717,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								613,
-								653
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 15,
-					"file": "schedules/urls.py",
-					"settings":
-					{
-						"buffer_size": 729,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								729,
-								729
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 16,
-					"file": "design/templates/design/header.html",
-					"settings":
-					{
-						"buffer_size": 1339,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1174,
-								1174
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1019.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -3515,11 +1058,10 @@
 			]
 		},
 		{
-			"selected": 0,
 			"sheets":
 			[
 				{
-					"buffer": 17,
+					"buffer": 10,
 					"settings":
 					{
 						"buffer_size": 0,
